@@ -22,7 +22,8 @@
     "url": "^0.11.0"
   },
   "scripts": {
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "build": "tsc"
   },
   "author": "ftl999",
   "license": "ISC",
@@ -30,5 +31,7 @@
     "url": "https://github.com/ftl999/sveBaseLib/issues"
   },
   "homepage": "https://github.com/ftl999/sveBaseLib#readme",
-  "devDependencies": {}
+  "devDependencies": {
+    "typescript": "^3.9.7"
+   }
 }
