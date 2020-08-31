@@ -1,6 +1,5 @@
 import mysql from 'mysql';
 import {SVESystemInfo} from './SVESystemInfo';
-import crypto from 'crypto';
 import { exception } from 'console';
 
 /*const user = sql.define<"user", { id: number; name: string; password: string }>({

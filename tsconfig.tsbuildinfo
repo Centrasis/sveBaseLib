@@ -446,17 +446,17 @@
         "signature": "a618e255205dca2298e36992edeabafa03975942d3ed6c8b6857e831de3b1159",
         "affectsGlobalScope": false
       },
-      "./svesysteminfo.ts": {
+      "./src/svesysteminfo.ts": {
         "version": "58c4e44c0f18cc32b84161b32f20d0a9937f4d5d057415e6cb0f5d1c4f685855",
         "signature": "496a7ee9c4f7833bb5b7ca614c9bbfbb6915f056299160396ee03e48d4e4253f",
         "affectsGlobalScope": false
       },
-      "./sveaccount.ts": {
+      "./src/sveaccount.ts": {
         "version": "c7c152d265b80142bb53476acdbf6f36059b6aa54df1e05149b1365b034fd553",
         "signature": "786cf63489d573860370dba28fe7cadb71e5de3c86701921fc2e976643832034",
         "affectsGlobalScope": false
       },
-      "./svegroup.ts": {
+      "./src/svegroup.ts": {
         "version": "b86525d2b57c1c15f47fee9a95cff0267bf6b5a1abacda927ef8ed2199961f0c",
         "signature": "96667728256f055dd40d76ba29201c43360b697e943296861dbcd25b108ce327",
         "affectsGlobalScope": false
@@ -466,17 +466,17 @@
         "signature": "58548d902fa4c94ff0e78e0fb393afb300cb070128994a1d78529e4a10f858d8",
         "affectsGlobalScope": false
       },
-      "./sveproject.ts": {
+      "./src/sveproject.ts": {
         "version": "87ae65d58f286e06dc6be3a38c9c24de778f17aa04d4c7a35a53baacec9c7b1d",
         "signature": "c491e11c09a9688e104033b8da3b0f3a6a07ecbae08e8200402444282ccddc25",
         "affectsGlobalScope": false
       },
-      "./svedata.ts": {
+      "./src/svedata.ts": {
         "version": "60e808eb1ec9655388c07d3b8a8a599d91187893910ee1070665bc016d9d8477",
         "signature": "52e8118ffd82947a93141ab3c9c4c81e8b6b9648cf866cffb0330fcdaeac4175",
         "affectsGlobalScope": false
       },
-      "./index.ts": {
+      "./src/index.ts": {
         "version": "088968b3d83eb0e4471ddbb8424027c5e39a6f3dc464fa0c81d420136d7433de",
         "signature": "45a679a9668db7956f745c23ee9e4fa8b1319139927b999cd02b5ae779b02e26",
         "affectsGlobalScope": false
@@ -489,33 +489,22 @@
         "lib.es2015.d.ts",
         "lib.es2015.core.d.ts",
         "lib.es2019.d.ts",
-        "lib.dom.d.ts"
+        "lib.dom.d.ts",
+        "lib.es2016.d.ts"
       ],
       "declaration": true,
       "declarationMap": true,
-      "rootDir": "./",
       "composite": true,
       "esModuleInterop": true,
       "resolveJsonModule": true,
       "moduleResolution": 2,
       "strict": true,
       "isolatedModules": true,
+      "outDir": "./dist",
+      "rootDir": "./src",
       "configFilePath": "./tsconfig.json"
     },
     "referencedMap": {
-      "./index.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/process.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/process.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts",
-        "./sveaccount.ts",
-        "./svedata.ts",
-        "./svegroup.ts",
-        "./sveproject.ts",
-        "./svesysteminfo.ts"
-      ],
       "./node_modules/@types/bson/index.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/process.d.ts",
@@ -1344,7 +1333,20 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts"
       ],
-      "./sveaccount.ts": [
+      "./src/index.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/process.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/process.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./src/sveaccount.ts",
+        "./src/svedata.ts",
+        "./src/svegroup.ts",
+        "./src/sveproject.ts",
+        "./src/svesysteminfo.ts"
+      ],
+      "./src/sveaccount.ts": [
         "./node_modules/@types/mysql/index.d.ts",
         "./node_modules/@types/node/console.d.ts",
         "./node_modules/@types/node/crypto.d.ts",
@@ -1354,9 +1356,9 @@
         "./node_modules/@types/node/ts3.2/process.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts",
-        "./svesysteminfo.ts"
+        "./src/svesysteminfo.ts"
       ],
-      "./svedata.ts": [
+      "./src/svedata.ts": [
         "./node_modules/@types/mysql/index.d.ts",
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/process.d.ts",
@@ -1365,12 +1367,12 @@
         "./node_modules/@types/node/ts3.2/process.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts",
-        "./sveaccount.ts",
-        "./svegroup.ts",
-        "./sveproject.ts",
-        "./svesysteminfo.ts"
+        "./src/sveaccount.ts",
+        "./src/svegroup.ts",
+        "./src/sveproject.ts",
+        "./src/svesysteminfo.ts"
       ],
-      "./svegroup.ts": [
+      "./src/svegroup.ts": [
         "./node_modules/@types/mysql/index.d.ts",
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/process.d.ts",
@@ -1378,11 +1380,11 @@
         "./node_modules/@types/node/ts3.2/process.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts",
-        "./sveaccount.ts",
-        "./sveproject.ts",
-        "./svesysteminfo.ts"
+        "./src/sveaccount.ts",
+        "./src/sveproject.ts",
+        "./src/svesysteminfo.ts"
       ],
-      "./sveproject.ts": [
+      "./src/sveproject.ts": [
         "./node_modules/@types/mysql/index.d.ts",
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/process.d.ts",
@@ -1391,12 +1393,12 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts",
         "./node_modules/typescript/lib/typescript.d.ts",
-        "./sveaccount.ts",
-        "./svedata.ts",
-        "./svegroup.ts",
-        "./svesysteminfo.ts"
+        "./src/sveaccount.ts",
+        "./src/svedata.ts",
+        "./src/svegroup.ts",
+        "./src/svesysteminfo.ts"
       ],
-      "./svesysteminfo.ts": [
+      "./src/svesysteminfo.ts": [
         "./node_modules/@types/mongoose/index.d.ts",
         "./node_modules/@types/mysql/index.d.ts",
         "./node_modules/@types/node/fs.d.ts",
@@ -1408,13 +1410,6 @@
       ]
     },
     "exportedModulesMap": {
-      "./index.ts": [
-        "./sveaccount.ts",
-        "./svedata.ts",
-        "./svegroup.ts",
-        "./sveproject.ts",
-        "./svesysteminfo.ts"
-      ],
       "./node_modules/@types/bson/index.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/process.d.ts",
@@ -2243,27 +2238,33 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts"
       ],
-      "./svedata.ts": [
+      "./src/index.ts": [
+        "./src/sveaccount.ts",
+        "./src/svedata.ts",
+        "./src/svegroup.ts",
+        "./src/sveproject.ts",
+        "./src/svesysteminfo.ts"
+      ],
+      "./src/svedata.ts": [
         "./node_modules/@types/node/stream.d.ts",
-        "./sveaccount.ts",
-        "./sveproject.ts"
+        "./src/sveaccount.ts",
+        "./src/sveproject.ts"
       ],
-      "./svegroup.ts": [
-        "./sveaccount.ts",
-        "./sveproject.ts"
+      "./src/svegroup.ts": [
+        "./src/sveaccount.ts",
+        "./src/sveproject.ts"
       ],
-      "./sveproject.ts": [
-        "./sveaccount.ts",
-        "./svedata.ts",
-        "./svegroup.ts"
+      "./src/sveproject.ts": [
+        "./src/sveaccount.ts",
+        "./src/svedata.ts",
+        "./src/svegroup.ts"
       ],
-      "./svesysteminfo.ts": [
+      "./src/svesysteminfo.ts": [
         "./node_modules/@types/mongoose/index.d.ts",
         "./node_modules/@types/mysql/index.d.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
-      "./index.ts",
       "./node_modules/@types/bson/index.d.ts",
       "./node_modules/@types/mongodb/index.d.ts",
       "./node_modules/@types/mongoose/index.d.ts",
@@ -2354,11 +2355,12 @@
       "./node_modules/typescript/lib/lib.es5.d.ts",
       "./node_modules/typescript/lib/lib.esnext.intl.d.ts",
       "./node_modules/typescript/lib/typescript.d.ts",
-      "./sveaccount.ts",
-      "./svedata.ts",
-      "./svegroup.ts",
-      "./sveproject.ts",
-      "./svesysteminfo.ts"
+      "./src/index.ts",
+      "./src/sveaccount.ts",
+      "./src/svedata.ts",
+      "./src/svegroup.ts",
+      "./src/sveproject.ts",
+      "./src/svesysteminfo.ts"
     ]
   },
   "version": "3.9.7"
