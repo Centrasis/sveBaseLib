@@ -26,11 +26,6 @@
         "signature": "5f4e733ced4e129482ae2186aae29fde948ab7182844c3a5a51dd346182c7b06",
         "affectsGlobalScope": false
       },
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.d.ts": {
-        "version": "e6b724280c694a9f588847f754198fb96c43d805f065c3a5b28bbc9594541c84",
-        "signature": "e6b724280c694a9f588847f754198fb96c43d805f065c3a5b28bbc9594541c84",
-        "affectsGlobalScope": false
-      },
       "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.dom.d.ts": {
         "version": "9affb0a2ddc57df5b8174c0af96c288d697a262e5bc9ca1f544c999dc64a91e6",
         "signature": "9affb0a2ddc57df5b8174c0af96c288d697a262e5bc9ca1f544c999dc64a91e6",
@@ -134,26 +129,6 @@
       "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.regexp.d.ts": {
         "version": "c80df75850fea5caa2afe43b9949338ce4e2de086f91713e9af1a06f973872b8",
         "signature": "c80df75850fea5caa2afe43b9949338ce4e2de086f91713e9af1a06f973872b8",
-        "affectsGlobalScope": true
-      },
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.array.d.ts": {
-        "version": "9d57b2b5d15838ed094aa9ff1299eecef40b190722eb619bac4616657a05f951",
-        "signature": "9d57b2b5d15838ed094aa9ff1299eecef40b190722eb619bac4616657a05f951",
-        "affectsGlobalScope": true
-      },
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.object.d.ts": {
-        "version": "6c51b5dd26a2c31dbf37f00cfc32b2aa6a92e19c995aefb5b97a3a64f1ac99de",
-        "signature": "6c51b5dd26a2c31dbf37f00cfc32b2aa6a92e19c995aefb5b97a3a64f1ac99de",
-        "affectsGlobalScope": true
-      },
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.string.d.ts": {
-        "version": "93544ca2f26a48716c1b6c5091842cad63129daac422dfa4bc52460465f22bb1",
-        "signature": "93544ca2f26a48716c1b6c5091842cad63129daac422dfa4bc52460465f22bb1",
-        "affectsGlobalScope": true
-      },
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.symbol.d.ts": {
-        "version": "2ad234885a4240522efccd77de6c7d99eecf9b4de0914adb9a35c0c22433f993",
-        "signature": "2ad234885a4240522efccd77de6c7d99eecf9b4de0914adb9a35c0c22433f993",
         "affectsGlobalScope": true
       },
       "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2020.bigint.d.ts": {
@@ -447,18 +422,18 @@
         "affectsGlobalScope": false
       },
       "./src/svesysteminfo.ts": {
-        "version": "58c4e44c0f18cc32b84161b32f20d0a9937f4d5d057415e6cb0f5d1c4f685855",
-        "signature": "496a7ee9c4f7833bb5b7ca614c9bbfbb6915f056299160396ee03e48d4e4253f",
+        "version": "de0949aebeb2acb47f282d793aef5a4a3455598a797f696c11436e73a67ec28e",
+        "signature": "3ec03d23dafeffd2b4f5b20eef1524b34eaf0b976db3cd233b022bcb8a3995c1",
         "affectsGlobalScope": false
       },
       "./src/sveaccount.ts": {
         "version": "926c46e7bf283faee70058263ae19c5baae02ded2bb72075167871cd3aa8d256",
-        "signature": "786cf63489d573860370dba28fe7cadb71e5de3c86701921fc2e976643832034",
+        "signature": "899c9d94db3f8f2f0205648ef90368a432f247cca2738062cb490a7e7fdbf33b",
         "affectsGlobalScope": false
       },
       "./src/svegroup.ts": {
         "version": "b86525d2b57c1c15f47fee9a95cff0267bf6b5a1abacda927ef8ed2199961f0c",
-        "signature": "96667728256f055dd40d76ba29201c43360b697e943296861dbcd25b108ce327",
+        "signature": "8a41ee1c14aec01c928f65771192f54a49446f4d95d17bae3d4881b92d129ecc",
         "affectsGlobalScope": false
       },
       "./node_modules/typescript/lib/typescript.d.ts": {
@@ -468,40 +443,39 @@
       },
       "./src/sveproject.ts": {
         "version": "87ae65d58f286e06dc6be3a38c9c24de778f17aa04d4c7a35a53baacec9c7b1d",
-        "signature": "c491e11c09a9688e104033b8da3b0f3a6a07ecbae08e8200402444282ccddc25",
+        "signature": "83b705622e57ddb1095d7fd13322c57ae395da63488d3767b389db389adaab04",
         "affectsGlobalScope": false
       },
       "./src/svedata.ts": {
         "version": "60e808eb1ec9655388c07d3b8a8a599d91187893910ee1070665bc016d9d8477",
-        "signature": "52e8118ffd82947a93141ab3c9c4c81e8b6b9648cf866cffb0330fcdaeac4175",
+        "signature": "9d2335e8c847e70a38bc24376faa810c022129ccf86e0a99606962d2ada35015",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
         "version": "088968b3d83eb0e4471ddbb8424027c5e39a6f3dc464fa0c81d420136d7433de",
-        "signature": "45a679a9668db7956f745c23ee9e4fa8b1319139927b999cd02b5ae779b02e26",
+        "signature": "1478ef3a3a8be2caadba4f18e16c0f84058d86a1468e048621055ae4459316fa",
         "affectsGlobalScope": false
       }
     },
     "options": {
       "target": 2,
+      "moduleResolution": 2,
+      "resolveJsonModule": true,
       "module": 1,
+      "sourceMap": true,
+      "allowJs": true,
       "lib": [
         "lib.es2015.d.ts",
         "lib.es2015.core.d.ts",
-        "lib.es2019.d.ts",
-        "lib.dom.d.ts",
-        "lib.es2016.d.ts"
+        "lib.dom.d.ts"
       ],
-      "declaration": true,
-      "declarationMap": true,
       "composite": true,
+      "types": [
+        "node"
+      ],
       "esModuleInterop": true,
-      "resolveJsonModule": true,
-      "moduleResolution": 2,
-      "strict": true,
-      "isolatedModules": true,
-      "outDir": "./dist",
-      "rootDir": "./src",
+      "jsx": 2,
+      "skipLibCheck": true,
       "configFilePath": "./tsconfig.json"
     },
     "referencedMap": {
@@ -698,46 +672,6 @@
         "./node_modules/@types/node/util.d.ts"
       ],
       "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.regexp.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/process.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/process.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts"
-      ],
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.array.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/process.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/process.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts"
-      ],
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/process.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/process.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts"
-      ],
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.object.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/process.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/process.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts"
-      ],
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.string.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/process.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/process.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts"
-      ],
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.symbol.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/process.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
@@ -1609,46 +1543,6 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts"
       ],
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.array.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/process.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/process.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts"
-      ],
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/process.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/process.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts"
-      ],
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.object.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/process.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/process.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts"
-      ],
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.string.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/process.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/process.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts"
-      ],
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.symbol.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/process.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/process.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts"
-      ],
       "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2020.bigint.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/process.d.ts",
@@ -2289,11 +2183,6 @@
       "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.intl.d.ts",
       "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.promise.d.ts",
       "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.regexp.d.ts",
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.array.d.ts",
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.d.ts",
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.object.d.ts",
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.string.d.ts",
-      "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2019.symbol.d.ts",
       "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es2020.bigint.d.ts",
       "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.es5.d.ts",
       "c:/users/felix/appdata/roaming/npm/node_modules/typescript/lib/lib.esnext.intl.d.ts",

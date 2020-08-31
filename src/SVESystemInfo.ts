@@ -1,4 +1,3 @@
-import fs from 'fs';
 import mysql from 'mysql';
 import mongoose from 'mongoose';
 
@@ -7,6 +6,12 @@ export interface SVESources {
     persistentDatabase?: string | mysql.Connection;
     volatileDatabase?: string | typeof mongoose;
     sveDataPath?: string;
+}
+
+export interface SQLInfo {
+    MySQL_User: string;
+    MySQL_Password: string;
+    MySQL_DB: string;
 }
 
 export interface SVESystemState {
@@ -65,14 +70,12 @@ class SVESystemInfo {
                 };
             } else {
                 if (typeof this.getInstance().sources.persistentDatabase === "string") {
-                    const txt = fs.readFileSync('mysqlinfo.json','utf8');
-                    const dbInfo = JSON.parse(txt);
-                    console.log("SQL User: " + dbInfo.MySQL_User);
+                    console.log("SQL User: '" + this.getInstance().SQLCredentials.MySQL_User + "'");
                     this.getInstance().sources.persistentDatabase = mysql.createConnection({
                         host: this.getInstance().sources.persistentDatabase as string,
-                        user: dbInfo.MySQL_User,
-                        password: dbInfo.MySQL_Password,
-                        database: dbInfo.MySQL_DB,
+                        user: this.getInstance().SQLCredentials.MySQL_User,
+                        password: this.getInstance().SQLCredentials.MySQL_Password,
+                        database: this.getInstance().SQLCredentials.MySQL_DB,
                         charset: "utf8_general_ci",
                         insecureAuth: false,
                         port: 3306,
@@ -109,6 +112,11 @@ class SVESystemInfo {
     }
 
     public sources: SVESources;
+    public SQLCredentials: SQLInfo = {
+        MySQL_DB: "",
+        MySQL_Password: "",
+        MySQL_User: ""
+    };
 
     public static getSystemStatus(): SVESystemState {
         return this.getInstance().systemState;
