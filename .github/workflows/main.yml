@@ -34,25 +34,5 @@ jobs:
       - name: Build library
         run: npm install
       - run: npm run tsc
-        
-  release:
-    name: Publish lib to npm
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      # Runs a single command using the runners shell
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v1.4.3
-        with:
-          # Set always-auth in npmrc
-          always-auth: false # optional, default is false
-          # Version Spec of the version to use.  Examples: 10.x, 10.15.1, >=10.15.0
-          node-version: 10.x # optional, default is 10.x
-          
-      - name: Build library
-        run: npm install
-      - run: npm run tsc
-      - run: npm publish --access public
     
      
