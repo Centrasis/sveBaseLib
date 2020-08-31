@@ -1,6 +1,4 @@
-import mysql from 'mysql';
 import {SVESystemInfo} from './SVESystemInfo';
-import { exception } from 'console';
 
 /*const user = sql.define<"user", { id: number; name: string; password: string }>({
     name: 'user',
@@ -51,19 +49,19 @@ export interface Token {
     ressource: String
 }
 
-function isLoginInfo(info: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo): boolean {
+export function isLoginInfo(info: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo): boolean {
     return "name" in info && "pass" in info;
 }
 
-function isTokenInfo(info: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo): boolean {
+export function isTokenInfo(info: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo): boolean {
     return "name" in info && "token" in info && !isLoginInfo(info);
 }
 
-function isSessionUserInitializer(info: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo): boolean {
+export function isSessionUserInitializer(info: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo): boolean {
     return "sessionID" in info && "loginState" in info;
 }
 
-function isBasicUserInitializer(info: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo): boolean {
+export function isBasicUserInitializer(info: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo): boolean {
     return "id" in info && !isLoginInfo(info) && !isSessionUserInitializer(info);
 }
 
@@ -155,21 +153,6 @@ export class SVEAccount {
 
     protected getByID(id: number): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            if (typeof SVESystemInfo.getInstance().sources.persistentDatabase !== "string") {
-                (SVESystemInfo.getInstance().sources.persistentDatabase! as mysql.Connection).query("SELECT * FROM user WHERE id = ?", [id], (err, results) => {
-                    if(err) {
-                        console.log("SQL error: " + JSON.stringify(err));
-                        this.loginState = LoginState.NotLoggedIn;
-                        reject(err);
-                    } else {
-                        this.init({
-                            name: results[0].name,
-                            id: id
-                        }, LoginState.NotLoggedIn);
-                        resolve(true);
-                    }
-                });
-            } else {
                 async () => {
                     const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/user/' + id, {
                         method: 'GET',
@@ -187,7 +170,6 @@ export class SVEAccount {
                         reject(false);
                     }
                 };
-            }
         });
     }
 
@@ -216,19 +198,7 @@ export class SVEAccount {
                     }
                 };
             } else {
-                if (typeof SVESystemInfo.getInstance().sources.persistentDatabase !== "string") {
-                    (SVESystemInfo.getInstance().sources.persistentDatabase! as mysql.Connection).query("SELECT * FROM user WHERE name = ? AND password = SHA1(?)", [info.name, info.pass], (err, result) => {
-                        this.loginState = (result.length === 1) ? LoginState.LoggedInByUser : LoginState.NotLoggedIn;
-                        if (this.loginState === LoginState.LoggedInByUser) {
-                            this.name = result[0].name;
-                            this.id = result[0].id;
-                        }
-
-                        resolve(this.loginState);
-                    });
-                } else {
-                    reject(this.loginState);
-                }
+                reject(this.loginState);
             }
         });
     }

@@ -1,9 +1,7 @@
-import mysql from 'mysql';
-import mongoose from 'mongoose';
 export interface SVESources {
     sveService?: string;
-    persistentDatabase?: string | mysql.Connection;
-    volatileDatabase?: string | typeof mongoose;
+    persistentDatabase?: string | any;
+    volatileDatabase?: string | any;
     sveDataPath?: string;
 }
 export interface SQLInfo {
@@ -17,9 +15,11 @@ export interface SVESystemState {
     authorizationSystem: boolean;
 }
 declare class SVESystemInfo {
-    private static instance;
-    private systemState;
-    private constructor();
+    protected static instance: SVESystemInfo;
+    protected systemState: SVESystemState;
+    protected static isServer: boolean;
+    protected constructor();
+    static getIsServer(): boolean;
     static getInstance(): SVESystemInfo;
     static initSystem(): Promise<boolean>;
     sources: SVESources;

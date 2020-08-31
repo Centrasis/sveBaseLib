@@ -3,7 +3,6 @@ import {SVEProject} from './SVEProject';
 import {SVEGroup} from './SVEGroup';
 import {SVESystemInfo} from './SVESystemInfo';
 import { Stream } from 'stream';
-import mysql from 'mysql';
 
 export enum SVEDataType {
     Image,
@@ -14,7 +13,7 @@ export enum SVEDataType {
 
 export interface SVEDataInitializer {
     id?: number,
-    data: ArrayBuffer | Stream, 
+    data?: ArrayBuffer | Stream, 
     type: SVEDataType,
     parentProject: SVEProject
 }
@@ -46,6 +45,10 @@ export class SVEData {
     protected localDataInfo?: SVELocalDataInfo;
     protected lastAccess: Date = new Date();
     protected creation: Date = new Date();
+
+    public static getMimeTypeMap(): Map<string, string> {
+        return mimeMap;
+    }
 
     protected initFromResult(result: any, onComplete: () => void) {
         this.localDataInfo = {
@@ -81,35 +84,7 @@ export class SVEData {
         if (typeof initInfo === "number") {
             this.id = initInfo as number;
 
-            if (typeof SVESystemInfo.getInstance().sources.persistentDatabase !== "string") {
-                (SVESystemInfo.getInstance().sources.persistentDatabase! as mysql.Connection).query("SELECT * FROM files WHERE id = ?", [this.id], (err, results) => {
-                    if(err || results.length === 0) {
-                        this.id = -1;
-                        onComplete(this);
-                    } else {
-                        if(results[0].project !== undefined && results[0].project !== null) {
-                            this.parentProject = new SVEProject(results[0].project as number, this.handler, (prj: SVEProject) => {
-                                if (prj.getGroup() !== undefined) {
-                                    prj.getGroup()!.getRightsForUser(this.handler).then((val) => {
-                                        if(!val.read) {
-                                            this.id = -1;
-                                            this.parentProject = undefined;
-                                            onComplete(this);
-                                        } else {
-                                            this.initFromResult(results[0], () => { onComplete(this); });
-                                        }
-                                    });
-                                } else {
-                                    this.initFromResult(results[0], () => { onComplete(this); });
-                                }
-                            });
-                        } else {
-                            this.initFromResult(results[0], () => { onComplete(this); });
-                            onComplete(this);
-                        }
-                    }
-                });
-            } else {
+            if (typeof SVESystemInfo.getInstance().sources.sveService !== undefined) {
                 async () => {
                     const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
                         method: 'GET',
@@ -225,29 +200,24 @@ export class SVEData {
     public getBLOB(): Promise<ArrayBuffer> {
         return new Promise<ArrayBuffer>((resolve, reject) => {
             if(this.data === undefined) {
-                if(this.localDataInfo !== undefined) {
-                    var fs = require('fs');
-                    this.data = fs.readFileSync(this.localDataInfo.filePath);
-                } else {
-                    var self = this;
-                    async () => {
-                        const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id + "/download", {
-                            method: 'GET',
-                            headers: {
-                                'Accept': '*'
-                            }
-                        });
-                        if (response.status < 400) {
-                            response.arrayBuffer().then((val) => {
-                                self.data = val;
-                                resolve(self.data);
-                            });
-                        } else {
-                            reject(null);
+                var self = this;
+                async () => {
+                    const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id + "/download", {
+                        method: 'GET',
+                        headers: {
+                            'Accept': '*'
                         }
-                    };
-                    return;
-                }
+                    });
+                    if (response.status < 400) {
+                        response.arrayBuffer().then((val) => {
+                            self.data = val;
+                            resolve(self.data);
+                        });
+                    } else {
+                        reject(null);
+                    }
+                };
+                return;
             }
 
             if(this.data !== undefined) {
@@ -260,9 +230,7 @@ export class SVEData {
 
     public getStream(): Promise<Stream> {
         return new Promise<Stream>((resolve, reject) => {
-            if(this.localDataInfo !== undefined) {
-                var fs = require('fs');
-                this.data = fs.createReadStream(this.localDataInfo.filePath);
+            if(this.data !== undefined) {
                 var self = this;
                 (this.data! as Stream).on('error', function(err) {
                     reject(null);

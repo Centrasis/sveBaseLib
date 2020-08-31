@@ -1,10 +1,7 @@
-import mysql from 'mysql';
-import mongoose from 'mongoose';
-
 export interface SVESources {
     sveService?: string;
-    persistentDatabase?: string | mysql.Connection;
-    volatileDatabase?: string | typeof mongoose;
+    persistentDatabase?: string | any;
+    volatileDatabase?: string | any;
     sveDataPath?: string;
 }
 
@@ -21,19 +18,25 @@ export interface SVESystemState {
 }
 
 class SVESystemInfo {
-    private static instance: SVESystemInfo;
-    private systemState: SVESystemState = {
+    protected static instance: SVESystemInfo;
+    protected systemState: SVESystemState = {
         authorizationSystem: false,
         basicSystem: false,
         tokenSystem: false
     };
+    protected static isServer: boolean;
 
-    private constructor() { 
+    protected constructor() { 
         this.sources = {
             sveService: undefined,
             persistentDatabase: undefined,
             volatileDatabase: undefined
         };
+        SVESystemInfo.isServer = false;
+    }
+
+    public static getIsServer(): boolean {
+        return SVESystemInfo.isServer;
     }
 
     public static getInstance(): SVESystemInfo {
@@ -69,44 +72,7 @@ class SVESystemInfo {
                     }
                 };
             } else {
-                if (typeof this.getInstance().sources.persistentDatabase === "string") {
-                    console.log("SQL User: '" + this.getInstance().SQLCredentials.MySQL_User + "'");
-                    this.getInstance().sources.persistentDatabase = mysql.createConnection({
-                        host: this.getInstance().sources.persistentDatabase as string,
-                        user: this.getInstance().SQLCredentials.MySQL_User,
-                        password: this.getInstance().SQLCredentials.MySQL_Password,
-                        database: this.getInstance().SQLCredentials.MySQL_DB,
-                        charset: "utf8_general_ci",
-                        insecureAuth: false,
-                        port: 3306,
-                        ssl  : {
-                            rejectUnauthorized: false
-                        }
-                    });
-                    
-                    var self = this;
-                    if(this.getInstance().sources.persistentDatabase !== undefined) {
-                        (this.getInstance().sources.persistentDatabase! as mysql.Connection).connect(function(err) {
-                            if (err) {
-                                reject(err);
-                            } else {
-                                self.instance.systemState.basicSystem = true;
-                                resolve(true);
-                            }
-                        });
-                    } else {
-                        reject(null);
-                    }
-                }
-
-                if (typeof this.getInstance().sources.volatileDatabase === "string") {
-                    mongoose.connect(this.getInstance().sources.volatileDatabase as string, {useNewUrlParser: true, useUnifiedTopology: true}).then((val) => {
-                        this.getInstance().sources.volatileDatabase = val;
-                        self.instance.systemState.tokenSystem = true;
-                    }, (reason) => {
-                        console.log("Cannot connect to volatile DB!");
-                    });
-                }
+                reject(false);
             }
         });
     }

@@ -8,13 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SVESystemInfo = void 0;
-const mysql_1 = __importDefault(require("mysql"));
-const mongoose_1 = __importDefault(require("mongoose"));
 class SVESystemInfo {
     constructor() {
         this.systemState = {
@@ -32,6 +27,10 @@ class SVESystemInfo {
             persistentDatabase: undefined,
             volatileDatabase: undefined
         };
+        SVESystemInfo.isServer = false;
+    }
+    static getIsServer() {
+        return SVESystemInfo.isServer;
     }
     static getInstance() {
         if (!SVESystemInfo.instance) {
@@ -63,44 +62,7 @@ class SVESystemInfo {
                 });
             }
             else {
-                if (typeof this.getInstance().sources.persistentDatabase === "string") {
-                    console.log("SQL User: '" + this.getInstance().SQLCredentials.MySQL_User + "'");
-                    this.getInstance().sources.persistentDatabase = mysql_1.default.createConnection({
-                        host: this.getInstance().sources.persistentDatabase,
-                        user: this.getInstance().SQLCredentials.MySQL_User,
-                        password: this.getInstance().SQLCredentials.MySQL_Password,
-                        database: this.getInstance().SQLCredentials.MySQL_DB,
-                        charset: "utf8_general_ci",
-                        insecureAuth: false,
-                        port: 3306,
-                        ssl: {
-                            rejectUnauthorized: false
-                        }
-                    });
-                    var self = this;
-                    if (this.getInstance().sources.persistentDatabase !== undefined) {
-                        this.getInstance().sources.persistentDatabase.connect(function (err) {
-                            if (err) {
-                                reject(err);
-                            }
-                            else {
-                                self.instance.systemState.basicSystem = true;
-                                resolve(true);
-                            }
-                        });
-                    }
-                    else {
-                        reject(null);
-                    }
-                }
-                if (typeof this.getInstance().sources.volatileDatabase === "string") {
-                    mongoose_1.default.connect(this.getInstance().sources.volatileDatabase, { useNewUrlParser: true, useUnifiedTopology: true }).then((val) => {
-                        this.getInstance().sources.volatileDatabase = val;
-                        self.instance.systemState.tokenSystem = true;
-                    }, (reason) => {
-                        console.log("Cannot connect to volatile DB!");
-                    });
-                }
+                reject(false);
             }
         });
     }

@@ -41,40 +41,7 @@ class SVEData {
         this.handler = handler;
         if (typeof initInfo === "number") {
             this.id = initInfo;
-            if (typeof SVESystemInfo_1.SVESystemInfo.getInstance().sources.persistentDatabase !== "string") {
-                SVESystemInfo_1.SVESystemInfo.getInstance().sources.persistentDatabase.query("SELECT * FROM files WHERE id = ?", [this.id], (err, results) => {
-                    if (err || results.length === 0) {
-                        this.id = -1;
-                        onComplete(this);
-                    }
-                    else {
-                        if (results[0].project !== undefined && results[0].project !== null) {
-                            this.parentProject = new SVEProject_1.SVEProject(results[0].project, this.handler, (prj) => {
-                                if (prj.getGroup() !== undefined) {
-                                    prj.getGroup().getRightsForUser(this.handler).then((val) => {
-                                        if (!val.read) {
-                                            this.id = -1;
-                                            this.parentProject = undefined;
-                                            onComplete(this);
-                                        }
-                                        else {
-                                            this.initFromResult(results[0], () => { onComplete(this); });
-                                        }
-                                    });
-                                }
-                                else {
-                                    this.initFromResult(results[0], () => { onComplete(this); });
-                                }
-                            });
-                        }
-                        else {
-                            this.initFromResult(results[0], () => { onComplete(this); });
-                            onComplete(this);
-                        }
-                    }
-                });
-            }
-            else {
+            if (typeof SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService !== undefined) {
                 () => __awaiter(this, void 0, void 0, function* () {
                     const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
                         method: 'GET',
@@ -114,6 +81,9 @@ class SVEData {
             }
             onComplete(this);
         }
+    }
+    static getMimeTypeMap() {
+        return mimeMap;
     }
     initFromResult(result, onComplete) {
         this.localDataInfo = {
@@ -199,31 +169,25 @@ class SVEData {
     getBLOB() {
         return new Promise((resolve, reject) => {
             if (this.data === undefined) {
-                if (this.localDataInfo !== undefined) {
-                    var fs = require('fs');
-                    this.data = fs.readFileSync(this.localDataInfo.filePath);
-                }
-                else {
-                    var self = this;
-                    () => __awaiter(this, void 0, void 0, function* () {
-                        const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id + "/download", {
-                            method: 'GET',
-                            headers: {
-                                'Accept': '*'
-                            }
-                        });
-                        if (response.status < 400) {
-                            response.arrayBuffer().then((val) => {
-                                self.data = val;
-                                resolve(self.data);
-                            });
-                        }
-                        else {
-                            reject(null);
+                var self = this;
+                () => __awaiter(this, void 0, void 0, function* () {
+                    const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id + "/download", {
+                        method: 'GET',
+                        headers: {
+                            'Accept': '*'
                         }
                     });
-                    return;
-                }
+                    if (response.status < 400) {
+                        response.arrayBuffer().then((val) => {
+                            self.data = val;
+                            resolve(self.data);
+                        });
+                    }
+                    else {
+                        reject(null);
+                    }
+                });
+                return;
             }
             if (this.data !== undefined) {
                 resolve(this.data);
@@ -235,9 +199,7 @@ class SVEData {
     }
     getStream() {
         return new Promise((resolve, reject) => {
-            if (this.localDataInfo !== undefined) {
-                var fs = require('fs');
-                this.data = fs.createReadStream(this.localDataInfo.filePath);
+            if (this.data !== undefined) {
                 var self = this;
                 this.data.on('error', function (err) {
                     reject(null);

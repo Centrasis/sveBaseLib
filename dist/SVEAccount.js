@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoginState = exports.SVEAccount = exports.TokenType = void 0;
+exports.LoginState = exports.SVEAccount = exports.isBasicUserInitializer = exports.isSessionUserInitializer = exports.isTokenInfo = exports.isLoginInfo = exports.TokenType = void 0;
 const SVESystemInfo_1 = require("./SVESystemInfo");
 /*const user = sql.define<"user", { id: number; name: string; password: string }>({
     name: 'user',
@@ -37,15 +37,19 @@ exports.LoginState = LoginState;
 function isLoginInfo(info) {
     return "name" in info && "pass" in info;
 }
+exports.isLoginInfo = isLoginInfo;
 function isTokenInfo(info) {
     return "name" in info && "token" in info && !isLoginInfo(info);
 }
+exports.isTokenInfo = isTokenInfo;
 function isSessionUserInitializer(info) {
     return "sessionID" in info && "loginState" in info;
 }
+exports.isSessionUserInitializer = isSessionUserInitializer;
 function isBasicUserInitializer(info) {
     return "id" in info && !isLoginInfo(info) && !isSessionUserInitializer(info);
 }
+exports.isBasicUserInitializer = isBasicUserInitializer;
 class SVEAccount {
     // if onLogin is set a login will be perfomed. Otherwise the class will only be created
     constructor(user, onLogin) {
@@ -130,42 +134,24 @@ class SVEAccount {
     }
     getByID(id) {
         return new Promise((resolve, reject) => {
-            if (typeof SVESystemInfo_1.SVESystemInfo.getInstance().sources.persistentDatabase !== "string") {
-                SVESystemInfo_1.SVESystemInfo.getInstance().sources.persistentDatabase.query("SELECT * FROM user WHERE id = ?", [id], (err, results) => {
-                    if (err) {
-                        console.log("SQL error: " + JSON.stringify(err));
-                        this.loginState = LoginState.NotLoggedIn;
-                        reject(err);
+            () => __awaiter(this, void 0, void 0, function* () {
+                const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/user/' + id, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
                     }
-                    else {
-                        this.init({
-                            name: results[0].name,
-                            id: id
-                        }, LoginState.NotLoggedIn);
+                });
+                if (response.status < 400) {
+                    response.json().then((val) => {
+                        this.init(val, LoginState.NotLoggedIn);
                         resolve(true);
-                    }
-                });
-            }
-            else {
-                () => __awaiter(this, void 0, void 0, function* () {
-                    const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/user/' + id, {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
                     });
-                    if (response.status < 400) {
-                        response.json().then((val) => {
-                            this.init(val, LoginState.NotLoggedIn);
-                            resolve(true);
-                        });
-                    }
-                    else {
-                        reject(false);
-                    }
-                });
-            }
+                }
+                else {
+                    reject(false);
+                }
+            });
         });
     }
     doLogin(info) {
@@ -194,19 +180,7 @@ class SVEAccount {
                 });
             }
             else {
-                if (typeof SVESystemInfo_1.SVESystemInfo.getInstance().sources.persistentDatabase !== "string") {
-                    SVESystemInfo_1.SVESystemInfo.getInstance().sources.persistentDatabase.query("SELECT * FROM user WHERE name = ? AND password = SHA1(?)", [info.name, info.pass], (err, result) => {
-                        this.loginState = (result.length === 1) ? LoginState.LoggedInByUser : LoginState.NotLoggedIn;
-                        if (this.loginState === LoginState.LoggedInByUser) {
-                            this.name = result[0].name;
-                            this.id = result[0].id;
-                        }
-                        resolve(this.loginState);
-                    });
-                }
-                else {
-                    reject(this.loginState);
-                }
+                reject(this.loginState);
             }
         });
     }

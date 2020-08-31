@@ -10,7 +10,7 @@ export declare enum SVEDataType {
 }
 export interface SVEDataInitializer {
     id?: number;
-    data: ArrayBuffer | Stream;
+    data?: ArrayBuffer | Stream;
     type: SVEDataType;
     parentProject: SVEProject;
 }
@@ -28,6 +28,7 @@ export declare class SVEData {
     protected localDataInfo?: SVELocalDataInfo;
     protected lastAccess: Date;
     protected creation: Date;
+    static getMimeTypeMap(): Map<string, string>;
     protected initFromResult(result: any, onComplete: () => void): void;
     constructor(handler: SVEAccount, initInfo: number | SVEDataInitializer, onComplete: (self: SVEData) => void);
     getID(): number;

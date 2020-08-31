@@ -26,32 +26,9 @@ class SVEProject {
         this.type = SVEProjectType.Vacation;
         // if get by id
         if (typeof idx === "number") {
-            if (typeof SVESystemInfo_1.SVESystemInfo.getInstance().sources.persistentDatabase !== "string") {
-                SVESystemInfo_1.SVESystemInfo.getInstance().sources.persistentDatabase.query("SELECT * FROM projects WHERE id = ?", [idx], (err, results) => {
-                    if (err) {
-                        this.id = NaN;
-                        if (onReady !== undefined)
-                            onReady(this);
-                    }
-                    else {
-                        if (results.length === 0) {
-                            this.id = NaN;
-                            if (onReady !== undefined)
-                                onReady(this);
-                        }
-                        else {
-                            this.id = idx;
-                            this.name = results[0].name;
-                            this.handler = handler;
-                            this.group = new SVEGroup_1.SVEGroup(results[0].context, handler, (s) => {
-                                this.owner = new SVEAccount_1.SVEAccount({ id: results[0].owner }, (st) => {
-                                    if (onReady !== undefined)
-                                        onReady(this);
-                                });
-                            });
-                        }
-                    }
-                });
+            if (SVESystemInfo_1.SVESystemInfo.getIsServer()) {
+                if (onReady !== undefined)
+                    onReady(this);
             }
             else {
                 () => __awaiter(this, void 0, void 0, function* () {
@@ -119,28 +96,33 @@ class SVEProject {
     }
     getData() {
         return new Promise((resolve, reject) => {
-            if (typeof SVESystemInfo_1.SVESystemInfo.getInstance().sources.persistentDatabase !== "string") {
-                SVESystemInfo_1.SVESystemInfo.getInstance().sources.persistentDatabase.query("SELECT * FROM files WHERE project = ?", [this.id], (err, results) => {
-                    if (err) {
-                        reject(null);
-                    }
-                    else {
+            () => __awaiter(this, void 0, void 0, function* () {
+                const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/files', {
+                    method: "GET"
+                });
+                if (response.status < 400) {
+                    response.json().then(val => {
                         let r = [];
                         let i = 0;
-                        results.forEach((element) => {
-                            r.push(new SVEData_1.SVEData(this.handler, element.id, (s) => {
-                                i++;
-                                if (i === results.length) {
-                                    resolve(r);
-                                }
-                            }));
-                        });
-                        if (results.length === 0) {
+                        if (val.length > 0) {
+                            val.foreach((v) => {
+                                r.push(new SVEData_1.SVEData(this.handler, { id: v.id, parentProject: this, type: v.type }, (s) => {
+                                    i++;
+                                    if (i >= val.length) {
+                                        resolve(r);
+                                    }
+                                }));
+                            });
+                        }
+                        else {
                             resolve(r);
                         }
-                    }
-                });
-            }
+                    }, err => reject(false));
+                }
+                else {
+                    reject(false);
+                }
+            });
         });
     }
 }
