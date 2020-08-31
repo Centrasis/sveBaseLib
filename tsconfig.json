@@ -11,7 +11,7 @@
     "moduleResolution": "node", 
     "strict": true,
     "isolatedModules": true,
-    "outDir": "./dist",
+    "outDir": "dist",
     "rootDir": "src"
   },
   "include": [
