@@ -33,7 +33,7 @@ jobs:
           
       - name: Build library
         run: npm install
-      - run: npm tsc
+      - run: npm run tsc
         
   release:
     name: Publish lib to npm
@@ -53,7 +53,7 @@ jobs:
           
       - name: Build library
         run: npm install
-      - run: npm tsc
+      - run: npm run tsc
       - run: npm publish --access public
     
      
