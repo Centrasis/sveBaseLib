@@ -22,7 +22,7 @@
   "scripts": {
     "tsc": "tsc",
     "build": "tsc",
-    "prepare": "tsc"
+    "prepare": "tsc > compiler.out"
   },
   "author": "ftl999",
   "license": "ISC",
