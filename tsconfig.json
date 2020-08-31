@@ -1,23 +1,25 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "module": "commonjs",
-    "sourceMap": true,
-    "allowJs": true,                       /* Allow javascript files to be compiled. */
-    "lib": [
-      "es6", "es2015.core", "dom"
-    ],
-    "composite": true,
-    "types": [
-      "node"
-    ],
+    "target": "es6",                          
+    "module": "CommonJS",                     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+    "lib": ["es6", "es2015.core", "ES2019", "DOM", "es7"],
+    "declaration": true, 
+    "declarationMap": true,
+    "composite": true, 
     "esModuleInterop": true,
-    "jsx": "react",
-    "skipLibCheck": true
-  }, "exclude": [
+    "resolveJsonModule": true,
+    "moduleResolution": "node", 
+    "strict": true,
+    "isolatedModules": true,
+    "outDir": "./dist",
+    "rootDir": "src"
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    ".github"
   ]
 }
