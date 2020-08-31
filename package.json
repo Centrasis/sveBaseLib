@@ -21,9 +21,13 @@
     "typescript": "^3.9.7",
     "url": "^0.11.0"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "tsc": "tsc",
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "npm run build"
   },
   "author": "ftl999",
   "license": "ISC",

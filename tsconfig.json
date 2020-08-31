@@ -5,13 +5,14 @@
     "lib": ["es6", "es2015.core", "ES2019", "DOM", "es7"],
     "declaration": true, 
     "declarationMap": true,
-    "composite": true,  
+    "composite": true, 
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "moduleResolution": "node", 
     "strict": true,
     "isolatedModules": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "rootDir": "src"
   },
   "include": [
     "src/**/*"
