@@ -452,7 +452,7 @@
         "affectsGlobalScope": false
       },
       "./src/sveaccount.ts": {
-        "version": "c7c152d265b80142bb53476acdbf6f36059b6aa54df1e05149b1365b034fd553",
+        "version": "926c46e7bf283faee70058263ae19c5baae02ded2bb72075167871cd3aa8d256",
         "signature": "786cf63489d573860370dba28fe7cadb71e5de3c86701921fc2e976643832034",
         "affectsGlobalScope": false
       },
@@ -1349,7 +1349,6 @@
       "./src/sveaccount.ts": [
         "./node_modules/@types/mysql/index.d.ts",
         "./node_modules/@types/node/console.d.ts",
-        "./node_modules/@types/node/crypto.d.ts",
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/process.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
