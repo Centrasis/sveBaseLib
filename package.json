@@ -20,9 +20,9 @@
     "url": "^0.11.0"
   },
   "scripts": {
-    "tsc": "tsc",
-    "build": "tsc",
-    "prepare": "tsc > compiler.out"
+    "tsc": "tsc -b",
+    "build": "tsc -b",
+    "prepare": "tsc -b"
   },
   "author": "ftl999",
   "license": "ISC",
