@@ -1,5 +1,5 @@
 {
-  "name": "@svejs/svebaselib",
+  "name": "svebaselib",
   "version": "1.0.0",
   "description": "Base Lib for the SVE API",
   "main": "dist/index.js",
