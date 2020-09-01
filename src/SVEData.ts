@@ -17,7 +17,7 @@ export interface SVEDataInitializer {
     path?: SVELocalDataInfo,
     type: SVEDataType,
     parentProject?: SVEProject,
-    owner?: SVEAccount
+    owner?: SVEAccount | number
 }
 
 export interface SVELocalDataInfo {
@@ -126,7 +126,7 @@ export class SVEData {
             if((initInfo as SVEDataInitializer).path !== undefined)
                 this.localDataInfo = (initInfo as SVEDataInitializer).path;
             this.parentProject = (initInfo as SVEDataInitializer).parentProject;
-            this.owner = (initInfo as SVEDataInitializer).owner;
+            this.owner = (initInfo as SVEDataInitializer).owner as (SVEAccount | undefined);
 
             onComplete(this);
         }
