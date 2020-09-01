@@ -126,12 +126,7 @@ export class SVEData {
             if((initInfo as SVEDataInitializer).path !== undefined)
                 this.localDataInfo = (initInfo as SVEDataInitializer).path;
             this.parentProject = (initInfo as SVEDataInitializer).parentProject;
-
-            if (typeof SVESystemInfo.getInstance().sources.persistentDatabase !== "string") {
-                
-            } else {
-                
-            }
+            this.owner = (initInfo as SVEDataInitializer).owner;
 
             onComplete(this);
         }

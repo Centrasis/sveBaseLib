@@ -77,10 +77,7 @@ class SVEData {
             if (initInfo.path !== undefined)
                 this.localDataInfo = initInfo.path;
             this.parentProject = initInfo.parentProject;
-            if (typeof SVESystemInfo_1.SVESystemInfo.getInstance().sources.persistentDatabase !== "string") {
-            }
-            else {
-            }
+            this.owner = initInfo.owner;
             onComplete(this);
         }
     }
