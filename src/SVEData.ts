@@ -51,7 +51,7 @@ export class SVEData {
         return mimeMap;
     }
 
-    protected initFromResult(result: any, onComplete: () => void) {
+    public initFromResult(result: any, onComplete: () => void) {
         this.localDataInfo = {
             filePath: result.path,
             thumbnailPath: result.thumbnail
