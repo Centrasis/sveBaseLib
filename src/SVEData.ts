@@ -43,7 +43,7 @@ export class SVEData {
     protected data?: ArrayBuffer | Stream;
     protected parentProject?: SVEProject;
     protected handler: SVEAccount;
-    protected owner?: SVEAccount;
+    protected owner?: SVEAccount | number;
     protected localDataInfo?: SVELocalDataInfo;
     protected lastAccess: Date = new Date();
     protected creation: Date = new Date();
@@ -137,8 +137,24 @@ export class SVEData {
         return this.id;
     }
 
-    public getOwner(): SVEAccount {
-        return this.owner!;
+    public getOwnerID(): number {
+        if (typeof this.owner! === "number") {
+            return this.owner! as number;
+        } else {
+            return (this.owner! as SVEAccount).getID();
+        }
+    }
+
+    public getOwner(): Promise<SVEAccount> {
+        if (typeof this.owner! === "number") {
+            return new Promise<SVEAccount>((resolve, reject) => {
+                this.owner = new SVEAccount({id: this.owner! as number} as BasicUserInitializer, (s) => { 
+                    resolve(this.owner! as SVEAccount);
+                });
+            });
+        } else {
+            return new Promise<SVEAccount>((resolve, reject) => resolve(this.owner! as SVEAccount));
+        }
     }
 
     public getCreationDate(): Date {

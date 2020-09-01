@@ -116,8 +116,25 @@ class SVEData {
     getID() {
         return this.id;
     }
+    getOwnerID() {
+        if (typeof this.owner === "number") {
+            return this.owner;
+        }
+        else {
+            return this.owner.getID();
+        }
+    }
     getOwner() {
-        return this.owner;
+        if (typeof this.owner === "number") {
+            return new Promise((resolve, reject) => {
+                this.owner = new SVEAccount_1.SVEAccount({ id: this.owner }, (s) => {
+                    resolve(this.owner);
+                });
+            });
+        }
+        else {
+            return new Promise((resolve, reject) => resolve(this.owner));
+        }
     }
     getCreationDate() {
         return this.creation;

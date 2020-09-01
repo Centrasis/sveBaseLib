@@ -26,7 +26,7 @@ export declare class SVEData {
     protected data?: ArrayBuffer | Stream;
     protected parentProject?: SVEProject;
     protected handler: SVEAccount;
-    protected owner?: SVEAccount;
+    protected owner?: SVEAccount | number;
     protected localDataInfo?: SVELocalDataInfo;
     protected lastAccess: Date;
     protected creation: Date;
@@ -35,7 +35,8 @@ export declare class SVEData {
     static getTypeFrom(str: string): SVEDataType;
     constructor(handler: SVEAccount, initInfo: number | SVEDataInitializer, onComplete: (self: SVEData) => void);
     getID(): number;
-    getOwner(): SVEAccount;
+    getOwnerID(): number;
+    getOwner(): Promise<SVEAccount>;
     getCreationDate(): Date;
     getLastAccessDate(): Date;
     getCacheType(): string;
