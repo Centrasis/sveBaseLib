@@ -20,7 +20,7 @@ var SVEProjectType;
     SVEProjectType[SVEProjectType["Sales"] = 1] = "Sales";
 })(SVEProjectType = exports.SVEProjectType || (exports.SVEProjectType = {}));
 function isProjectInitializer(init) {
-    return (typeof init === "number") ? false : ("id" in init && "name" in init && "group" in init);
+    return typeof init !== "number";
 }
 exports.isProjectInitializer = isProjectInitializer;
 class SVEProject {

@@ -182,7 +182,7 @@
         "affectsGlobalScope": false
       },
       "./src/sveproject.ts": {
-        "version": "da6cedf0ace857d1483f7d779cada757967f794b7e62bcd275c57ad6b8279b0f",
+        "version": "317864f51232b671866df41b4d88414a3f80dc0c14f4cb633acf53e46e89bcca",
         "signature": "c0727716543f6b99f2be1b8459bac2667826a13de9b226494f77d7b57a157c6b",
         "affectsGlobalScope": false
       },
