@@ -11,7 +11,7 @@ export declare enum SVEDataType {
 export interface SVEDataInitializer {
     id?: number;
     data?: ArrayBuffer | Stream;
-    path?: string;
+    path?: SVELocalDataInfo;
     type: SVEDataType;
     parentProject: SVEProject;
 }
