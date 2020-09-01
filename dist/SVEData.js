@@ -87,13 +87,14 @@ class SVEData {
     static getMimeTypeMap() {
         return mimeMap;
     }
-    initFromResult(result, onComplete) {
+    initFromResult(result, parentProject, onComplete) {
         this.localDataInfo = {
             filePath: result.path,
             thumbnailPath: result.thumbnail
         };
         this.creation = result.creation;
         this.lastAccess = result.lastAccess;
+        this.parentProject = parentProject;
         this.type = SVEData.getTypeFrom(result.type);
         this.owner = new SVEAccount_1.SVEAccount({ id: result.user_id }, (s) => {
             onComplete();

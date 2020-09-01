@@ -51,7 +51,7 @@ export class SVEData {
         return mimeMap;
     }
 
-    public initFromResult(result: any, onComplete: () => void) {
+    public initFromResult(result: any, parentProject: SVEProject | undefined, onComplete: () => void) {
         this.localDataInfo = {
             filePath: result.path,
             thumbnailPath: result.thumbnail
@@ -59,6 +59,7 @@ export class SVEData {
 
         this.creation = result.creation;
         this.lastAccess = result.lastAccess;
+        this.parentProject = parentProject;
 
         this.type = SVEData.getTypeFrom(result.type);
 

@@ -30,7 +30,7 @@ export declare class SVEData {
     protected lastAccess: Date;
     protected creation: Date;
     static getMimeTypeMap(): Map<string, string>;
-    initFromResult(result: any, onComplete: () => void): void;
+    initFromResult(result: any, parentProject: SVEProject | undefined, onComplete: () => void): void;
     static getTypeFrom(str: string): SVEDataType;
     constructor(handler: SVEAccount, initInfo: number | SVEDataInitializer, onComplete: (self: SVEData) => void);
     getID(): number;
