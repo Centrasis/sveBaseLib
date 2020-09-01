@@ -14,6 +14,7 @@ export enum SVEDataType {
 export interface SVEDataInitializer {
     id?: number,
     data?: ArrayBuffer | Stream, 
+    path?: string,
     type: SVEDataType,
     parentProject: SVEProject
 }
@@ -120,6 +121,8 @@ export class SVEData {
             }
             this.type = (initInfo as SVEDataInitializer).type;
             this.data = (initInfo as SVEDataInitializer).data;
+            if((initInfo as SVEDataInitializer).path !== undefined)
+                this.localDataInfo = {filePath: (initInfo as SVEDataInitializer).path!, thumbnailPath: ""};
             this.parentProject = (initInfo as SVEDataInitializer).parentProject;
 
             if (typeof SVESystemInfo.getInstance().sources.persistentDatabase !== "string") {
