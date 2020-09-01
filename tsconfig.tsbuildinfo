@@ -187,7 +187,7 @@
         "affectsGlobalScope": false
       },
       "./src/svedata.ts": {
-        "version": "3ed2542a78a0657e2325a0b3539f2ad78efaf679911b5040423b8418811d0578",
+        "version": "ccb4386e545dd9c8d71d52c0e423f810487e0ef57725af2a11167018c09f955f",
         "signature": "c027e7f9baa4b4cea0cc7d956af7e368320e9b7bed72cff3bd588d8ad6674368",
         "affectsGlobalScope": false
       },

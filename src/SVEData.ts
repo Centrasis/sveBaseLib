@@ -126,8 +126,7 @@ export class SVEData {
             if((initInfo as SVEDataInitializer).path !== undefined)
                 this.localDataInfo = (initInfo as SVEDataInitializer).path;
             this.parentProject = (initInfo as SVEDataInitializer).parentProject;
-            if (typeof (initInfo as SVEDataInitializer).owner !== "number")
-                this.owner = (initInfo as SVEDataInitializer).owner as (SVEAccount | undefined);
+            this.owner = (initInfo as SVEDataInitializer).owner;
 
             onComplete(this);
         }
