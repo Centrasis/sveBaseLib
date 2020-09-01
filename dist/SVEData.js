@@ -77,7 +77,8 @@ class SVEData {
             if (initInfo.path !== undefined)
                 this.localDataInfo = initInfo.path;
             this.parentProject = initInfo.parentProject;
-            this.owner = initInfo.owner;
+            if (typeof initInfo.owner !== "number")
+                this.owner = initInfo.owner;
             onComplete(this);
         }
     }
