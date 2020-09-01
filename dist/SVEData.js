@@ -92,21 +92,25 @@ class SVEData {
         };
         this.creation = result.creation;
         this.lastAccess = result.lastAccess;
-        if (result.type === "Image") {
-            this.type = SVEDataType.Image;
-        }
-        if (result.type === "Video") {
-            this.type = SVEDataType.Video;
-        }
-        if (result.type === "PDF") {
-            this.type = SVEDataType.PDF;
-        }
-        if (result.type === "CSV") {
-            this.type = SVEDataType.CSV;
-        }
+        this.type = SVEData.getTypeFrom(result.type);
         this.owner = new SVEAccount_1.SVEAccount({ id: result.user_id }, (s) => {
             onComplete();
         });
+    }
+    static getTypeFrom(str) {
+        if (str === "Image") {
+            return SVEDataType.Image;
+        }
+        if (str === "Video") {
+            return SVEDataType.Video;
+        }
+        if (str === "PDF") {
+            return SVEDataType.PDF;
+        }
+        if (str === "CSV") {
+            return SVEDataType.CSV;
+        }
+        return SVEDataType.Image;
     }
     getID() {
         return this.id;

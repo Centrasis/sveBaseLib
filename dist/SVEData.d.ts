@@ -30,6 +30,7 @@ export declare class SVEData {
     protected creation: Date;
     static getMimeTypeMap(): Map<string, string>;
     protected initFromResult(result: any, onComplete: () => void): void;
+    static getTypeFrom(str: string): SVEDataType;
     constructor(handler: SVEAccount, initInfo: number | SVEDataInitializer, onComplete: (self: SVEData) => void);
     getID(): number;
     getOwner(): SVEAccount;
