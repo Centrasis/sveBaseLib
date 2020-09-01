@@ -15,17 +15,18 @@ export interface ProjectInitializer {
     resultsURI: string;
     type: SVEProjectType;
 }
+export declare function isProjectInitializer(init: number | ProjectInitializer): boolean;
 export declare class SVEProject {
     protected id: number;
     protected name: string;
     protected group?: SVEGroup;
-    protected owner?: SVEAccount;
+    protected owner?: SVEAccount | number;
     protected handler?: SVEAccount;
     protected type: SVEProjectType;
     getID(): number;
     getName(): string;
     getType(): SVEProjectType;
-    getOwner(): SVEAccount;
+    getOwner(): Promise<SVEAccount>;
     constructor(idx: number | ProjectInitializer, handler: SVEAccount, onReady?: (self: SVEProject) => void);
     getGroup(): SVEGroup;
     getData(): Promise<SVEData[]>;

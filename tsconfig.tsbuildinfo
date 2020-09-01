@@ -182,8 +182,8 @@
         "affectsGlobalScope": false
       },
       "./src/sveproject.ts": {
-        "version": "2e17999691ad562a269080ed5dd7361c839a1205d5dc8be49cedd938108b5080",
-        "signature": "c491e11c09a9688e104033b8da3b0f3a6a07ecbae08e8200402444282ccddc25",
+        "version": "aaf61d1bf936351d68dd6a39197a0fb2cb6213d2831309b3a8a22dbba10c6b0f",
+        "signature": "c0727716543f6b99f2be1b8459bac2667826a13de9b226494f77d7b57a157c6b",
         "affectsGlobalScope": false
       },
       "./src/svedata.ts": {

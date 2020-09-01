@@ -19,11 +19,15 @@ export interface ProjectInitializer {
     type: SVEProjectType
 }
 
+export function isProjectInitializer(init: number | ProjectInitializer): boolean {
+    return ((typeof init !== "number") && "id" in init && "name" in init && "group" in init);
+}
+
 export class SVEProject {
     protected id: number = NaN;
     protected name: string = "";
     protected group?: SVEGroup;
-    protected owner?: SVEAccount;
+    protected owner?: SVEAccount | number;
     protected handler?: SVEAccount;
     protected type: SVEProjectType = SVEProjectType.Vacation;
 
@@ -39,13 +43,28 @@ export class SVEProject {
         return this.type;
     }
 
-    public getOwner(): SVEAccount {
-        return this.owner!;
+    public getOwner(): Promise<SVEAccount> {
+        if (typeof this.owner! === "number") {
+            return new Promise<SVEAccount>((resolve, reject) => {
+                this.owner = new SVEAccount({id: this.owner! as number} as BasicUserInitializer, (s) => { 
+                    resolve(this.owner! as SVEAccount);
+                });
+            });
+        } else {
+            return new Promise<SVEAccount>((resolve, reject) => {
+                if (this.owner == undefined) {
+                    reject();
+                } else {
+                    resolve(this.owner! as SVEAccount);
+                }
+            })
+        }
     }
 
     public constructor(idx: number | ProjectInitializer, handler: SVEAccount, onReady?: (self: SVEProject) => void) {
         // if get by id
-        if (typeof idx === "number") {
+        if (!isProjectInitializer(idx)) {
+            console.log("Init prj from id");
             if (SVESystemInfo.getIsServer()) {
                 if (onReady !== undefined)
                     onReady!(this);
@@ -78,21 +97,15 @@ export class SVEProject {
                 };
             }
         } else {
+            console.log("Init prj from init block!");
             this.id = (idx as ProjectInitializer).id;
             this.group = (idx as ProjectInitializer).group;
             this.name = (idx as ProjectInitializer).name;
             this.type = (idx as ProjectInitializer).type;
             this.handler = handler;
-            if (typeof (idx as ProjectInitializer).owner === "number") {
-                this.owner = new SVEAccount({id: (idx as ProjectInitializer).owner as number} as BasicUserInitializer, (s) => {
-                    if (onReady !== undefined)
-                        onReady!(this);
-                });
-            } else {
-                this.owner = (idx as ProjectInitializer).owner as SVEAccount;
-                if (onReady !== undefined)
-                    onReady!(this);
-            }
+            this.owner = (idx as ProjectInitializer).owner;
+            if (onReady !== undefined)
+                onReady!(this);
         }
     }
 

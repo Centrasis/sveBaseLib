@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SVEProject = exports.SVEProjectType = void 0;
+exports.SVEProject = exports.isProjectInitializer = exports.SVEProjectType = void 0;
 const SVEAccount_1 = require("./SVEAccount");
 const SVEGroup_1 = require("./SVEGroup");
 const SVESystemInfo_1 = require("./SVESystemInfo");
@@ -19,13 +19,18 @@ var SVEProjectType;
     SVEProjectType[SVEProjectType["Vacation"] = 0] = "Vacation";
     SVEProjectType[SVEProjectType["Sales"] = 1] = "Sales";
 })(SVEProjectType = exports.SVEProjectType || (exports.SVEProjectType = {}));
+function isProjectInitializer(init) {
+    return ((typeof init !== "number") && "id" in init && "name" in init && "group" in init);
+}
+exports.isProjectInitializer = isProjectInitializer;
 class SVEProject {
     constructor(idx, handler, onReady) {
         this.id = NaN;
         this.name = "";
         this.type = SVEProjectType.Vacation;
         // if get by id
-        if (typeof idx === "number") {
+        if (!isProjectInitializer(idx)) {
+            console.log("Init prj from id");
             if (SVESystemInfo_1.SVESystemInfo.getIsServer()) {
                 if (onReady !== undefined)
                     onReady(this);
@@ -61,22 +66,15 @@ class SVEProject {
             }
         }
         else {
+            console.log("Init prj from init block!");
             this.id = idx.id;
             this.group = idx.group;
             this.name = idx.name;
             this.type = idx.type;
             this.handler = handler;
-            if (typeof idx.owner === "number") {
-                this.owner = new SVEAccount_1.SVEAccount({ id: idx.owner }, (s) => {
-                    if (onReady !== undefined)
-                        onReady(this);
-                });
-            }
-            else {
-                this.owner = idx.owner;
-                if (onReady !== undefined)
-                    onReady(this);
-            }
+            this.owner = idx.owner;
+            if (onReady !== undefined)
+                onReady(this);
         }
     }
     getID() {
@@ -89,7 +87,23 @@ class SVEProject {
         return this.type;
     }
     getOwner() {
-        return this.owner;
+        if (typeof this.owner === "number") {
+            return new Promise((resolve, reject) => {
+                this.owner = new SVEAccount_1.SVEAccount({ id: this.owner }, (s) => {
+                    resolve(this.owner);
+                });
+            });
+        }
+        else {
+            return new Promise((resolve, reject) => {
+                if (this.owner == undefined) {
+                    reject();
+                }
+                else {
+                    resolve(this.owner);
+                }
+            });
+        }
     }
     getGroup() {
         return this.group;
