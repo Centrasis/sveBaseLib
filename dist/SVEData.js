@@ -74,6 +74,8 @@ class SVEData {
             }
             this.type = initInfo.type;
             this.data = initInfo.data;
+            if (initInfo.path !== undefined)
+                this.localDataInfo = { filePath: initInfo.path, thumbnailPath: "" };
             this.parentProject = initInfo.parentProject;
             if (typeof SVESystemInfo_1.SVESystemInfo.getInstance().sources.persistentDatabase !== "string") {
             }
