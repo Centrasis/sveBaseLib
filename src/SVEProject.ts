@@ -20,7 +20,7 @@ export interface ProjectInitializer {
 }
 
 export function isProjectInitializer(init: number | ProjectInitializer): boolean {
-    return ((typeof init !== "number") && "id" in init && "name" in init && "group" in init);
+    return (typeof init === "number") ? false : ("id" in init && "name" in init && "group" in init);
 }
 
 export class SVEProject {
