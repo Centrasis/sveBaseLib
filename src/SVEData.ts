@@ -16,7 +16,7 @@ export interface SVEDataInitializer {
     data?: ArrayBuffer | Stream, 
     path?: SVELocalDataInfo,
     type: SVEDataType,
-    parentProject: SVEProject
+    parentProject?: SVEProject
 }
 
 export interface SVELocalDataInfo {
