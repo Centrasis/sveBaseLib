@@ -103,7 +103,7 @@ export class SVEProject {
     public getData(): Promise<SVEData[]> {
         return new Promise<SVEData[]>((resolve, reject) => {
             async () => {
-                const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/files',
+                const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/data/list',
                 {
                     method: "GET"
                 });
