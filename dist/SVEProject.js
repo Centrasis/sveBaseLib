@@ -97,7 +97,7 @@ class SVEProject {
     getData() {
         return new Promise((resolve, reject) => {
             () => __awaiter(this, void 0, void 0, function* () {
-                const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/files', {
+                const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/data/list', {
                     method: "GET"
                 });
                 if (response.status < 400) {
