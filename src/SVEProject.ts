@@ -64,7 +64,6 @@ export class SVEProject {
     public constructor(idx: number | ProjectInitializer, handler: SVEAccount, onReady?: (self: SVEProject) => void) {
         // if get by id
         if (!isProjectInitializer(idx)) {
-            console.log("Init prj from id");
             if (SVESystemInfo.getIsServer()) {
                 if (onReady !== undefined)
                     onReady!(this);
@@ -97,7 +96,6 @@ export class SVEProject {
                 };
             }
         } else {
-            console.log("Init prj from init block!");
             this.id = (idx as ProjectInitializer).id;
             this.group = (idx as ProjectInitializer).group;
             this.name = (idx as ProjectInitializer).name;

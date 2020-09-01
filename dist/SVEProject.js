@@ -30,7 +30,6 @@ class SVEProject {
         this.type = SVEProjectType.Vacation;
         // if get by id
         if (!isProjectInitializer(idx)) {
-            console.log("Init prj from id");
             if (SVESystemInfo_1.SVESystemInfo.getIsServer()) {
                 if (onReady !== undefined)
                     onReady(this);
@@ -66,7 +65,6 @@ class SVEProject {
             }
         }
         else {
-            console.log("Init prj from init block!");
             this.id = idx.id;
             this.group = idx.group;
             this.name = idx.name;
