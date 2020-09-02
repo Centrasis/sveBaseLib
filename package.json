@@ -24,7 +24,7 @@
   "scripts": {
     "tsc": "tsc -b && tsc -m es6 --outDir dist-esm && node build/build.js",
     "build": "npm run tsc",
-    "prepare": "npm run tsc"
+    "prepare": ""
   },
   "author": "ftl999",
   "license": "ISC",
