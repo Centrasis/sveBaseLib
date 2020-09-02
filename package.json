@@ -20,7 +20,7 @@
     "url": "^0.11.0"
   },
   "scripts": {
-    "tsc": "tsc -b",
+    "tsc": "tsc -b && tsc -m es6 --outDir dist-esm",
     "build": "tsc -b",
     "prepare": "tsc -b"
   },
