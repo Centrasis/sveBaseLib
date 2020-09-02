@@ -15,14 +15,16 @@
     "compression": "^1.7.4",
     "mongoose": "^5.9.25",
     "mysql": "^2.18.1",
+    "ora": "^5.0.0",
     "querystring": "^0.2.0",
+    "rimraf": "^3.0.2",
     "typescript": "^3.9.7",
     "url": "^0.11.0"
   },
   "scripts": {
-    "tsc": "tsc -b && tsc -m es6 --outDir dist-esm",
-    "build": "tsc -b",
-    "prepare": "tsc -b"
+    "tsc": "tsc -b && tsc -m es6 --outDir dist-esm && node build/build.js",
+    "build": "npm run tsc",
+    "prepare": "npm run tsc"
   },
   "author": "ftl999",
   "license": "ISC",
@@ -31,6 +33,11 @@
   },
   "homepage": "https://github.com/ftl999/sveBaseLib#readme",
   "devDependencies": {
-    "typescript": "^3.9.7"
+    "awesome-typescript-loader": "^5.2.1",
+    "chalk": "^4.1.0",
+    "terser-webpack-plugin": "^4.1.0",
+    "typescript": "^3.9.7",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   }
 }
