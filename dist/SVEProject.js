@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,18 +35,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { SVEAccount } from './SVEAccount';
-import { SVEGroup } from './SVEGroup';
-import { SVESystemInfo } from './SVESystemInfo';
-import { SVEData } from './SVEData';
-export var SVEProjectType;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SVEProject = exports.isProjectInitializer = exports.SVEProjectType = void 0;
+var SVEAccount_1 = require("./SVEAccount");
+var SVEGroup_1 = require("./SVEGroup");
+var SVESystemInfo_1 = require("./SVESystemInfo");
+var SVEData_1 = require("./SVEData");
+var SVEProjectType;
 (function (SVEProjectType) {
     SVEProjectType[SVEProjectType["Vacation"] = 0] = "Vacation";
     SVEProjectType[SVEProjectType["Sales"] = 1] = "Sales";
-})(SVEProjectType || (SVEProjectType = {}));
-export function isProjectInitializer(init) {
+})(SVEProjectType = exports.SVEProjectType || (exports.SVEProjectType = {}));
+function isProjectInitializer(init) {
     return typeof init !== "number";
 }
+exports.isProjectInitializer = isProjectInitializer;
 var SVEProject = /** @class */ (function () {
     function SVEProject(idx, handler, onReady) {
         var _this = this;
@@ -54,7 +58,7 @@ var SVEProject = /** @class */ (function () {
         this.type = SVEProjectType.Vacation;
         // if get by id
         if (!isProjectInitializer(idx)) {
-            if (SVESystemInfo.getIsServer()) {
+            if (SVESystemInfo_1.SVESystemInfo.getIsServer()) {
                 if (onReady !== undefined)
                     onReady(this);
             }
@@ -64,7 +68,7 @@ var SVEProject = /** @class */ (function () {
                     var _this = this;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4 /*yield*/, fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + idx, {
+                            case 0: return [4 /*yield*/, fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/project/' + idx, {
                                     method: 'GET',
                                     headers: {
                                         'Accept': 'application/json',
@@ -79,8 +83,8 @@ var SVEProject = /** @class */ (function () {
                                         _this.name = val.name;
                                         _this.type = val.type;
                                         _this.handler = handler;
-                                        _this.owner = new SVEAccount({ id: val.owner }, function (s) {
-                                            _this.group = new SVEGroup(val.group, handler, function (self) {
+                                        _this.owner = new SVEAccount_1.SVEAccount({ id: val.owner }, function (s) {
+                                            _this.group = new SVEGroup_1.SVEGroup(val.group, handler, function (self) {
                                                 if (onReady !== undefined)
                                                     onReady(_this);
                                             });
@@ -121,7 +125,7 @@ var SVEProject = /** @class */ (function () {
         var _this = this;
         if (typeof this.owner === "number") {
             return new Promise(function (resolve, reject) {
-                _this.owner = new SVEAccount({ id: _this.owner }, function (s) {
+                _this.owner = new SVEAccount_1.SVEAccount({ id: _this.owner }, function (s) {
                     resolve(_this.owner);
                 });
             });
@@ -148,7 +152,7 @@ var SVEProject = /** @class */ (function () {
                 var _this = this;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/data/list', {
+                        case 0: return [4 /*yield*/, fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/data/list', {
                                 method: "GET"
                             })];
                         case 1:
@@ -159,7 +163,7 @@ var SVEProject = /** @class */ (function () {
                                     var i = 0;
                                     if (val.length > 0) {
                                         val.foreach(function (v) {
-                                            r.push(new SVEData(_this.handler, { id: v.id, parentProject: _this, type: v.type }, function (s) {
+                                            r.push(new SVEData_1.SVEData(_this.handler, { id: v.id, parentProject: _this, type: v.type }, function (s) {
                                                 i++;
                                                 if (i >= val.length) {
                                                     resolve(r);
@@ -183,4 +187,4 @@ var SVEProject = /** @class */ (function () {
     };
     return SVEProject;
 }());
-export { SVEProject };
+exports.SVEProject = SVEProject;

@@ -484,7 +484,7 @@
     },
     "options": {
       "target": 1,
-      "module": 5,
+      "module": 1,
       "lib": [
         "lib.es2015.d.ts",
         "lib.es2015.core.d.ts",

@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,7 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { SVEAccount } from "./SVEAccount";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SVESystemInfo = void 0;
+var SVEAccount_1 = require("./SVEAccount");
 var SVESystemInfo = /** @class */ (function () {
     function SVESystemInfo() {
         this.systemState = {
@@ -130,7 +133,7 @@ var SVESystemInfo = /** @class */ (function () {
                                         });
                                     }
                                     else {
-                                        var loggedInAs_1 = new SVEAccount(val.loggedInAs, function (s) {
+                                        var loggedInAs_1 = new SVEAccount_1.SVEAccount(val.loggedInAs, function (s) {
                                             resolve({
                                                 authorizationSystem: val.status.authorizationSystem,
                                                 basicSystem: val.status.basicSystem,
@@ -155,4 +158,4 @@ var SVESystemInfo = /** @class */ (function () {
     };
     return SVESystemInfo;
 }());
-export { SVESystemInfo };
+exports.SVESystemInfo = SVESystemInfo;

@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,7 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { SVESystemInfo } from './SVESystemInfo';
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LoginState = exports.SVEAccount = exports.isBasicUserInitializer = exports.isSessionUserInitializer = exports.isTokenInfo = exports.isLoginInfo = exports.TokenType = void 0;
+var SVESystemInfo_1 = require("./SVESystemInfo");
 /*const user = sql.define<"user", { id: number; name: string; password: string }>({
     name: 'user',
     columns: {
@@ -44,11 +47,11 @@ import { SVESystemInfo } from './SVESystemInfo';
     },
     schema: "snowvision_db"
 });*/
-export var TokenType;
+var TokenType;
 (function (TokenType) {
     TokenType[TokenType["RessourceToken"] = 1] = "RessourceToken";
     TokenType[TokenType["DeviceToken"] = 2] = "DeviceToken";
-})(TokenType || (TokenType = {}));
+})(TokenType = exports.TokenType || (exports.TokenType = {}));
 ;
 var LoginState;
 (function (LoginState) {
@@ -56,19 +59,24 @@ var LoginState;
     LoginState[LoginState["LoggedInByUser"] = 2] = "LoggedInByUser";
     LoginState[LoginState["LoggedInByToken"] = 3] = "LoggedInByToken";
 })(LoginState || (LoginState = {}));
+exports.LoginState = LoginState;
 ;
-export function isLoginInfo(info) {
+function isLoginInfo(info) {
     return "name" in info && "pass" in info;
 }
-export function isTokenInfo(info) {
+exports.isLoginInfo = isLoginInfo;
+function isTokenInfo(info) {
     return "name" in info && "token" in info && !isLoginInfo(info);
 }
-export function isSessionUserInitializer(info) {
+exports.isTokenInfo = isTokenInfo;
+function isSessionUserInitializer(info) {
     return "sessionID" in info && "loginState" in info;
 }
-export function isBasicUserInitializer(info) {
+exports.isSessionUserInitializer = isSessionUserInitializer;
+function isBasicUserInitializer(info) {
     return "id" in info && !isLoginInfo(info) && !isSessionUserInitializer(info);
 }
+exports.isBasicUserInitializer = isBasicUserInitializer;
 var SVEAccount = /** @class */ (function () {
     // if onLogin is set a login will be perfomed. Otherwise the class will only be created
     function SVEAccount(user, onLogin) {
@@ -160,7 +168,7 @@ var SVEAccount = /** @class */ (function () {
                 var _this = this;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, fetch(SVESystemInfo.getInstance().sources.sveService + '/user/' + id, {
+                        case 0: return [4 /*yield*/, fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/user/' + id, {
                                 method: 'GET',
                                 headers: {
                                     'Accept': 'application/json',
@@ -187,13 +195,13 @@ var SVEAccount = /** @class */ (function () {
     SVEAccount.prototype.doLogin = function (info) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            if (SVESystemInfo.getInstance().sources.sveService !== undefined) {
+            if (SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService !== undefined) {
                 (function () { return __awaiter(_this, void 0, void 0, function () {
                     var response;
                     var _this = this;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4 /*yield*/, fetch(SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
+                            case 0: return [4 /*yield*/, fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
                                     method: 'POST',
                                     body: JSON.stringify({
                                         name: info.name,
@@ -232,13 +240,13 @@ var SVEAccount = /** @class */ (function () {
     SVEAccount.prototype.doTokenLogin = function (token) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            if (SVESystemInfo.getInstance().sources.sveService !== undefined) {
+            if (SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService !== undefined) {
                 (function () { return __awaiter(_this, void 0, void 0, function () {
                     var response;
                     var _this = this;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4 /*yield*/, fetch(SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
+                            case 0: return [4 /*yield*/, fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
                                     method: 'POST',
                                     body: JSON.stringify({ token: token }),
                                     headers: {
@@ -271,5 +279,4 @@ var SVEAccount = /** @class */ (function () {
     };
     return SVEAccount;
 }());
-export { SVEAccount };
-export { LoginState };
+exports.SVEAccount = SVEAccount;

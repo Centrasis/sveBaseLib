@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,19 +35,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { SVESystemInfo } from './SVESystemInfo';
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SVEGroup = void 0;
+var SVESystemInfo_1 = require("./SVESystemInfo");
 var SVEGroup = /** @class */ (function () {
     function SVEGroup(id, handler, onReady) {
         var _this = this;
         this.id = NaN;
         this.name = "";
-        if (!SVESystemInfo.getIsServer()) {
+        if (!SVESystemInfo_1.SVESystemInfo.getIsServer()) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
                 var response;
                 var _this = this;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
+                        case 0: return [4 /*yield*/, fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
                                 method: 'GET',
                                 headers: {
                                     'Accept': 'application/json',
@@ -93,7 +96,7 @@ var SVEGroup = /** @class */ (function () {
                 var response;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id, {
+                        case 0: return [4 /*yield*/, fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id, {
                                 method: 'GET',
                                 headers: {
                                     'Accept': 'application/json',
@@ -126,7 +129,7 @@ var SVEGroup = /** @class */ (function () {
                 var response;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + '/users', {
+                        case 0: return [4 /*yield*/, fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + '/users', {
                                 method: 'GET',
                                 headers: {
                                     'Accept': 'application/json',
@@ -159,7 +162,7 @@ var SVEGroup = /** @class */ (function () {
                 var response;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + "/rights", {
+                        case 0: return [4 /*yield*/, fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + "/rights", {
                                 method: 'GET',
                                 headers: {
                                     'Accept': 'application/json',
@@ -192,7 +195,7 @@ var SVEGroup = /** @class */ (function () {
                 var response;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, fetch(SVESystemInfo.getInstance().sources.sveService + '/groups/', {
+                        case 0: return [4 /*yield*/, fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/groups/', {
                                 method: 'GET',
                                 headers: {
                                     'Accept': 'application/json',
@@ -229,5 +232,5 @@ var SVEGroup = /** @class */ (function () {
     };
     return SVEGroup;
 }());
-export { SVEGroup };
+exports.SVEGroup = SVEGroup;
 ;

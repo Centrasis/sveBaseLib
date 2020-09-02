@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,22 +35,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { SVEAccount } from './SVEAccount';
-import { SVEProject } from './SVEProject';
-import { SVESystemInfo } from './SVESystemInfo';
-export var SVEDataType;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SVEData = exports.SVEDataVersion = exports.SVEDataType = void 0;
+var SVEAccount_1 = require("./SVEAccount");
+var SVEProject_1 = require("./SVEProject");
+var SVESystemInfo_1 = require("./SVESystemInfo");
+var SVEDataType;
 (function (SVEDataType) {
     SVEDataType[SVEDataType["Image"] = 0] = "Image";
     SVEDataType[SVEDataType["Video"] = 1] = "Video";
     SVEDataType[SVEDataType["PDF"] = 2] = "PDF";
     SVEDataType[SVEDataType["CSV"] = 3] = "CSV";
-})(SVEDataType || (SVEDataType = {}));
-export var SVEDataVersion;
+})(SVEDataType = exports.SVEDataType || (exports.SVEDataType = {}));
+var SVEDataVersion;
 (function (SVEDataVersion) {
     SVEDataVersion[SVEDataVersion["Full"] = 0] = "Full";
     SVEDataVersion[SVEDataVersion["Small"] = 1] = "Small";
     SVEDataVersion[SVEDataVersion["Preview"] = 2] = "Preview";
-})(SVEDataVersion || (SVEDataVersion = {}));
+})(SVEDataVersion = exports.SVEDataVersion || (exports.SVEDataVersion = {}));
 var mimeMap = new Map();
 mimeMap.set("html", 'text/html');
 mimeMap.set("txt", 'text/css');
@@ -72,13 +75,13 @@ var SVEData = /** @class */ (function () {
         this.handler = handler;
         if (typeof initInfo === "number") {
             this.id = initInfo;
-            if (typeof SVESystemInfo.getInstance().sources.sveService !== undefined) {
+            if (typeof SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService !== undefined) {
                 (function () { return __awaiter(_this, void 0, void 0, function () {
                     var response;
                     var _this = this;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4 /*yield*/, fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
+                            case 0: return [4 /*yield*/, fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
                                     method: 'GET',
                                     headers: {
                                         'Accept': 'application/json',
@@ -93,7 +96,7 @@ var SVEData = /** @class */ (function () {
                                         _this.type = val.type;
                                         _this.creation = val.creation;
                                         _this.lastAccess = val.lastAccess;
-                                        _this.parentProject = new SVEProject(val.project.id, _this.handler, function (prj) {
+                                        _this.parentProject = new SVEProject_1.SVEProject(val.project.id, _this.handler, function (prj) {
                                             onComplete(_this);
                                         });
                                     });
@@ -133,7 +136,7 @@ var SVEData = /** @class */ (function () {
         this.lastAccess = result.lastAccess;
         this.parentProject = parentProject;
         this.type = SVEData.getTypeFrom(result.type);
-        this.owner = new SVEAccount({ id: result.user_id }, function (s) {
+        this.owner = new SVEAccount_1.SVEAccount({ id: result.user_id }, function (s) {
             onComplete();
         });
     };
@@ -167,7 +170,7 @@ var SVEData = /** @class */ (function () {
         var _this = this;
         if (typeof this.owner === "number") {
             return new Promise(function (resolve, reject) {
-                _this.owner = new SVEAccount({ id: _this.owner }, function (s) {
+                _this.owner = new SVEAccount_1.SVEAccount({ id: _this.owner }, function (s) {
                     resolve(_this.owner);
                 });
             });
@@ -229,7 +232,7 @@ var SVEData = /** @class */ (function () {
         });
     };
     SVEData.prototype.getURI = function () {
-        return SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/" + (SVEDataVersion.Full == this.currentDataVersion) ? "full" : "preview";
+        return SVESystemInfo_1.SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/" + (SVEDataVersion.Full == this.currentDataVersion) ? "full" : "preview";
     };
     SVEData.prototype.getBLOB = function (version) {
         var _this = this;
@@ -291,4 +294,4 @@ var SVEData = /** @class */ (function () {
     };
     return SVEData;
 }());
-export { SVEData };
+exports.SVEData = SVEData;
