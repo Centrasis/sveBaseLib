@@ -76,6 +76,30 @@ class SVEGroup {
             });
         });
     }
+    getUsers() {
+        return new Promise((resolve, reject) => {
+            () => __awaiter(this, void 0, void 0, function* () {
+                const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + '/users', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.status < 400) {
+                    response.json().then((val) => {
+                        resolve(val);
+                    });
+                }
+                else {
+                    reject({
+                        success: false,
+                        msg: "HTTP error"
+                    });
+                }
+            });
+        });
+    }
     getRightsForUser(handler) {
         return new Promise((resolve, reject) => {
             () => __awaiter(this, void 0, void 0, function* () {

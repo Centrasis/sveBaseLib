@@ -46,6 +46,30 @@ export class SVEGroup {
         });
     }
 
+    public getUsers(): Promise<SVEAccount[]> {
+        return new Promise<SVEAccount[]>((resolve, reject) => {
+            async () => {
+                const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + '/users', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
+                    }
+                });
+                if (response.status < 400) {
+                    response.json().then((val) => {
+                        resolve(val as SVEAccount[]);
+                    });
+                } else {
+                    reject({
+                        success: false,
+                        msg: "HTTP error"
+                    });
+                }
+            };
+        });
+    }
+
     public getRightsForUser(handler: SVEAccount): Promise<UserRights> {
         return new Promise<UserRights>((resolve, reject) => {
             async () => {

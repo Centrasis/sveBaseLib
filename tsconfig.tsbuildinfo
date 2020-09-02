@@ -167,7 +167,7 @@
         "affectsGlobalScope": true
       },
       "./src/svesysteminfo.ts": {
-        "version": "57ee88abf8aa6feb7aec0cdca07e20ae374100527a55905e082649922dcd6eca",
+        "version": "8804c8a4e00d8d87c4a092360a388dc0988ab2560ca3af56abbb5a35d631f718",
         "signature": "d247f1c8f7f8becb288aab19feb55b4bda61d325c75f0804e94ca1390b10026e",
         "affectsGlobalScope": false
       },
@@ -177,8 +177,8 @@
         "affectsGlobalScope": false
       },
       "./src/svegroup.ts": {
-        "version": "e261467cc7e9f4bc28a88c9eab6feaf68e1da1537c20500142f1f877d9c0d555",
-        "signature": "96667728256f055dd40d76ba29201c43360b697e943296861dbcd25b108ce327",
+        "version": "3d44c9aa49ae6a64ce45de7df53cac5c87abad83e5035b7d65107e2c76d89f3a",
+        "signature": "bcf714176a2acc1e89e972ddbd776b2399c3146cc47c98337d411b2854368afc",
         "affectsGlobalScope": false
       },
       "./src/sveproject.ts": {

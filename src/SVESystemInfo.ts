@@ -100,7 +100,8 @@ class SVESystemInfo {
                 const response = await fetch(SVESystemInfo.getAPIRoot() + "/check", {
                     method: 'GET',
                     headers: {
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
                     }
                 });
                 if (response.status < 400) {
