@@ -1,3 +1,4 @@
+import { visitLexicalEnvironment } from 'typescript';
 import {BasicUserInitializer, SVEAccount} from './SVEAccount';
 import {ProjectInitializer, SVEProject, SVEProjectType} from './SVEProject';
 import {SVESystemInfo} from './SVESystemInfo';
@@ -126,11 +127,34 @@ export class SVEGroup {
 
     public static getGroupsOf(handler: SVEAccount): Promise<SVEGroup[]> {
         return new Promise<SVEGroup[]>((resolve, reject) => {
-            console.log("Error getting SVE Groups!");
-            reject({
-                success: false, 
-                msg: "DB not valid!"
-            });
+            async () => {
+                const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/groups/', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
+                    }
+                });
+                if (response.status < 400) {
+                    response.json().then((val) => {
+                        let gs: SVEGroup[] = [];
+                        let i = 0;
+                        val.forEach((gid: number) => {
+                            gs.push(new SVEGroup(gid, handler, (s) => {
+                                i++;
+                                if (i >= val.length) {
+                                    resolve(gs);
+                                }
+                            }));
+                        });
+                    }, err => reject(err));
+                } else {
+                    reject({
+                        success: false,
+                        msg: "HTTP error"
+                    });
+                }
+            };
         });
     }
 };

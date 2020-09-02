@@ -126,10 +126,34 @@ class SVEGroup {
     }
     static getGroupsOf(handler) {
         return new Promise((resolve, reject) => {
-            console.log("Error getting SVE Groups!");
-            reject({
-                success: false,
-                msg: "DB not valid!"
+            () => __awaiter(this, void 0, void 0, function* () {
+                const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/groups/', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.status < 400) {
+                    response.json().then((val) => {
+                        let gs = [];
+                        let i = 0;
+                        val.forEach((gid) => {
+                            gs.push(new SVEGroup(gid, handler, (s) => {
+                                i++;
+                                if (i >= val.length) {
+                                    resolve(gs);
+                                }
+                            }));
+                        });
+                    }, err => reject(err));
+                }
+                else {
+                    reject({
+                        success: false,
+                        msg: "HTTP error"
+                    });
+                }
             });
         });
     }

@@ -176,8 +176,13 @@
         "signature": "cdc7958170b1628f0b762ad8e8f7d4449502f997b703611cb44253bdf86f3ef7",
         "affectsGlobalScope": false
       },
+      "./node_modules/typescript/lib/typescript.d.ts": {
+        "version": "58548d902fa4c94ff0e78e0fb393afb300cb070128994a1d78529e4a10f858d8",
+        "signature": "58548d902fa4c94ff0e78e0fb393afb300cb070128994a1d78529e4a10f858d8",
+        "affectsGlobalScope": false
+      },
       "./src/svegroup.ts": {
-        "version": "3d44c9aa49ae6a64ce45de7df53cac5c87abad83e5035b7d65107e2c76d89f3a",
+        "version": "561db17eb3abc274305601a07e206e353bf5cf20b1a02cb7f9dc605a55a4de70",
         "signature": "bcf714176a2acc1e89e972ddbd776b2399c3146cc47c98337d411b2854368afc",
         "affectsGlobalScope": false
       },
@@ -1320,6 +1325,14 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts"
       ],
+      "./node_modules/typescript/lib/typescript.d.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/process.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/process.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts"
+      ],
       "./src/index.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/process.d.ts",
@@ -1362,6 +1375,7 @@
         "./node_modules/@types/node/ts3.2/process.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts",
+        "./node_modules/typescript/lib/typescript.d.ts",
         "./src/sveaccount.ts",
         "./src/sveproject.ts",
         "./src/svesysteminfo.ts"
@@ -2209,6 +2223,14 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts"
       ],
+      "./node_modules/typescript/lib/typescript.d.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/process.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/process.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts"
+      ],
       "./src/index.ts": [
         "./src/sveaccount.ts",
         "./src/svedata.ts",
@@ -2324,6 +2346,7 @@
       "./node_modules/typescript/lib/lib.es2020.bigint.d.ts",
       "./node_modules/typescript/lib/lib.es5.d.ts",
       "./node_modules/typescript/lib/lib.esnext.intl.d.ts",
+      "./node_modules/typescript/lib/typescript.d.ts",
       "./src/index.ts",
       "./src/sveaccount.ts",
       "./src/svedata.ts",
