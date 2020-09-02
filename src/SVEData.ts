@@ -11,6 +11,12 @@ export enum SVEDataType {
     CSV
 }
 
+export enum SVEDataVersion {
+    Full,
+    Small,
+    Preview
+}
+
 export interface SVEDataInitializer {
     id?: number,
     data?: ArrayBuffer | Stream, 
@@ -47,6 +53,7 @@ export class SVEData {
     protected localDataInfo?: SVELocalDataInfo;
     protected lastAccess: Date = new Date();
     protected creation: Date = new Date();
+    protected currentDataVersion?: SVEDataVersion;
 
     public static getMimeTypeMap(): Map<string, string> {
         return mimeMap;
@@ -218,9 +225,10 @@ export class SVEData {
         });
     }
 
-    public getBLOB(): Promise<ArrayBuffer> {
+    public getBLOB(version: SVEDataVersion): Promise<ArrayBuffer> {
         return new Promise<ArrayBuffer>((resolve, reject) => {
-            if(this.data === undefined) {
+            if(this.data === undefined || this.currentDataVersion !== version) {
+                this.currentDataVersion = version;
                 var self = this;
                 async () => {
                     const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id + "/download", {
@@ -249,9 +257,9 @@ export class SVEData {
         });
     }
 
-    public getStream(): Promise<Stream> {
+    public getStream(version: SVEDataVersion): Promise<Stream> {
         return new Promise<Stream>((resolve, reject) => {
-            if(this.data !== undefined) {
+            if(this.data !== undefined && this.currentDataVersion === version) {
                 var self = this;
                 (this.data! as Stream).on('error', function(err) {
                     reject(null);

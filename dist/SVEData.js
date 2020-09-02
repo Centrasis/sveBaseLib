@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SVEData = exports.SVEDataType = void 0;
+exports.SVEData = exports.SVEDataVersion = exports.SVEDataType = void 0;
 const SVEAccount_1 = require("./SVEAccount");
 const SVEProject_1 = require("./SVEProject");
 const SVESystemInfo_1 = require("./SVESystemInfo");
@@ -20,6 +20,12 @@ var SVEDataType;
     SVEDataType[SVEDataType["PDF"] = 2] = "PDF";
     SVEDataType[SVEDataType["CSV"] = 3] = "CSV";
 })(SVEDataType = exports.SVEDataType || (exports.SVEDataType = {}));
+var SVEDataVersion;
+(function (SVEDataVersion) {
+    SVEDataVersion[SVEDataVersion["Full"] = 0] = "Full";
+    SVEDataVersion[SVEDataVersion["Small"] = 1] = "Small";
+    SVEDataVersion[SVEDataVersion["Preview"] = 2] = "Preview";
+})(SVEDataVersion = exports.SVEDataVersion || (exports.SVEDataVersion = {}));
 var mimeMap = new Map();
 mimeMap.set("html", 'text/html');
 mimeMap.set("txt", 'text/css');
@@ -187,9 +193,10 @@ class SVEData {
             resolve(true);
         });
     }
-    getBLOB() {
+    getBLOB(version) {
         return new Promise((resolve, reject) => {
-            if (this.data === undefined) {
+            if (this.data === undefined || this.currentDataVersion !== version) {
+                this.currentDataVersion = version;
                 var self = this;
                 () => __awaiter(this, void 0, void 0, function* () {
                     const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id + "/download", {
@@ -218,9 +225,9 @@ class SVEData {
             }
         });
     }
-    getStream() {
+    getStream(version) {
         return new Promise((resolve, reject) => {
-            if (this.data !== undefined) {
+            if (this.data !== undefined && this.currentDataVersion === version) {
                 var self = this;
                 this.data.on('error', function (err) {
                     reject(null);
