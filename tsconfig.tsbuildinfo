@@ -167,8 +167,8 @@
         "affectsGlobalScope": true
       },
       "./src/svesysteminfo.ts": {
-        "version": "63da71107150d4ffc777a352ddb4421f20a9cd1bfb9b1d70e1415a2dfbface53",
-        "signature": "b673ff08995efbe9c77b772d48019f41a7fe71d225e40b4df8bd121ab9d7e641",
+        "version": "57ee88abf8aa6feb7aec0cdca07e20ae374100527a55905e082649922dcd6eca",
+        "signature": "d247f1c8f7f8becb288aab19feb55b4bda61d325c75f0804e94ca1390b10026e",
         "affectsGlobalScope": false
       },
       "./src/sveaccount.ts": {
@@ -187,8 +187,8 @@
         "affectsGlobalScope": false
       },
       "./src/svedata.ts": {
-        "version": "9376e05615324e547692e5e436d49423486d74c4b071cbe9d0a8d6e98ca0e7b0",
-        "signature": "7cbf72528483819b0404361d4efdd56ad61b375bbc1ff1b6e88dcebeeeb03ecc",
+        "version": "3ed9e04752ddda2adf6b132a7fdfdcf0dca70e51effa0f3d63a8e28df2ca59d7",
+        "signature": "3d8d1fa5f0dcbd9fcc34bb7547220e41ccdd8a0c81d4ac273942fdb9a2f2d0b7",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
@@ -1384,7 +1384,8 @@
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/ts3.2/process.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts",
-        "./node_modules/@types/node/util.d.ts"
+        "./node_modules/@types/node/util.d.ts",
+        "./src/sveaccount.ts"
       ]
     },
     "exportedModulesMap": {
@@ -2228,6 +2229,9 @@
         "./src/sveaccount.ts",
         "./src/svedata.ts",
         "./src/svegroup.ts"
+      ],
+      "./src/svesysteminfo.ts": [
+        "./src/sveaccount.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [

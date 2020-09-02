@@ -1,3 +1,4 @@
+import { SVEAccount } from "./SVEAccount";
 export interface SVESources {
     sveService?: string;
     persistentDatabase?: string | any;
@@ -14,6 +15,9 @@ export interface SVESystemState {
     tokenSystem: boolean;
     authorizationSystem: boolean;
 }
+export interface SVEFullSystemState extends SVESystemState {
+    user?: SVEAccount;
+}
 declare class SVESystemInfo {
     protected static instance: SVESystemInfo;
     protected systemState: SVESystemState;
@@ -25,6 +29,8 @@ declare class SVESystemInfo {
     sources: SVESources;
     SQLCredentials: SQLInfo;
     static getSystemStatus(): SVESystemState;
+    static getFullSystemState(): Promise<SVEFullSystemState>;
+    static getAPIRoot(): string;
 }
 export { SVESystemInfo };
 //# sourceMappingURL=SVESystemInfo.d.ts.map

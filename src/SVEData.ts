@@ -225,13 +225,17 @@ export class SVEData {
         });
     }
 
+    public getURI(): string {
+        return SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "/" + (SVEDataVersion.Full == this.currentDataVersion) ? "full" : "preview";
+    }
+
     public getBLOB(version: SVEDataVersion): Promise<ArrayBuffer> {
         return new Promise<ArrayBuffer>((resolve, reject) => {
             if(this.data === undefined || this.currentDataVersion !== version) {
                 this.currentDataVersion = version;
                 var self = this;
                 async () => {
-                    const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id + "/download", {
+                    const response = await fetch(this.getURI(), {
                         method: 'GET',
                         headers: {
                             'Accept': '*'

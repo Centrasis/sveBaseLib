@@ -193,13 +193,16 @@ class SVEData {
             resolve(true);
         });
     }
+    getURI() {
+        return SVESystemInfo_1.SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/" + (SVEDataVersion.Full == this.currentDataVersion) ? "full" : "preview";
+    }
     getBLOB(version) {
         return new Promise((resolve, reject) => {
             if (this.data === undefined || this.currentDataVersion !== version) {
                 this.currentDataVersion = version;
                 var self = this;
                 () => __awaiter(this, void 0, void 0, function* () {
-                    const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id + "/download", {
+                    const response = yield fetch(this.getURI(), {
                         method: 'GET',
                         headers: {
                             'Accept': '*'

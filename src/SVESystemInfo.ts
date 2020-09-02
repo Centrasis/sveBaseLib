@@ -1,3 +1,5 @@
+import { SessionUserInitializer, SVEAccount } from "./SVEAccount";
+
 export interface SVESources {
     sveService?: string;
     persistentDatabase?: string | any;
@@ -15,6 +17,10 @@ export interface SVESystemState {
     basicSystem: boolean;
     tokenSystem: boolean;
     authorizationSystem: boolean;
+}
+
+export interface SVEFullSystemState extends SVESystemState {
+    user?: SVEAccount
 }
 
 class SVESystemInfo {
@@ -86,6 +92,45 @@ class SVESystemInfo {
 
     public static getSystemStatus(): SVESystemState {
         return this.getInstance().systemState;
+    }
+
+    public static getFullSystemState(): Promise<SVEFullSystemState> {
+        return new Promise<SVEFullSystemState>((resolve, reject) => {
+            async () => {
+                const response = await fetch(SVESystemInfo.getAPIRoot() + "/check", {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                if (response.status < 400) {
+                    response.json().then(val => {
+                        if (!("loggedInAs" in val)) {
+                            resolve({
+                                authorizationSystem: val.status.authorizationSystem as boolean,
+                                basicSystem: val.status.basicSystem as boolean,
+                                tokenSystem: val.status.tokenSystem as boolean
+                            });
+                        } else {
+                            let loggedInAs = new SVEAccount(val.loggedInAs as SessionUserInitializer, (s) => {
+                                resolve({
+                                    authorizationSystem: val.status.authorizationSystem as boolean,
+                                    basicSystem: val.status.basicSystem as boolean,
+                                    tokenSystem: val.status.tokenSystem as boolean,
+                                    user: loggedInAs
+                                });
+                            });
+                        }
+                    }, err => reject({}));
+                } else {
+                    reject({});
+                }
+            };
+        });
+    }
+
+    public static getAPIRoot(): string {
+        return (SVESystemInfo.getInstance().sources.sveService !== undefined) ? SVESystemInfo.getInstance().sources.sveService! : "";
     }
 }
 

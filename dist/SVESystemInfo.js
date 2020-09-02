@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SVESystemInfo = void 0;
+const SVEAccount_1 = require("./SVEAccount");
 class SVESystemInfo {
     constructor() {
         this.systemState = {
@@ -68,6 +69,45 @@ class SVESystemInfo {
     }
     static getSystemStatus() {
         return this.getInstance().systemState;
+    }
+    static getFullSystemState() {
+        return new Promise((resolve, reject) => {
+            () => __awaiter(this, void 0, void 0, function* () {
+                const response = yield fetch(SVESystemInfo.getAPIRoot() + "/check", {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                if (response.status < 400) {
+                    response.json().then(val => {
+                        if (!("loggedInAs" in val)) {
+                            resolve({
+                                authorizationSystem: val.status.authorizationSystem,
+                                basicSystem: val.status.basicSystem,
+                                tokenSystem: val.status.tokenSystem
+                            });
+                        }
+                        else {
+                            let loggedInAs = new SVEAccount_1.SVEAccount(val.loggedInAs, (s) => {
+                                resolve({
+                                    authorizationSystem: val.status.authorizationSystem,
+                                    basicSystem: val.status.basicSystem,
+                                    tokenSystem: val.status.tokenSystem,
+                                    user: loggedInAs
+                                });
+                            });
+                        }
+                    }, err => reject({}));
+                }
+                else {
+                    reject({});
+                }
+            });
+        });
+    }
+    static getAPIRoot() {
+        return (SVESystemInfo.getInstance().sources.sveService !== undefined) ? SVESystemInfo.getInstance().sources.sveService : "";
     }
 }
 exports.SVESystemInfo = SVESystemInfo;
