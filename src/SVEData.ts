@@ -186,7 +186,7 @@ export class SVEData {
 
         if (this.localDataInfo !== undefined) {
             var path = require('path');
-            r = mimeMap.get((path.extname(this.localDataInfo.filePath).slice(1) as string).toLowerCase()) as string;
+            r = mimeMap.get((path.extname((this.currentDataVersion == SVEDataVersion.Full) ? this.localDataInfo.filePath : this.localDataInfo.thumbnailPath).slice(1) as string).toLowerCase()) as string;
         } else {
             if (this.type === SVEDataType.Image) {
                 r = "image/png";
