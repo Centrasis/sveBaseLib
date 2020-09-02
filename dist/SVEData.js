@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,22 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { SVEAccount } from './SVEAccount';
-import { SVEProject } from './SVEProject';
-import { SVESystemInfo } from './SVESystemInfo';
-export var SVEDataType;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SVEData = exports.SVEDataVersion = exports.SVEDataType = void 0;
+const SVEAccount_1 = require("./SVEAccount");
+const SVEProject_1 = require("./SVEProject");
+const SVESystemInfo_1 = require("./SVESystemInfo");
+var SVEDataType;
 (function (SVEDataType) {
     SVEDataType[SVEDataType["Image"] = 0] = "Image";
     SVEDataType[SVEDataType["Video"] = 1] = "Video";
     SVEDataType[SVEDataType["PDF"] = 2] = "PDF";
     SVEDataType[SVEDataType["CSV"] = 3] = "CSV";
-})(SVEDataType || (SVEDataType = {}));
-export var SVEDataVersion;
+})(SVEDataType = exports.SVEDataType || (exports.SVEDataType = {}));
+var SVEDataVersion;
 (function (SVEDataVersion) {
     SVEDataVersion[SVEDataVersion["Full"] = 0] = "Full";
     SVEDataVersion[SVEDataVersion["Small"] = 1] = "Small";
     SVEDataVersion[SVEDataVersion["Preview"] = 2] = "Preview";
-})(SVEDataVersion || (SVEDataVersion = {}));
+})(SVEDataVersion = exports.SVEDataVersion || (exports.SVEDataVersion = {}));
 var mimeMap = new Map();
 mimeMap.set("html", 'text/html');
 mimeMap.set("txt", 'text/css');
@@ -34,7 +37,7 @@ mimeMap.set("svg", 'image/svg+xml');
 mimeMap.set("js", 'application/javascript');
 mimeMap.set("mp4", 'video/mp4');
 mimeMap.set("pdf", 'application/pdf');
-export class SVEData {
+class SVEData {
     // gets the data by index if initInfo is number. Else a new data record is created on server
     constructor(handler, initInfo, onComplete) {
         this.type = SVEDataType.Image;
@@ -44,9 +47,9 @@ export class SVEData {
         this.handler = handler;
         if (typeof initInfo === "number") {
             this.id = initInfo;
-            if (typeof SVESystemInfo.getInstance().sources.sveService !== undefined) {
+            if (typeof SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService !== undefined) {
                 () => __awaiter(this, void 0, void 0, function* () {
-                    const response = yield fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
+                    const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json',
@@ -59,7 +62,7 @@ export class SVEData {
                             this.type = val.type;
                             this.creation = val.creation;
                             this.lastAccess = val.lastAccess;
-                            this.parentProject = new SVEProject(val.project.id, this.handler, (prj) => {
+                            this.parentProject = new SVEProject_1.SVEProject(val.project.id, this.handler, (prj) => {
                                 onComplete(this);
                             });
                         });
@@ -96,7 +99,7 @@ export class SVEData {
         this.lastAccess = result.lastAccess;
         this.parentProject = parentProject;
         this.type = SVEData.getTypeFrom(result.type);
-        this.owner = new SVEAccount({ id: result.user_id }, (s) => {
+        this.owner = new SVEAccount_1.SVEAccount({ id: result.user_id }, (s) => {
             onComplete();
         });
     }
@@ -129,7 +132,7 @@ export class SVEData {
     getOwner() {
         if (typeof this.owner === "number") {
             return new Promise((resolve, reject) => {
-                this.owner = new SVEAccount({ id: this.owner }, (s) => {
+                this.owner = new SVEAccount_1.SVEAccount({ id: this.owner }, (s) => {
                     resolve(this.owner);
                 });
             });
@@ -191,7 +194,7 @@ export class SVEData {
         });
     }
     getURI() {
-        return SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/" + (SVEDataVersion.Full == this.currentDataVersion) ? "full" : "preview";
+        return SVESystemInfo_1.SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/" + (SVEDataVersion.Full == this.currentDataVersion) ? "full" : "preview";
     }
     getBLOB(version) {
         return new Promise((resolve, reject) => {
@@ -242,3 +245,4 @@ export class SVEData {
         });
     }
 }
+exports.SVEData = SVEData;

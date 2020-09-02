@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,14 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { SVESystemInfo } from './SVESystemInfo';
-export class SVEGroup {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SVEGroup = void 0;
+const SVESystemInfo_1 = require("./SVESystemInfo");
+class SVEGroup {
     constructor(id, handler, onReady) {
         this.id = NaN;
         this.name = "";
-        if (!SVESystemInfo.getIsServer()) {
+        if (!SVESystemInfo_1.SVESystemInfo.getIsServer()) {
             () => __awaiter(this, void 0, void 0, function* () {
-                const response = yield fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
+                const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -52,7 +55,7 @@ export class SVEGroup {
         return new Promise((resolve, reject) => {
             let ret = [];
             () => __awaiter(this, void 0, void 0, function* () {
-                const response = yield fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id, {
+                const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -76,7 +79,7 @@ export class SVEGroup {
     getUsers() {
         return new Promise((resolve, reject) => {
             () => __awaiter(this, void 0, void 0, function* () {
-                const response = yield fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + '/users', {
+                const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + '/users', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -100,7 +103,7 @@ export class SVEGroup {
     getRightsForUser(handler) {
         return new Promise((resolve, reject) => {
             () => __awaiter(this, void 0, void 0, function* () {
-                const response = yield fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + "/rights", {
+                const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + "/rights", {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -124,7 +127,7 @@ export class SVEGroup {
     static getGroupsOf(handler) {
         return new Promise((resolve, reject) => {
             () => __awaiter(this, void 0, void 0, function* () {
-                const response = yield fetch(SVESystemInfo.getInstance().sources.sveService + '/groups/', {
+                const response = yield fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/groups/', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -155,4 +158,5 @@ export class SVEGroup {
         });
     }
 }
+exports.SVEGroup = SVEGroup;
 ;
