@@ -192,7 +192,7 @@ export class SVEAccount {
                                 this.init(val, LoginState.LoggedInByUser);
                             }
                             resolve(this.loginState);
-                        });  
+                        }, err => reject(err));  
                     }
                 }, err => reject(err));
             } else {

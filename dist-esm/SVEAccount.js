@@ -159,7 +159,7 @@ var SVEAccount = /** @class */ (function () {
                                 _this.init(val, LoginState.LoggedInByUser);
                             }
                             resolve(_this.loginState);
-                        });
+                        }, function (err) { return reject(err); });
                     }
                 }, function (err) { return reject(err); });
             }
