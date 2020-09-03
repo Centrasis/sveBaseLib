@@ -62,21 +62,19 @@ class SVESystemInfo {
             };
 
             if(this.getInstance().sources.sveService !== undefined) {
-                async () => {
-                    const response = await fetch(this.getInstance().sources.sveService + '/check',
+                fetch(this.getInstance().sources.sveService + '/check',
                     {
                         method: "GET"
-                    });
-
-                    if (response.status < 400) {
-                        response.json().then(val => {
-                            this.instance.systemState = val.status as SVESystemState;
-                            resolve(true);
-                        }, err => reject(false));
-                    } else {
-                        reject(false);
-                    }
-                };
+                    }).then(response => {
+                        if (response.status < 400) {
+                            response.json().then(val => {
+                                this.instance.systemState = val.status as SVESystemState;
+                                resolve(true);
+                            }, err => reject(false));
+                        } else {
+                            reject(false);
+                        }
+                    }, err => reject(err));
             } else {
                 reject(false);
             }

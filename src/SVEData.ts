@@ -3,6 +3,7 @@ import {SVEProject} from './SVEProject';
 import {SVEGroup} from './SVEGroup';
 import {SVESystemInfo} from './SVESystemInfo';
 import { Stream } from 'stream';
+import { rejects } from 'assert';
 
 export enum SVEDataType {
     Image,
@@ -100,14 +101,13 @@ export class SVEData {
             this.id = initInfo as number;
 
             if (typeof SVESystemInfo.getInstance().sources.sveService !== undefined) {
-                async () => {
-                    const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
+                fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json' 
                         }
-                    });
+                }).then(response => {
                     if (response.status < 400) {
                         response.json().then((val) => {
                             this.id = val.id;
@@ -122,7 +122,7 @@ export class SVEData {
                         this.id = -1;
                         onComplete(this);
                     }
-                };
+                }, err => onComplete(this));
             }
         } else {
             if ((initInfo as SVEDataInitializer).id !== undefined) {
@@ -234,13 +234,12 @@ export class SVEData {
             if(this.data === undefined || this.currentDataVersion !== version) {
                 this.currentDataVersion = version;
                 var self = this;
-                async () => {
-                    const response = await fetch(this.getURI(), {
+                fetch(this.getURI(), {
                         method: 'GET',
                         headers: {
                             'Accept': '*'
                         }
-                    });
+                }).then(response => {
                     if (response.status < 400) {
                         response.arrayBuffer().then((val) => {
                             self.data = val;
@@ -249,7 +248,7 @@ export class SVEData {
                     } else {
                         reject(null);
                     }
-                };
+                }, err => reject(err));
                 return;
             }
 

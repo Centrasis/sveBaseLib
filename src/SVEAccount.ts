@@ -153,31 +153,29 @@ export class SVEAccount {
 
     protected getByID(id: number): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-                async () => {
-                    const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/user/' + id, {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json' 
-                        }
-                    });
-                    if (response.status < 400) {
-                        response.json().then((val) => {
-                            this.init(val, LoginState.NotLoggedIn);
-                            resolve(true);
-                        });
-                    } else {
-                        reject(false);
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/user/' + id, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
                     }
-                };
+            }).then(response => {
+                if (response.status < 400) {
+                    response.json().then((val) => {
+                        this.init(val, LoginState.NotLoggedIn);
+                        resolve(true);
+                    });
+                } else {
+                    reject(false);
+                }
+            }, err => reject(err));
         });
     }
 
     protected doLogin(info: BasicUserLoginInfo): Promise<LoginState> {
         return new Promise<LoginState>((resolve, reject) => {
             if (SVESystemInfo.getInstance().sources.sveService !== undefined) {
-                async () => {
-                    const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
+                fetch(SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
                         method: 'POST',
                         body: JSON.stringify({
                             name: info.name,
@@ -187,7 +185,7 @@ export class SVEAccount {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json' 
                         }
-                    });
+                }).then(response => {
                     if (response.status < 400) {
                         response.json().then((val) => {
                             if(val.success === true) {
@@ -196,7 +194,7 @@ export class SVEAccount {
                             resolve(this.loginState);
                         });  
                     }
-                };
+                }, err => reject(err));
             } else {
                 reject(this.loginState);
             }
@@ -212,15 +210,14 @@ export class SVEAccount {
     protected doTokenLogin(token: Token): Promise<LoginState> {
         return new Promise<LoginState>((resolve, reject) => {
             if (SVESystemInfo.getInstance().sources.sveService !== undefined) {
-                async () => {
-                    const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
+                fetch(SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
                         method: 'POST',
                         body: JSON.stringify({token}),
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json' 
                         }
-                    });
+                }).then(response => {
                     if (response.status < 400) {
                         response.json().then((val) => {
                             if(val.success === true) {
@@ -229,7 +226,7 @@ export class SVEAccount {
                             resolve(this.loginState);
                         });  
                     }
-                };
+                }, err => reject(err));
             } else {
                 reject(this.loginState);
             }

@@ -1,3 +1,4 @@
+import { rejects } from 'assert';
 import { visitLexicalEnvironment } from 'typescript';
 import {BasicUserInitializer, SVEAccount} from './SVEAccount';
 import {ProjectInitializer, SVEProject, SVEProjectType} from './SVEProject';
@@ -24,15 +25,13 @@ export class SVEGroup {
 
     public getProjects(): Promise<SVEProject[]> {
         return new Promise<SVEProject[]>((resolve, reject) => {
-            let ret: SVEProject[] = [];
-            async () => {
-                const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id, {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json' 
                     }
-                });
+            }).then(response => {
                 if (response.status < 400) {
                     response.json().then((val) => {
                         resolve(val.projects as SVEProject[]);
@@ -43,20 +42,19 @@ export class SVEGroup {
                         msg: "HTTP error"
                     });
                 }
-            };
+            }, err => reject(err));
         });
     }
 
     public getUsers(): Promise<SVEAccount[]> {
         return new Promise<SVEAccount[]>((resolve, reject) => {
-            async () => {
-                const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + '/users', {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + '/users', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json' 
                     }
-                });
+            }).then(response => {;
                 if (response.status < 400) {
                     response.json().then((val) => {
                         resolve(val as SVEAccount[]);
@@ -67,20 +65,19 @@ export class SVEGroup {
                         msg: "HTTP error"
                     });
                 }
-            };
+            });
         });
     }
 
     public getRightsForUser(handler: SVEAccount): Promise<UserRights> {
         return new Promise<UserRights>((resolve, reject) => {
-            async () => {
-                const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + "/rights", {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + "/rights", {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json' 
                     }
-                });
+            }).then(response => {
                 if (response.status < 400) {
                     response.json().then((val) => {
                         resolve(val as UserRights);
@@ -91,20 +88,19 @@ export class SVEGroup {
                         msg: "HTTP error"
                     });
                 }
-            };
+            }, err => reject(err));
         });
     }
 
     public constructor(id: number, handler: SVEAccount, onReady?: (self?: SVEGroup) => void) {
         if (!SVESystemInfo.getIsServer()) {
-            async () => {
-                const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json' 
                     }
-                });
+            }).then(response => {
                 if (response.status < 400) {
                     response.json().then((val) => {
                         if(val.success === true) {
@@ -119,7 +115,7 @@ export class SVEGroup {
                     if(onReady !== undefined)
                         onReady!(this);
                 }
-            };
+            }, err => { if(onReady !== undefined) onReady!(this) });
         } else {
             onReady!(this);
         }
@@ -127,14 +123,13 @@ export class SVEGroup {
 
     public static getGroupsOf(handler: SVEAccount): Promise<SVEGroup[]> {
         return new Promise<SVEGroup[]>((resolve, reject) => {
-            async () => {
-                const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/groups/', {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/groups/', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json' 
                     }
-                });
+            }).then(response => {
                 if (response.status < 400) {
                     response.json().then((val) => {
                         let gs: SVEGroup[] = [];
@@ -154,7 +149,7 @@ export class SVEGroup {
                         msg: "HTTP error"
                     });
                 }
-            };
+            }, err => reject(err));
         });
     }
 };

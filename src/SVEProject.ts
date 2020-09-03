@@ -2,6 +2,7 @@ import {BasicUserInitializer, LoginState, SVEAccount} from './SVEAccount';
 import {SVEGroup} from './SVEGroup';
 import {SVESystemInfo} from './SVESystemInfo';
 import { SVEData, SVEDataType } from './SVEData';
+import { rejects } from 'assert';
 
 export enum SVEProjectType {
     Vacation,
@@ -68,14 +69,13 @@ export class SVEProject {
                 if (onReady !== undefined)
                     onReady!(this);
             } else {
-                async () => {
-                    const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + idx, {
+                fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + idx, {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json' 
                         }
-                    });
+                }).then(response => {
                     if (response.status < 400) {
                         response.json().then((val) => {
                             this.id = val.id;
@@ -93,7 +93,7 @@ export class SVEProject {
                         if (onReady !== undefined)
                             onReady!(this);
                     }
-                };
+                }, err => {if (onReady !== undefined) onReady!(this)});
             }
         } else {
             this.id = (idx as ProjectInitializer).id;
@@ -113,12 +113,10 @@ export class SVEProject {
 
     public getData(): Promise<SVEData[]> {
         return new Promise<SVEData[]>((resolve, reject) => {
-            async () => {
-                const response = await fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/data/list',
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/data/list',
                 {
                     method: "GET"
-                });
-
+            }).then(response => {
                 if (response.status < 400) {
                     response.json().then(val => {
                         let r: SVEData[] = [];
@@ -139,7 +137,7 @@ export class SVEProject {
                 } else {
                     reject(false);
                 }
-            };
+            }, err => reject(err));
         });
     }
 }
