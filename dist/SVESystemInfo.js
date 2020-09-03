@@ -108,49 +108,46 @@ var SVESystemInfo = /** @class */ (function () {
         return this.getInstance().systemState;
     };
     SVESystemInfo.getFullSystemState = function () {
-        var _this = this;
         return new Promise(function (resolve, reject) {
-            (function () { return __awaiter(_this, void 0, void 0, function () {
-                var response;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, fetch(SVESystemInfo.getAPIRoot() + "/check", {
-                                method: 'GET',
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json'
-                                }
-                            })];
-                        case 1:
-                            response = _a.sent();
-                            if (response.status < 400) {
-                                response.json().then(function (val) {
-                                    if (!("loggedInAs" in val)) {
-                                        resolve({
-                                            authorizationSystem: val.status.authorizationSystem,
-                                            basicSystem: val.status.basicSystem,
-                                            tokenSystem: val.status.tokenSystem
-                                        });
-                                    }
-                                    else {
-                                        var loggedInAs_1 = new SVEAccount_1.SVEAccount(val.loggedInAs, function (s) {
-                                            resolve({
-                                                authorizationSystem: val.status.authorizationSystem,
-                                                basicSystem: val.status.basicSystem,
-                                                tokenSystem: val.status.tokenSystem,
-                                                user: loggedInAs_1
-                                            });
-                                        });
-                                    }
-                                }, function (err) { return reject({}); });
-                            }
-                            else {
-                                reject({});
-                            }
-                            return [2 /*return*/];
-                    }
-                });
-            }); });
+            fetch(SVESystemInfo.getAPIRoot() + "/check", {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                if (response.status < 400) {
+                    response.json().then(function (val) {
+                        if (!("loggedInAs" in val)) {
+                            resolve({
+                                authorizationSystem: val.status.authorizationSystem,
+                                basicSystem: val.status.basicSystem,
+                                tokenSystem: val.status.tokenSystem
+                            });
+                        }
+                        else {
+                            var loggedInAs_1 = new SVEAccount_1.SVEAccount(val.loggedInAs, function (s) {
+                                resolve({
+                                    authorizationSystem: val.status.authorizationSystem,
+                                    basicSystem: val.status.basicSystem,
+                                    tokenSystem: val.status.tokenSystem,
+                                    user: loggedInAs_1
+                                });
+                            });
+                        }
+                    }, function (err) { return reject({
+                        error: "Server response was no valid JSON!",
+                        err: err
+                    }); });
+                }
+                else {
+                    reject({
+                        error: "Server Status: " + response.status
+                    });
+                }
+            }, function (err) {
+                reject(err);
+            });
         });
     };
     SVESystemInfo.getAPIRoot = function () {

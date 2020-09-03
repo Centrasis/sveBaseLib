@@ -96,37 +96,43 @@ class SVESystemInfo {
 
     public static getFullSystemState(): Promise<SVEFullSystemState> {
         return new Promise<SVEFullSystemState>((resolve, reject) => {
-            async () => {
-                const response = await fetch(SVESystemInfo.getAPIRoot() + "/check", {
+            fetch(SVESystemInfo.getAPIRoot() + "/check", {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json' 
                     }
-                });
-                if (response.status < 400) {
-                    response.json().then(val => {
-                        if (!("loggedInAs" in val)) {
-                            resolve({
-                                authorizationSystem: val.status.authorizationSystem as boolean,
-                                basicSystem: val.status.basicSystem as boolean,
-                                tokenSystem: val.status.tokenSystem as boolean
-                            });
-                        } else {
-                            let loggedInAs = new SVEAccount(val.loggedInAs as SessionUserInitializer, (s) => {
+                }).then((response) => {
+                    if (response.status < 400) {
+                        response.json().then(val => {
+                            if (!("loggedInAs" in val)) {
                                 resolve({
                                     authorizationSystem: val.status.authorizationSystem as boolean,
                                     basicSystem: val.status.basicSystem as boolean,
-                                    tokenSystem: val.status.tokenSystem as boolean,
-                                    user: loggedInAs
+                                    tokenSystem: val.status.tokenSystem as boolean
                                 });
-                            });
-                        }
-                    }, err => reject({}));
-                } else {
-                    reject({});
-                }
-            };
+                            } else {
+                                let loggedInAs = new SVEAccount(val.loggedInAs as SessionUserInitializer, (s) => {
+                                    resolve({
+                                        authorizationSystem: val.status.authorizationSystem as boolean,
+                                        basicSystem: val.status.basicSystem as boolean,
+                                        tokenSystem: val.status.tokenSystem as boolean,
+                                        user: loggedInAs
+                                    });
+                                });
+                            }
+                        }, err => reject({
+                            error: "Server response was no valid JSON!",
+                            err: err
+                        }));
+                    } else {
+                        reject({
+                            error: "Server Status: " + response.status
+                        });
+                    }
+                }, err => {
+                    reject(err);
+            });
         });
     }
 
