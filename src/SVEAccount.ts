@@ -141,8 +141,8 @@ export class SVEAccount {
 
     protected init(initObj: any, state: LoginState) {
         if (initObj !== null) {
-            this.name = initObj["name"];
-            this.id = initObj["id"];
+            this.name = initObj.name;
+            this.id = initObj.id;
             this.loginState = state;
         } else {
             this.name = "";

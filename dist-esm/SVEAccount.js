@@ -106,8 +106,8 @@ var SVEAccount = /** @class */ (function () {
     };
     SVEAccount.prototype.init = function (initObj, state) {
         if (initObj !== null) {
-            this.name = initObj["name"];
-            this.id = initObj["id"];
+            this.name = initObj.name;
+            this.id = initObj.id;
             this.loginState = state;
         }
         else {
