@@ -20,6 +20,11 @@ export interface ProjectInitializer {
     type: SVEProjectType
 }
 
+export interface DateRange {
+    begin: Date,
+    end: Date
+}
+
 export function isProjectInitializer(init: number | ProjectInitializer): boolean {
     return typeof init !== "number";
 }
@@ -32,6 +37,10 @@ export class SVEProject {
     protected handler?: SVEAccount;
     protected splashImgID: number = 0;
     protected type: SVEProjectType = SVEProjectType.Vacation;
+    protected dateRange: DateRange = {
+        begin: new Date(),
+        end: new Date()
+    };
 
     public getID(): number {
         return this.id;
@@ -39,6 +48,10 @@ export class SVEProject {
 
     public getSplashImgID(): number {
         return this.splashImgID;
+    }
+
+    public getDateRange(): DateRange {
+        return this.dateRange;
     }
 
     public getSplashImageURI(): string {
@@ -92,6 +105,7 @@ export class SVEProject {
                             this.type = val.type;
                             this.handler = handler;
                             this.splashImgID = val.splashImgID;
+                            this.dateRange = val.dateRange as DateRange;
                             this.owner = new SVEAccount({id: val.owner} as BasicUserInitializer, (s) => {
                                 this.group = new SVEGroup(val.group, handler, (self) => {
                                     if (onReady !== undefined)

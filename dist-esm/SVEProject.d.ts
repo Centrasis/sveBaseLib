@@ -15,6 +15,10 @@ export interface ProjectInitializer {
     resultsURI: string;
     type: SVEProjectType;
 }
+export interface DateRange {
+    begin: Date;
+    end: Date;
+}
 export declare function isProjectInitializer(init: number | ProjectInitializer): boolean;
 export declare class SVEProject {
     protected id: number;
@@ -24,8 +28,10 @@ export declare class SVEProject {
     protected handler?: SVEAccount;
     protected splashImgID: number;
     protected type: SVEProjectType;
+    protected dateRange: DateRange;
     getID(): number;
     getSplashImgID(): number;
+    getDateRange(): DateRange;
     getSplashImageURI(): string;
     getName(): string;
     getType(): SVEProjectType;
