@@ -100,7 +100,7 @@ export class SVEAccount {
                     type: TokenType.DeviceToken,
                     time: new Date()
                 }).then((val: LoginState) => {
-                    this.loginState = val;
+                    this.loginState = val as LoginState;
                     if(onLogin !== undefined)
                         onLogin!(this);
                 }, (val: LoginState) => {
@@ -110,7 +110,7 @@ export class SVEAccount {
                 });
             } else {
                 this.doLogin(user as BasicUserLoginInfo).then((val: LoginState) => {
-                    this.loginState = val;
+                    this.loginState = val as LoginState;
                     if(onLogin !== undefined)
                         onLogin!(this);
                 }, (val: any) => {
