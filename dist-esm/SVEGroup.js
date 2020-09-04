@@ -55,6 +55,9 @@ var SVEGroup = /** @class */ (function () {
                     }
                 });
             });
+            if (_this.projects.length == 0) {
+                resolve([]);
+            }
         });
     };
     SVEGroup.prototype.getUsers = function () {

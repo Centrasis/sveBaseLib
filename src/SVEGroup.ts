@@ -34,7 +34,11 @@ export class SVEGroup {
                         resolve(r);
                     }
                 });
-            })
+            });
+
+            if (this.projects.length == 0) {
+                resolve([]);
+            }
         });
     }
 
