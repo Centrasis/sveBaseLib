@@ -100,7 +100,7 @@ export class SVEProject {
     // remove from server
     public remove(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + "/remove", {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',

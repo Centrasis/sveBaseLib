@@ -124,7 +124,7 @@ var SVEProject = /** @class */ (function () {
     SVEProject.prototype.remove = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + _this.id + "/remove", {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + _this.id, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
