@@ -25,6 +25,7 @@ export declare class SVEProject {
     protected splashImgID: number;
     protected type: SVEProjectType;
     getID(): number;
+    getSplashImgID(): number;
     getSplashImageURI(): string;
     getName(): string;
     getType(): SVEProjectType;

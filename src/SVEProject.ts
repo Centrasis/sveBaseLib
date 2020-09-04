@@ -37,6 +37,10 @@ export class SVEProject {
         return this.id;
     }
 
+    public getSplashImgID(): number {
+        return this.splashImgID;
+    }
+
     public getSplashImageURI(): string {
         return SVESystemInfo.getAPIRoot() + "/project/" + this.id + "/data/" + this.splashImgID + "/preview";
     }

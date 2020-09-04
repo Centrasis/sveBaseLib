@@ -72,6 +72,9 @@ var SVEProject = /** @class */ (function () {
     SVEProject.prototype.getID = function () {
         return this.id;
     };
+    SVEProject.prototype.getSplashImgID = function () {
+        return this.splashImgID;
+    };
     SVEProject.prototype.getSplashImageURI = function () {
         return SVESystemInfo_1.SVESystemInfo.getAPIRoot() + "/project/" + this.id + "/data/" + this.splashImgID + "/preview";
     };
