@@ -37,10 +37,7 @@ export class SVEProject {
     protected handler?: SVEAccount;
     protected splashImgID: number = 0;
     protected type: SVEProjectType = SVEProjectType.Vacation;
-    protected dateRange: DateRange = {
-        begin: new Date(),
-        end: new Date()
-    };
+    protected dateRange?: DateRange;
 
     public getID(): number {
         return this.id;
@@ -50,7 +47,7 @@ export class SVEProject {
         return this.splashImgID;
     }
 
-    public getDateRange(): DateRange {
+    public getDateRange(): DateRange | undefined {
         return this.dateRange;
     }
 
@@ -105,7 +102,7 @@ export class SVEProject {
                             this.type = val.type;
                             this.handler = handler;
                             this.splashImgID = val.splashImgID;
-                            this.dateRange = val.dateRange as DateRange;
+                            this.dateRange = ("dateRange" in val) ? val.dateRange as DateRange : undefined;
                             this.owner = new SVEAccount({id: val.owner} as BasicUserInitializer, (s) => {
                                 this.group = new SVEGroup(val.group, handler, (self) => {
                                     if (onReady !== undefined)

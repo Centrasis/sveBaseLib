@@ -21,10 +21,6 @@ var SVEProject = /** @class */ (function () {
         this.name = "";
         this.splashImgID = 0;
         this.type = SVEProjectType.Vacation;
-        this.dateRange = {
-            begin: new Date(),
-            end: new Date()
-        };
         // if get by id
         if (!isProjectInitializer(idx)) {
             if (SVESystemInfo_1.SVESystemInfo.getIsServer()) {
@@ -46,7 +42,7 @@ var SVEProject = /** @class */ (function () {
                             _this.type = val.type;
                             _this.handler = handler;
                             _this.splashImgID = val.splashImgID;
-                            _this.dateRange = val.dateRange;
+                            _this.dateRange = ("dateRange" in val) ? val.dateRange : undefined;
                             _this.owner = new SVEAccount_1.SVEAccount({ id: val.owner }, function (s) {
                                 _this.group = new SVEGroup_1.SVEGroup(val.group, handler, function (self) {
                                     if (onReady !== undefined)

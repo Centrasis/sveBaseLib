@@ -28,10 +28,10 @@ export declare class SVEProject {
     protected handler?: SVEAccount;
     protected splashImgID: number;
     protected type: SVEProjectType;
-    protected dateRange: DateRange;
+    protected dateRange?: DateRange;
     getID(): number;
     getSplashImgID(): number;
-    getDateRange(): DateRange;
+    getDateRange(): DateRange | undefined;
     getSplashImageURI(): string;
     getName(): string;
     getType(): SVEProjectType;
