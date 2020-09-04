@@ -153,7 +153,7 @@ var SVEAccount = /** @class */ (function () {
                 fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
                     method: 'POST',
                     body: JSON.stringify({
-                        name: info.name,
+                        user: info.name,
                         pw: info.pass
                     }),
                     headers: {

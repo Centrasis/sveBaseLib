@@ -178,7 +178,7 @@ export class SVEAccount {
                 fetch(SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
                         method: 'POST',
                         body: JSON.stringify({
-                            name: info.name,
+                            user: info.name,
                             pw: info.pass
                         }),
                         headers: {
