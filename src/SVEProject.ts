@@ -81,6 +81,19 @@ export class SVEProject {
         }
     }
 
+    // store on server
+    public store() {
+        fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + ((this.id !== NaN) ? this.id : "new"), {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify(this)
+        }).then(response => {
+        });
+    }
+
     public constructor(idx: number | ProjectInitializer, handler: SVEAccount, onReady?: (self: SVEProject) => void) {
         // if get by id
         if (!isProjectInitializer(idx)) {

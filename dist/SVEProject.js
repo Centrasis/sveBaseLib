@@ -108,6 +108,18 @@ var SVEProject = /** @class */ (function () {
             });
         }
     };
+    // store on server
+    SVEProject.prototype.store = function () {
+        fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/project/' + ((this.id !== NaN) ? this.id : "new"), {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this)
+        }).then(function (response) {
+        });
+    };
     SVEProject.prototype.getGroup = function () {
         return this.group;
     };
