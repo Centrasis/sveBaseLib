@@ -30,13 +30,15 @@ export class SVEGroup {
                 let r: SVEProject[] = [];
                 new SVEProject(pid, this.handler!, (prj) => {
                     r.push(prj);
-                    if (r.length == this.projects.length) {
+                    console.log("Found project: " + r.length + " != " + this.projects.length);
+                    if (r.length === this.projects.length) {
+                        console.log("resolve");
                         resolve(r);
                     }
                 });
             });
 
-            if (this.projects.length == 0) {
+            if (this.projects.length === 0) {
                 resolve([]);
             }
         });

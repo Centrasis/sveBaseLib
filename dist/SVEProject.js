@@ -37,6 +37,7 @@ var SVEProject = /** @class */ (function () {
                 }).then(function (response) {
                     if (response.status < 400) {
                         response.json().then(function (val) {
+                            console.log("P response: " + JSON.stringify(val));
                             _this.id = val.id;
                             _this.name = val.name;
                             _this.type = val.type;
@@ -45,6 +46,7 @@ var SVEProject = /** @class */ (function () {
                             _this.dateRange = ("dateRange" in val) ? val.dateRange : undefined;
                             _this.owner = new SVEAccount_1.SVEAccount({ id: val.owner }, function (s) {
                                 _this.group = new SVEGroup_1.SVEGroup(val.group, handler, function (self) {
+                                    console.log("Has group");
                                     if (onReady !== undefined)
                                         onReady(_this);
                                 });

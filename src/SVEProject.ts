@@ -128,6 +128,7 @@ export class SVEProject {
                 }).then(response => {
                     if (response.status < 400) {
                         response.json().then((val) => {
+                            console.log("P response: " + JSON.stringify(val));
                             this.id = val.id;
                             this.name = val.name;
                             this.type = val.type;
@@ -136,6 +137,7 @@ export class SVEProject {
                             this.dateRange = ("dateRange" in val) ? val.dateRange as DateRange : undefined;
                             this.owner = new SVEAccount({id: val.owner} as BasicUserInitializer, (s) => {
                                 this.group = new SVEGroup(val.group, handler, (self) => {
+                                    console.log("Has group");
                                     if (onReady !== undefined)
                                         onReady!(this);
                                 });

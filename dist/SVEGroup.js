@@ -53,12 +53,14 @@ var SVEGroup = /** @class */ (function () {
                 var r = [];
                 new SVEProject_1.SVEProject(pid, _this.handler, function (prj) {
                     r.push(prj);
-                    if (r.length == _this.projects.length) {
+                    console.log("Found project: " + r.length + " != " + _this.projects.length);
+                    if (r.length === _this.projects.length) {
+                        console.log("resolve");
                         resolve(r);
                     }
                 });
             });
-            if (_this.projects.length == 0) {
+            if (_this.projects.length === 0) {
                 resolve([]);
             }
         });
