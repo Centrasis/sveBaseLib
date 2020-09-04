@@ -9,6 +9,11 @@ export enum SVEProjectType {
     Sales
 }
 
+export enum SVEProjectState {
+    Open,
+    Closed
+}
+
 export interface ProjectInitializer {
     id: number,
     name: string,
@@ -38,9 +43,18 @@ export class SVEProject {
     protected splashImgID: number = 0;
     protected type: SVEProjectType = SVEProjectType.Vacation;
     protected dateRange?: DateRange;
+    protected state: SVEProjectState = SVEProjectState.Open;
 
     public getID(): number {
         return this.id;
+    }
+
+    public getState(): SVEProjectState {
+        return this.state;
+    }
+
+    public setState(state: SVEProjectState) {
+        this.state = state;
     }
 
     public getSplashImgID(): number {

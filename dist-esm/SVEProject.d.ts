@@ -5,6 +5,10 @@ export declare enum SVEProjectType {
     Vacation = 0,
     Sales = 1
 }
+export declare enum SVEProjectState {
+    Open = 0,
+    Closed = 1
+}
 export interface ProjectInitializer {
     id: number;
     name: string;
@@ -29,7 +33,10 @@ export declare class SVEProject {
     protected splashImgID: number;
     protected type: SVEProjectType;
     protected dateRange?: DateRange;
+    protected state: SVEProjectState;
     getID(): number;
+    getState(): SVEProjectState;
+    setState(state: SVEProjectState): void;
     getSplashImgID(): number;
     getDateRange(): DateRange | undefined;
     getSplashImageURI(): string;

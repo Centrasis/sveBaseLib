@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SVEProject = exports.isProjectInitializer = exports.SVEProjectType = void 0;
+exports.SVEProject = exports.isProjectInitializer = exports.SVEProjectState = exports.SVEProjectType = void 0;
 var SVEAccount_1 = require("./SVEAccount");
 var SVEGroup_1 = require("./SVEGroup");
 var SVESystemInfo_1 = require("./SVESystemInfo");
@@ -10,6 +10,11 @@ var SVEProjectType;
     SVEProjectType[SVEProjectType["Vacation"] = 0] = "Vacation";
     SVEProjectType[SVEProjectType["Sales"] = 1] = "Sales";
 })(SVEProjectType = exports.SVEProjectType || (exports.SVEProjectType = {}));
+var SVEProjectState;
+(function (SVEProjectState) {
+    SVEProjectState[SVEProjectState["Open"] = 0] = "Open";
+    SVEProjectState[SVEProjectState["Closed"] = 1] = "Closed";
+})(SVEProjectState = exports.SVEProjectState || (exports.SVEProjectState = {}));
 function isProjectInitializer(init) {
     return typeof init !== "number";
 }
@@ -21,6 +26,7 @@ var SVEProject = /** @class */ (function () {
         this.name = "";
         this.splashImgID = 0;
         this.type = SVEProjectType.Vacation;
+        this.state = SVEProjectState.Open;
         // if get by id
         if (!isProjectInitializer(idx)) {
             if (SVESystemInfo_1.SVESystemInfo.getIsServer()) {
@@ -72,6 +78,12 @@ var SVEProject = /** @class */ (function () {
     }
     SVEProject.prototype.getID = function () {
         return this.id;
+    };
+    SVEProject.prototype.getState = function () {
+        return this.state;
+    };
+    SVEProject.prototype.setState = function (state) {
+        this.state = state;
     };
     SVEProject.prototype.getSplashImgID = function () {
         return this.splashImgID;

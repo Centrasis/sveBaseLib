@@ -7,6 +7,11 @@ export var SVEProjectType;
     SVEProjectType[SVEProjectType["Vacation"] = 0] = "Vacation";
     SVEProjectType[SVEProjectType["Sales"] = 1] = "Sales";
 })(SVEProjectType || (SVEProjectType = {}));
+export var SVEProjectState;
+(function (SVEProjectState) {
+    SVEProjectState[SVEProjectState["Open"] = 0] = "Open";
+    SVEProjectState[SVEProjectState["Closed"] = 1] = "Closed";
+})(SVEProjectState || (SVEProjectState = {}));
 export function isProjectInitializer(init) {
     return typeof init !== "number";
 }
@@ -17,6 +22,7 @@ var SVEProject = /** @class */ (function () {
         this.name = "";
         this.splashImgID = 0;
         this.type = SVEProjectType.Vacation;
+        this.state = SVEProjectState.Open;
         // if get by id
         if (!isProjectInitializer(idx)) {
             if (SVESystemInfo.getIsServer()) {
@@ -68,6 +74,12 @@ var SVEProject = /** @class */ (function () {
     }
     SVEProject.prototype.getID = function () {
         return this.id;
+    };
+    SVEProject.prototype.getState = function () {
+        return this.state;
+    };
+    SVEProject.prototype.setState = function (state) {
+        this.state = state;
     };
     SVEProject.prototype.getSplashImgID = function () {
         return this.splashImgID;
