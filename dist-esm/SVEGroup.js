@@ -53,7 +53,6 @@ var SVEGroup = /** @class */ (function () {
                     r.push(prj);
                     i++;
                     if (i >= _this.projects.length) {
-                        console.log("resolve");
                         resolve(r);
                     }
                 });

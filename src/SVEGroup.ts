@@ -33,7 +33,6 @@ export class SVEGroup {
                     r.push(prj);
                     i++;
                     if (i >= this.projects.length) {
-                        console.log("resolve");
                         resolve(r);
                     }
                 });
