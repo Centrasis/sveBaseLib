@@ -1,9 +1,11 @@
+import { SVEProject } from './SVEProject';
 import { SVESystemInfo } from './SVESystemInfo';
 var SVEGroup = /** @class */ (function () {
     function SVEGroup(id, handler, onReady) {
         var _this = this;
         this.id = NaN;
         this.name = "";
+        this.projects = [];
         if (!SVESystemInfo.getIsServer()) {
             fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
                 method: 'GET',
@@ -14,9 +16,10 @@ var SVEGroup = /** @class */ (function () {
             }).then(function (response) {
                 if (response.status < 400) {
                     response.json().then(function (val) {
-                        if (val.success === true) {
+                        if ("group" in val) {
                             _this.id = val.group.id;
                             _this.name = val.group.name;
+                            _this.projects = val.projects;
                             _this.handler = handler;
                         }
                         if (onReady !== undefined)
@@ -43,25 +46,15 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.getProjects = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }).then(function (response) {
-                if (response.status < 400) {
-                    response.json().then(function (val) {
-                        resolve(val.projects);
-                    });
-                }
-                else {
-                    reject({
-                        success: false,
-                        msg: "HTTP error"
-                    });
-                }
-            }, function (err) { return reject(err); });
+            _this.projects.forEach(function (pid) {
+                var r = [];
+                new SVEProject(pid, _this.handler, function (prj) {
+                    r.push(prj);
+                    if (r.length == _this.projects.length) {
+                        resolve(r);
+                    }
+                });
+            });
         });
     };
     SVEGroup.prototype.getUsers = function () {

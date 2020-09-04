@@ -9,6 +9,7 @@ export declare class SVEGroup {
     protected handler?: SVEAccount;
     protected id: number;
     protected name: string;
+    protected projects: number[];
     getID(): number;
     getName(): string;
     getProjects(): Promise<SVEProject[]>;

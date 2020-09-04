@@ -14,6 +14,7 @@ export class SVEGroup {
     protected handler?: SVEAccount;
     protected id: number = NaN;
     protected name: string = "";
+    protected projects: number[] = [];
 
     public getID(): number {
         return this.id;
@@ -25,24 +26,15 @@ export class SVEGroup {
 
     public getProjects(): Promise<SVEProject[]> {
         return new Promise<SVEProject[]>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json' 
+            this.projects.forEach(pid => {
+                let r: SVEProject[] = [];
+                new SVEProject(pid, this.handler!, (prj) => {
+                    r.push(prj);
+                    if (r.length == this.projects.length) {
+                        resolve(r);
                     }
-            }).then(response => {
-                if (response.status < 400) {
-                    response.json().then((val) => {
-                        resolve(val.projects as SVEProject[]);
-                    });
-                } else {
-                    reject({
-                        success: false,
-                        msg: "HTTP error"
-                    });
-                }
-            }, err => reject(err));
+                });
+            })
         });
     }
 
@@ -103,9 +95,10 @@ export class SVEGroup {
             }).then(response => {
                 if (response.status < 400) {
                     response.json().then((val) => {
-                        if(val.success === true) {
+                        if("group" in val) {
                             this.id = val.group.id;
                             this.name = val.group.name;
+                            this.projects = val.projects as number[];
                             this.handler = handler;
                         }
                         if(onReady !== undefined)
