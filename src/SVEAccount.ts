@@ -113,8 +113,8 @@ export class SVEAccount {
                     this.loginState = val;
                     if(onLogin !== undefined)
                         onLogin!(this);
-                }, (val: LoginState) => {
-                    this.loginState = val;
+                }, (val: any) => {
+                    this.loginState = LoginState.NotLoggedIn;
                     if(onLogin !== undefined)
                         onLogin!(this);
                 });

@@ -66,7 +66,7 @@ var SVEAccount = /** @class */ (function () {
                     if (onLogin !== undefined)
                         onLogin(_this);
                 }, function (val) {
-                    _this.loginState = val;
+                    _this.loginState = LoginState.NotLoggedIn;
                     if (onLogin !== undefined)
                         onLogin(_this);
                 });
