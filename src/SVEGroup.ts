@@ -26,9 +26,9 @@ export class SVEGroup {
 
     public getProjects(): Promise<SVEProject[]> {
         return new Promise<SVEProject[]>((resolve, reject) => {
+            let r: SVEProject[] = [];
+            let i = 0;
             this.projects.forEach(pid => {
-                let r: SVEProject[] = [];
-                let i = 0;
                 new SVEProject(pid, this.handler!, (prj) => {
                     r.push(prj);
                     i++;

@@ -46,9 +46,9 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.getProjects = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
+            var r = [];
+            var i = 0;
             _this.projects.forEach(function (pid) {
-                var r = [];
-                var i = 0;
                 new SVEProject(pid, _this.handler, function (prj) {
                     r.push(prj);
                     i++;
