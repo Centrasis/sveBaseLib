@@ -82,15 +82,18 @@ export class SVEProject {
     }
 
     // store on server
-    public store() {
-        fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + ((this.id !== NaN) ? this.id : "new"), {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json' 
-            },
-            body: JSON.stringify(this)
-        }).then(response => {
+    public store(): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + ((this.id !== NaN) ? this.id : "new"), {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify(this)
+            }).then(response => {
+                resolve(response.status == 200);
+            });
         });
     }
 

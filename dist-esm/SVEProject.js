@@ -106,14 +106,18 @@ var SVEProject = /** @class */ (function () {
     };
     // store on server
     SVEProject.prototype.store = function () {
-        fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + ((this.id !== NaN) ? this.id : "new"), {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this)
-        }).then(function (response) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + ((_this.id !== NaN) ? _this.id : "new"), {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(_this)
+            }).then(function (response) {
+                resolve(response.status == 200);
+            });
         });
     };
     SVEProject.prototype.getGroup = function () {
