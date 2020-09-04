@@ -81,6 +81,12 @@ var SVEProject = /** @class */ (function () {
     SVEProject.prototype.getName = function () {
         return this.name;
     };
+    SVEProject.prototype.setName = function (name) {
+        this.name = name;
+    };
+    SVEProject.prototype.setDateRange = function (range) {
+        this.dateRange = range;
+    };
     SVEProject.prototype.getType = function () {
         return this.type;
     };

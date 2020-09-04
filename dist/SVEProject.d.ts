@@ -34,6 +34,8 @@ export declare class SVEProject {
     getDateRange(): DateRange | undefined;
     getSplashImageURI(): string;
     getName(): string;
+    setName(name: string): void;
+    setDateRange(range: DateRange): void;
     getType(): SVEProjectType;
     getOwner(): Promise<SVEAccount>;
     store(): Promise<boolean>;
