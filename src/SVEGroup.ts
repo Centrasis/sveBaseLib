@@ -28,10 +28,11 @@ export class SVEGroup {
         return new Promise<SVEProject[]>((resolve, reject) => {
             this.projects.forEach(pid => {
                 let r: SVEProject[] = [];
+                let i = 0;
                 new SVEProject(pid, this.handler!, (prj) => {
                     r.push(prj);
-                    console.log("Found project: " + r.length + " != " + this.projects.length);
-                    if (r.length === this.projects.length) {
+                    i++;
+                    if (i >= this.projects.length) {
                         console.log("resolve");
                         resolve(r);
                     }

@@ -51,10 +51,11 @@ var SVEGroup = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             _this.projects.forEach(function (pid) {
                 var r = [];
+                var i = 0;
                 new SVEProject_1.SVEProject(pid, _this.handler, function (prj) {
                     r.push(prj);
-                    console.log("Found project: " + r.length + " != " + _this.projects.length);
-                    if (r.length === _this.projects.length) {
+                    i++;
+                    if (i >= _this.projects.length) {
                         console.log("resolve");
                         resolve(r);
                     }
