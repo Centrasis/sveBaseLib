@@ -37,6 +37,7 @@ export declare class SVEProject {
     getType(): SVEProjectType;
     getOwner(): Promise<SVEAccount>;
     store(): Promise<boolean>;
+    remove(): Promise<boolean>;
     constructor(idx: number | ProjectInitializer, handler: SVEAccount, onReady?: (self: SVEProject) => void);
     getGroup(): SVEGroup;
     getData(): Promise<SVEData[]>;

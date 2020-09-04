@@ -124,6 +124,21 @@ var SVEProject = /** @class */ (function () {
             });
         });
     };
+    // remove from server
+    SVEProject.prototype.remove = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/project/' + _this.id + "/remove", {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                resolve(response.status == 200);
+            });
+        });
+    };
     SVEProject.prototype.getGroup = function () {
         return this.group;
     };

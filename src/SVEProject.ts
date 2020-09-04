@@ -97,6 +97,21 @@ export class SVEProject {
         });
     }
 
+    // remove from server
+    public remove(): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + "/remove", {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                }
+            }).then(response => {
+                resolve(response.status == 200);
+            });
+        });
+    }
+
     public constructor(idx: number | ProjectInitializer, handler: SVEAccount, onReady?: (self: SVEProject) => void) {
         // if get by id
         if (!isProjectInitializer(idx)) {
