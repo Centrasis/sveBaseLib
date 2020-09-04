@@ -19,6 +19,7 @@ var SVEProject = /** @class */ (function () {
         var _this = this;
         this.id = NaN;
         this.name = "";
+        this.splashImgID = 0;
         this.type = SVEProjectType.Vacation;
         // if get by id
         if (!isProjectInitializer(idx)) {
@@ -40,6 +41,7 @@ var SVEProject = /** @class */ (function () {
                             _this.name = val.name;
                             _this.type = val.type;
                             _this.handler = handler;
+                            _this.splashImgID = val.splashImgID;
                             _this.owner = new SVEAccount_1.SVEAccount({ id: val.owner }, function (s) {
                                 _this.group = new SVEGroup_1.SVEGroup(val.group, handler, function (self) {
                                     if (onReady !== undefined)
@@ -69,6 +71,9 @@ var SVEProject = /** @class */ (function () {
     }
     SVEProject.prototype.getID = function () {
         return this.id;
+    };
+    SVEProject.prototype.getSplashImageURI = function () {
+        return SVESystemInfo_1.SVESystemInfo.getAPIRoot() + "/project/" + this.id + "/data/" + this.splashImgID + "/preview";
     };
     SVEProject.prototype.getName = function () {
         return this.name;

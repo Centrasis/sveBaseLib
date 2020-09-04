@@ -22,8 +22,10 @@ export declare class SVEProject {
     protected group?: SVEGroup;
     protected owner?: SVEAccount | number;
     protected handler?: SVEAccount;
+    protected splashImgID: number;
     protected type: SVEProjectType;
     getID(): number;
+    getSplashImageURI(): string;
     getName(): string;
     getType(): SVEProjectType;
     getOwner(): Promise<SVEAccount>;

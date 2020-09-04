@@ -30,10 +30,15 @@ export class SVEProject {
     protected group?: SVEGroup;
     protected owner?: SVEAccount | number;
     protected handler?: SVEAccount;
+    protected splashImgID: number = 0;
     protected type: SVEProjectType = SVEProjectType.Vacation;
 
     public getID(): number {
         return this.id;
+    }
+
+    public getSplashImageURI(): string {
+        return SVESystemInfo.getAPIRoot() + "/project/" + this.id + "/data/" + this.splashImgID + "/preview";
     }
 
     public getName(): string {
@@ -82,6 +87,7 @@ export class SVEProject {
                             this.name = val.name;
                             this.type = val.type;
                             this.handler = handler;
+                            this.splashImgID = val.splashImgID;
                             this.owner = new SVEAccount({id: val.owner} as BasicUserInitializer, (s) => {
                                 this.group = new SVEGroup(val.group, handler, (self) => {
                                     if (onReady !== undefined)
