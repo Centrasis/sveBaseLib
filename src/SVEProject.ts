@@ -190,7 +190,11 @@ export class SVEProject {
         return new Promise<SVEData[]>((resolve, reject) => {
             fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/data',
                 {
-                    method: "GET"
+                    method: "GET",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
+                    }
             }).then(response => {
                 if (response.status < 400) {
                     response.json().then(val => {

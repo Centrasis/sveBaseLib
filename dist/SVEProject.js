@@ -165,7 +165,11 @@ var SVEProject = /** @class */ (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/project/' + _this.id + '/data', {
-                method: "GET"
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
             }).then(function (response) {
                 if (response.status < 400) {
                     response.json().then(function (val) {
