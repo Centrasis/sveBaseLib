@@ -164,7 +164,7 @@ var SVEProject = /** @class */ (function () {
     SVEProject.prototype.getData = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/project/' + _this.id + '/data/list', {
+            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/project/' + _this.id + '/data', {
                 method: "GET"
             }).then(function (response) {
                 if (response.status < 400) {
@@ -173,7 +173,7 @@ var SVEProject = /** @class */ (function () {
                         var i = 0;
                         if (val.length > 0) {
                             val.foreach(function (v) {
-                                r.push(new SVEData_1.SVEData(_this.handler, { id: v.id, parentProject: _this, type: v.type }, function (s) {
+                                r.push(new SVEData_1.SVEData(_this.handler, { id: v.id, parentProject: _this, type: v.type, owner: v.owner }, function (s) {
                                     i++;
                                     if (i >= val.length) {
                                         resolve(r);
