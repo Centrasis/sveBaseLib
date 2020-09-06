@@ -168,7 +168,7 @@ var SVEProject = /** @class */ (function () {
                         var r = [];
                         var i = 0;
                         if (val.length > 0) {
-                            val.foreach(function (v) {
+                            val.forEach(function (v) {
                                 r.push(new SVEData(_this.handler, { id: v.id, parentProject: _this, type: v.type, owner: v.owner }, function (s) {
                                     i++;
                                     if (i >= val.length) {

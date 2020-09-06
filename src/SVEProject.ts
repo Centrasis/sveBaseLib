@@ -197,7 +197,7 @@ export class SVEProject {
                         let r: SVEData[] = [];
                         let i = 0;
                         if (val.length > 0) {
-                            val.foreach((v: any) => {
+                            val.forEach((v: any) => {
                                 r.push(new SVEData(this.handler!, {id: v.id as number, parentProject: this, type: v.type as SVEDataType, owner: v.owner }, (s) => {
                                     i++;
                                     if (i >= val.length) {
