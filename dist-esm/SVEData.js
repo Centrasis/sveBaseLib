@@ -193,7 +193,7 @@ var SVEData = /** @class */ (function () {
     };
     SVEData.prototype.getURI = function (version, download) {
         if (download === void 0) { download = false; }
-        return SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/" + (download) ? "download" : (SVEDataVersion.Full === version) ? "full" : "preview";
+        return (SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/") + ((download) ? "download" : ((SVEDataVersion.Full === version) ? "full" : "preview"));
     };
     SVEData.prototype.getBLOB = function (version) {
         var _this = this;

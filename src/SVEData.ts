@@ -237,7 +237,7 @@ export class SVEData {
     }
 
     public getURI(version: SVEDataVersion, download: boolean = false): string {
-        return SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "/" + (download) ? "download" : (SVEDataVersion.Full === version) ? "full" : "preview";
+        return (SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "/") + ((download) ? "download" : ((SVEDataVersion.Full === version) ? "full" : "preview"));
     }
 
     public getBLOB(version: SVEDataVersion): Promise<ArrayBuffer> {
