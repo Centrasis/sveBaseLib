@@ -226,7 +226,13 @@ export class SVEData {
 
     public store(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            resolve(true);
+            resolve(false);
+        });
+    }
+
+    public remove(): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            resolve(false);
         });
     }
 

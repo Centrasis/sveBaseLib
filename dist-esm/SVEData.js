@@ -183,7 +183,12 @@ var SVEData = /** @class */ (function () {
     };
     SVEData.prototype.store = function () {
         return new Promise(function (resolve, reject) {
-            resolve(true);
+            resolve(false);
+        });
+    };
+    SVEData.prototype.remove = function () {
+        return new Promise(function (resolve, reject) {
+            resolve(false);
         });
     };
     SVEData.prototype.getURI = function (version, download) {
