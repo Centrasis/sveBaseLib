@@ -117,6 +117,10 @@ var SVEData = /** @class */ (function () {
             return this.owner.getID();
         }
     };
+    //returns -1 when called by client
+    SVEData.prototype.getSize = function (version) {
+        return -1;
+    };
     SVEData.prototype.getOwner = function () {
         var _this = this;
         if (typeof this.owner === "number") {

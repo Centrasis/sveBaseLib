@@ -151,6 +151,11 @@ export class SVEData {
         }
     }
 
+    //returns -1 when called by client
+    public getSize(version: SVEDataVersion): number {
+        return -1;
+    }
+
     public getOwner(): Promise<SVEAccount> {
         if (typeof this.owner! === "number") {
             return new Promise<SVEAccount>((resolve, reject) => {

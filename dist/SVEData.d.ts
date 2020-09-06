@@ -42,6 +42,7 @@ export declare class SVEData {
     constructor(handler: SVEAccount, initInfo: number | SVEDataInitializer, onComplete: (self: SVEData) => void);
     getID(): number;
     getOwnerID(): number;
+    getSize(version: SVEDataVersion): number;
     getOwner(): Promise<SVEAccount>;
     getCreationDate(): Date;
     getLastAccessDate(): Date;
