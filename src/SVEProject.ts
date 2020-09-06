@@ -188,7 +188,7 @@ export class SVEProject {
 
     public getData(): Promise<SVEData[]> {
         return new Promise<SVEData[]>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/data/list',
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/data',
                 {
                     method: "GET"
             }).then(response => {
@@ -198,7 +198,7 @@ export class SVEProject {
                         let i = 0;
                         if (val.length > 0) {
                             val.foreach((v: any) => {
-                                r.push(new SVEData(this.handler!, {id: v.id as number, parentProject: this, type: v.type as SVEDataType }, (s) => {
+                                r.push(new SVEData(this.handler!, {id: v.id as number, parentProject: this, type: v.type as SVEDataType, owner: v.owner }, (s) => {
                                     i++;
                                     if (i >= val.length) {
                                         resolve(r);
