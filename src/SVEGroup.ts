@@ -1,6 +1,6 @@
 import { rejects } from 'assert';
 import { visitLexicalEnvironment } from 'typescript';
-import {BasicUserInitializer, SVEAccount} from './SVEAccount';
+import {BasicUserInitializer, SessionUserInitializer, SVEAccount} from './SVEAccount';
 import {ProjectInitializer, SVEProject, SVEProjectType} from './SVEProject';
 import {SVESystemInfo} from './SVESystemInfo';
 
@@ -55,7 +55,11 @@ export class SVEGroup {
             }).then(response => {;
                 if (response.status < 400) {
                     response.json().then((val) => {
-                        resolve(val as SVEAccount[]);
+                        let r: SVEAccount[] = [];
+                        val.forEach((v:any) => {
+                            r.push(new SVEAccount(v as SessionUserInitializer));
+                        });
+                        resolve(r);
                     });
                 } else {
                     reject({
