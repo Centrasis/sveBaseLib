@@ -230,8 +230,8 @@ export class SVEData {
         });
     }
 
-    public getURI(): string {
-        return SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "/" + (SVEDataVersion.Full == this.currentDataVersion) ? "full" : "preview";
+    public getURI(version: SVEDataVersion, download: boolean = false): string {
+        return SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "/" + (download) ? "download" : (SVEDataVersion.Full === version) ? "full" : "preview";
     }
 
     public getBLOB(version: SVEDataVersion): Promise<ArrayBuffer> {
@@ -239,7 +239,7 @@ export class SVEData {
             if(this.data === undefined || this.currentDataVersion !== version) {
                 this.currentDataVersion = version;
                 var self = this;
-                fetch(this.getURI(), {
+                fetch(this.getURI(version), {
                         method: 'GET',
                         headers: {
                             'Accept': '*'

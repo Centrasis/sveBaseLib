@@ -186,8 +186,9 @@ var SVEData = /** @class */ (function () {
             resolve(true);
         });
     };
-    SVEData.prototype.getURI = function () {
-        return SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/" + (SVEDataVersion.Full == this.currentDataVersion) ? "full" : "preview";
+    SVEData.prototype.getURI = function (version, download) {
+        if (download === void 0) { download = false; }
+        return SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/" + (download) ? "download" : (SVEDataVersion.Full === version) ? "full" : "preview";
     };
     SVEData.prototype.getBLOB = function (version) {
         var _this = this;
@@ -195,7 +196,7 @@ var SVEData = /** @class */ (function () {
             if (_this.data === undefined || _this.currentDataVersion !== version) {
                 _this.currentDataVersion = version;
                 var self = _this;
-                fetch(_this.getURI(), {
+                fetch(_this.getURI(version), {
                     method: 'GET',
                     headers: {
                         'Accept': '*'
