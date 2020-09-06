@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SVEGroup = void 0;
+var SVEAccount_1 = require("./SVEAccount");
 var SVEProject_1 = require("./SVEProject");
 var SVESystemInfo_1 = require("./SVESystemInfo");
 var SVEGroup = /** @class */ (function () {
@@ -78,7 +79,11 @@ var SVEGroup = /** @class */ (function () {
                 ;
                 if (response.status < 400) {
                     response.json().then(function (val) {
-                        resolve(val);
+                        var r = [];
+                        val.forEach(function (v) {
+                            r.push(new SVEAccount_1.SVEAccount(v));
+                        });
+                        resolve(r);
                     });
                 }
                 else {

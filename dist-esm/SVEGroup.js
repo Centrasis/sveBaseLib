@@ -1,3 +1,4 @@
+import { SVEAccount } from './SVEAccount';
 import { SVEProject } from './SVEProject';
 import { SVESystemInfo } from './SVESystemInfo';
 var SVEGroup = /** @class */ (function () {
@@ -75,7 +76,11 @@ var SVEGroup = /** @class */ (function () {
                 ;
                 if (response.status < 400) {
                     response.json().then(function (val) {
-                        resolve(val);
+                        var r = [];
+                        val.forEach(function (v) {
+                            r.push(new SVEAccount(v));
+                        });
+                        resolve(r);
                     });
                 }
                 else {
