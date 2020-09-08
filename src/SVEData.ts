@@ -215,6 +215,22 @@ export class SVEData {
         return r;
     }
 
+    public static type2Str(t: SVEDataType): string {
+        if(t === SVEDataType.Image) {
+            return "Image";
+        }
+        if(t === SVEDataType.Video) {
+            return "Video";
+        }
+        if(t === SVEDataType.PDF) {
+            return "PDF";
+        }
+        if(t === SVEDataType.CSV) {
+            return "CSV";
+        }
+        return "BLOB";
+    }
+
     public static getTypeFromExt(str: string): SVEDataType {
         str = str.toLowerCase();
         Object.values(SVEDataType).forEach((type) => {
