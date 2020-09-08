@@ -82,6 +82,8 @@ var SVEData = /** @class */ (function () {
                 this.localDataInfo = initInfo.path;
             this.parentProject = initInfo.parentProject;
             this.owner = initInfo.owner;
+            if (initInfo.creation !== undefined)
+                this.creation = initInfo.creation;
             onComplete(this);
         }
     }

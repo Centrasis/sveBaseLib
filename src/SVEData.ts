@@ -25,7 +25,8 @@ export interface SVEDataInitializer {
     path?: SVELocalDataInfo,
     type: SVEDataType,
     parentProject?: SVEProject,
-    owner?: SVEAccount | number
+    owner?: SVEAccount | number,
+    creation?: Date
 }
 
 export interface SVELocalDataInfo {
@@ -142,6 +143,8 @@ export class SVEData {
                 this.localDataInfo = (initInfo as SVEDataInitializer).path;
             this.parentProject = (initInfo as SVEDataInitializer).parentProject;
             this.owner = (initInfo as SVEDataInitializer).owner;
+            if((initInfo as SVEDataInitializer).creation !== undefined)
+                this.creation = (initInfo as SVEDataInitializer).creation!;
 
             onComplete(this);
         }
