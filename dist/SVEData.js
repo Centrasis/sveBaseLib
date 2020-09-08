@@ -195,9 +195,13 @@ var SVEData = /** @class */ (function () {
     };
     SVEData.getTypeFromExt = function (str) {
         var inStr = str.toLowerCase();
+        console.log("lower: " + inStr);
         [SVEDataType.CSV, SVEDataType.Image, SVEDataType.PDF, SVEDataType.Video].forEach(function (type) {
+            console.log("check type: " + type);
             typeMap.get(type).forEach(function (ext) {
+                console.log("check ext: " + ext);
                 if (inStr.endsWith(ext)) {
+                    console.log("found type: " + type);
                     return type;
                 }
             });
