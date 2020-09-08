@@ -236,19 +236,16 @@ export class SVEData {
 
     public static getTypeFromExt(str: string): SVEDataType {
         let inStr = str.toLowerCase();
-        console.log("lower: " + inStr);
+        let retType = SVEDataType.BLOB;
         [SVEDataType.CSV, SVEDataType.Image, SVEDataType.PDF, SVEDataType.Video].forEach(type => {
-            console.log("check type: " + type);
             typeMap.get(type)!.forEach(ext => {
-                console.log("check ext: " + ext);
                 if (inStr.endsWith(ext)) {
-                    console.log("found type: " + type);
-                    return type;
+                    retType = type;
                 }
             });
         });
 
-        return SVEDataType.BLOB;
+        return retType;
     }
 
     public getName(): string {
