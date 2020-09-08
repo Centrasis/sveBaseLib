@@ -48,7 +48,10 @@ var SVEProject = /** @class */ (function () {
                             _this.type = val.type;
                             _this.handler = handler;
                             _this.splashImgID = val.splashImgID;
-                            _this.dateRange = ("dateRange" in val) ? val.dateRange : undefined;
+                            _this.dateRange = ("dateRange" in val) ? {
+                                begin: new Date(val.dateRange.begin),
+                                end: new Date(val.dateRange.end)
+                            } : undefined;
                             _this.state = val.state;
                             _this.owner = new SVEAccount_1.SVEAccount({ id: val.owner }, function (s) {
                                 _this.group = new SVEGroup_1.SVEGroup(val.group, handler, function (self) {

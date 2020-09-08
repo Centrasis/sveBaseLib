@@ -155,7 +155,10 @@ export class SVEProject {
                             this.type = val.type;
                             this.handler = handler;
                             this.splashImgID = val.splashImgID;
-                            this.dateRange = ("dateRange" in val) ? val.dateRange as DateRange : undefined;
+                            this.dateRange = ("dateRange" in val) ? {
+                                begin: new Date(val.dateRange.begin),
+                                end : new Date(val.dateRange.end)
+                            } : undefined;
                             this.state = val.state as SVEProjectState;
                             this.owner = new SVEAccount({id: val.owner} as BasicUserInitializer, (s) => {
                                 this.group = new SVEGroup(val.group, handler, (self) => {
