@@ -173,6 +173,21 @@ var SVEData = /** @class */ (function () {
         }
         return r;
     };
+    SVEData.type2Str = function (t) {
+        if (t === SVEDataType.Image) {
+            return "Image";
+        }
+        if (t === SVEDataType.Video) {
+            return "Video";
+        }
+        if (t === SVEDataType.PDF) {
+            return "PDF";
+        }
+        if (t === SVEDataType.CSV) {
+            return "CSV";
+        }
+        return "BLOB";
+    };
     SVEData.getTypeFromExt = function (str) {
         str = str.toLowerCase();
         Object.values(SVEDataType).forEach(function (type) {
