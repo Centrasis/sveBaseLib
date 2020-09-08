@@ -10,6 +10,7 @@ var SVEDataType;
     SVEDataType[SVEDataType["Video"] = 1] = "Video";
     SVEDataType[SVEDataType["PDF"] = 2] = "PDF";
     SVEDataType[SVEDataType["CSV"] = 3] = "CSV";
+    SVEDataType[SVEDataType["BLOB"] = 4] = "BLOB";
 })(SVEDataType = exports.SVEDataType || (exports.SVEDataType = {}));
 var SVEDataVersion;
 (function (SVEDataVersion) {
@@ -28,6 +29,12 @@ mimeMap.set("svg", 'image/svg+xml');
 mimeMap.set("js", 'application/javascript');
 mimeMap.set("mp4", 'video/mp4');
 mimeMap.set("pdf", 'application/pdf');
+var typeMap = new Map();
+typeMap.set(SVEDataType.CSV, ['.csv', '.xlsx']);
+typeMap.set(SVEDataType.Image, [".png", ".jpg", ".jpeg", ".tiff", ".bmp", ".raw"]);
+typeMap.set(SVEDataType.Video, [".avi", ".mp4", ".mpg", "mpeg", ".m4v"]);
+typeMap.set(SVEDataType.PDF, [".pdf"]);
+typeMap.set(SVEDataType.BLOB, []);
 var SVEData = /** @class */ (function () {
     // gets the data by index if initInfo is number. Else a new data record is created on server
     function SVEData(handler, initInfo, onComplete) {
@@ -168,6 +175,19 @@ var SVEData = /** @class */ (function () {
             }
         }
         return r;
+    };
+    SVEData.getTypeFromExt = function (str) {
+        str = str.toLowerCase();
+        Object.values(SVEDataType).forEach(function (type) {
+            if (typeof type !== "string") {
+                for (var ext in typeMap.get(type)) {
+                    if (str.endsWith(ext)) {
+                        return type;
+                    }
+                }
+            }
+        });
+        return SVEDataType.BLOB;
     };
     SVEData.prototype.getName = function () {
         if (this.localDataInfo === undefined) {

@@ -9,7 +9,8 @@ export enum SVEDataType {
     Image,
     Video,
     PDF,
-    CSV
+    CSV,
+    BLOB
 }
 
 export enum SVEDataVersion {
@@ -43,6 +44,13 @@ mimeMap.set("svg", 'image/svg+xml');
 mimeMap.set("js", 'application/javascript');
 mimeMap.set("mp4", 'video/mp4');
 mimeMap.set("pdf", 'application/pdf');
+
+var typeMap: Map<SVEDataType, string[]> = new Map();
+typeMap.set(SVEDataType.CSV, ['.csv', '.xlsx']);
+typeMap.set(SVEDataType.Image, [".png", ".jpg", ".jpeg", ".tiff", ".bmp", ".raw"]);
+typeMap.set(SVEDataType.Video, [".avi", ".mp4", ".mpg", "mpeg", ".m4v"]);
+typeMap.set(SVEDataType.PDF, [".pdf"]);
+typeMap.set(SVEDataType.BLOB, []);
 
 export class SVEData {
     protected type: SVEDataType = SVEDataType.Image;
@@ -205,6 +213,21 @@ export class SVEData {
         }
 
         return r;
+    }
+
+    public static getTypeFromExt(str: string): SVEDataType {
+        str = str.toLowerCase();
+        Object.values(SVEDataType).forEach((type) => {
+            if (typeof type !== "string") {
+                for (let ext in typeMap.get(type)) {
+                    if (str.endsWith(ext)) {
+                        return type;
+                    }
+                }
+            }
+        });
+
+        return SVEDataType.BLOB;
     }
 
     public getName(): string {

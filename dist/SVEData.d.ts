@@ -6,7 +6,8 @@ export declare enum SVEDataType {
     Image = 0,
     Video = 1,
     PDF = 2,
-    CSV = 3
+    CSV = 3,
+    BLOB = 4
 }
 export declare enum SVEDataVersion {
     Full = 0,
@@ -48,6 +49,7 @@ export declare class SVEData {
     getLastAccessDate(): Date;
     getCacheType(): string;
     getContentType(): string;
+    static getTypeFromExt(str: string): SVEDataType;
     getName(): string;
     getType(): SVEDataType;
     getProject(): SVEProject;
