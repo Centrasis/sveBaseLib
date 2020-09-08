@@ -191,15 +191,13 @@ var SVEData = /** @class */ (function () {
         return "BLOB";
     };
     SVEData.getTypeFromExt = function (str) {
-        str = str.toLowerCase();
-        Object.values(SVEDataType).forEach(function (type) {
-            if (typeof type !== "string") {
-                for (var ext in typeMap.get(type)) {
-                    if (str.endsWith(ext)) {
-                        return type;
-                    }
+        var inStr = str.toLowerCase();
+        [SVEDataType.CSV, SVEDataType.Image, SVEDataType.PDF, SVEDataType.Video].forEach(function (type) {
+            typeMap.get(type).forEach(function (ext) {
+                if (inStr.endsWith(ext)) {
+                    return type;
                 }
-            }
+            });
         });
         return SVEDataType.BLOB;
     };

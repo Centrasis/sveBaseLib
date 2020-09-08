@@ -235,15 +235,13 @@ export class SVEData {
     }
 
     public static getTypeFromExt(str: string): SVEDataType {
-        str = str.toLowerCase();
-        Object.values(SVEDataType).forEach((type) => {
-            if (typeof type !== "string") {
-                for (let ext in typeMap.get(type)) {
-                    if (str.endsWith(ext)) {
-                        return type;
-                    }
+        let inStr = str.toLowerCase();
+        [SVEDataType.CSV, SVEDataType.Image, SVEDataType.PDF, SVEDataType.Video].forEach(type => {
+            typeMap.get(type)!.forEach(ext => {
+                if (inStr.endsWith(ext)) {
+                    return type;
                 }
-            }
+            });
         });
 
         return SVEDataType.BLOB;
