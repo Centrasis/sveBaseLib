@@ -273,7 +273,14 @@ export class SVEData {
 
     public remove(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            resolve(false);
+            fetch(SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "/", {
+                method: 'DELETE',
+                headers: {
+                    'Accept': '*'
+                }
+            }).then(response => {
+                resolve(response.status == 200);
+            });
         });
     }
 

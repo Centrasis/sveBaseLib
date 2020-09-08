@@ -223,8 +223,16 @@ var SVEData = /** @class */ (function () {
         });
     };
     SVEData.prototype.remove = function () {
+        var _this = this;
         return new Promise(function (resolve, reject) {
-            resolve(false);
+            fetch(SVESystemInfo.getAPIRoot() + "/project/" + _this.parentProject.getID() + "/data/" + _this.id + "/", {
+                method: 'DELETE',
+                headers: {
+                    'Accept': '*'
+                }
+            }).then(function (response) {
+                resolve(response.status == 200);
+            });
         });
     };
     SVEData.prototype.getURI = function (version, download) {
