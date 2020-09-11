@@ -160,9 +160,9 @@ export class SVEAccount {
             }).then(response => {
                 if (response.status < 400) {
                     response.json().then((val) => {
+                        this.init(LoginState.NotLoggedIn);
                         this.name = val.name;
                         this.id = val.id;
-                        this.init(LoginState.NotLoggedIn);
                         resolve(true);
                     });
                 } else {

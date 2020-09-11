@@ -126,9 +126,9 @@ var SVEAccount = /** @class */ (function () {
             }).then(function (response) {
                 if (response.status < 400) {
                     response.json().then(function (val) {
+                        _this.init(LoginState.NotLoggedIn);
                         _this.name = val.name;
                         _this.id = val.id;
-                        _this.init(LoginState.NotLoggedIn);
                         resolve(true);
                     });
                 }
