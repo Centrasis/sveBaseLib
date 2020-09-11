@@ -90,7 +90,7 @@ export class SVEAccount {
     // if onLogin is set a login will be perfomed. Otherwise the class will only be created
     public constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo, onLogin?: (state: SVEAccount) => void) {
         if(isLoginInfo(user) || isTokenInfo(user)) {
-            this.init(null, LoginState.NotLoggedIn);
+            this.init(LoginState.NotLoggedIn);
 
             if (isTokenInfo(user)) {
                 this.doTokenLogin({
@@ -139,10 +139,8 @@ export class SVEAccount {
         }
     }
 
-    protected init(initObj: any, state: LoginState) {
-        if (initObj !== null) {
-            this.name = initObj.name;
-            this.id = initObj.id;
+    protected init(state: LoginState) {
+        if (state !== LoginState.NotLoggedIn) {
             this.loginState = state;
         } else {
             this.name = "";
@@ -162,7 +160,9 @@ export class SVEAccount {
             }).then(response => {
                 if (response.status < 400) {
                     response.json().then((val) => {
-                        this.init(val, LoginState.NotLoggedIn);
+                        this.name = val.name;
+                        this.id = val.id;
+                        this.init(LoginState.NotLoggedIn);
                         resolve(true);
                     });
                 } else {
@@ -189,7 +189,9 @@ export class SVEAccount {
                     if (response.status < 400) {
                         response.json().then((val) => {
                             if(val.success === true) {
-                                this.init(val, LoginState.LoggedInByUser);
+                                this.name = val.user;
+                                this.id = val.id;
+                                this.init(LoginState.LoggedInByUser);
                             }
                             resolve(this.loginState);
                         }, err => reject(err));  
@@ -221,7 +223,9 @@ export class SVEAccount {
                     if (response.status < 400) {
                         response.json().then((val) => {
                             if(val.success === true) {
-                                this.init(val, LoginState.LoggedInByToken);
+                                this.name = val.user;
+                                this.id = val.id;
+                                this.init(LoginState.LoggedInByToken);
                             }
                             resolve(this.loginState);
                         });  

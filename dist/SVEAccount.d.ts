@@ -44,7 +44,7 @@ export declare class SVEAccount {
     setSessionID(id: string): void;
     getLoginState(): LoginState;
     constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo, onLogin?: (state: SVEAccount) => void);
-    protected init(initObj: any, state: LoginState): void;
+    protected init(state: LoginState): void;
     protected getByID(id: number): Promise<boolean>;
     protected doLogin(info: BasicUserLoginInfo): Promise<LoginState>;
     createTokenFor(ressource: String, user: String): Promise<Token>;

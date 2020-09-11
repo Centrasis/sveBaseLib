@@ -42,7 +42,7 @@ var SVEAccount = /** @class */ (function () {
         this.id = NaN;
         this.sessionID = "";
         if (isLoginInfo(user) || isTokenInfo(user)) {
-            this.init(null, LoginState.NotLoggedIn);
+            this.init(LoginState.NotLoggedIn);
             if (isTokenInfo(user)) {
                 this.doTokenLogin({
                     user: user.name,
@@ -104,10 +104,8 @@ var SVEAccount = /** @class */ (function () {
     SVEAccount.prototype.getLoginState = function () {
         return this.loginState;
     };
-    SVEAccount.prototype.init = function (initObj, state) {
-        if (initObj !== null) {
-            this.name = initObj.name;
-            this.id = initObj.id;
+    SVEAccount.prototype.init = function (state) {
+        if (state !== LoginState.NotLoggedIn) {
             this.loginState = state;
         }
         else {
@@ -128,7 +126,9 @@ var SVEAccount = /** @class */ (function () {
             }).then(function (response) {
                 if (response.status < 400) {
                     response.json().then(function (val) {
-                        _this.init(val, LoginState.NotLoggedIn);
+                        _this.name = val.name;
+                        _this.id = val.id;
+                        _this.init(LoginState.NotLoggedIn);
                         resolve(true);
                     });
                 }
@@ -156,7 +156,9 @@ var SVEAccount = /** @class */ (function () {
                     if (response.status < 400) {
                         response.json().then(function (val) {
                             if (val.success === true) {
-                                _this.init(val, LoginState.LoggedInByUser);
+                                _this.name = val.user;
+                                _this.id = val.id;
+                                _this.init(LoginState.LoggedInByUser);
                             }
                             resolve(_this.loginState);
                         }, function (err) { return reject(err); });
@@ -188,7 +190,9 @@ var SVEAccount = /** @class */ (function () {
                     if (response.status < 400) {
                         response.json().then(function (val) {
                             if (val.success === true) {
-                                _this.init(val, LoginState.LoggedInByToken);
+                                _this.name = val.user;
+                                _this.id = val.id;
+                                _this.init(LoginState.LoggedInByToken);
                             }
                             resolve(_this.loginState);
                         });
