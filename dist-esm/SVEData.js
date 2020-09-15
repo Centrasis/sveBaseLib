@@ -29,7 +29,7 @@ mimeMap.set("pdf", 'application/pdf');
 var typeMap = new Map();
 typeMap.set(SVEDataType.CSV, ['.csv', '.xlsx']);
 typeMap.set(SVEDataType.Image, [".png", ".jpg", ".jpeg", ".tiff", ".bmp", ".raw"]);
-typeMap.set(SVEDataType.Video, [".avi", ".mp4", ".mpg", "mpeg", ".m4v"]);
+typeMap.set(SVEDataType.Video, [".avi", ".mp4", ".mpg", ".mpeg", ".m4v", ".mov"]);
 typeMap.set(SVEDataType.PDF, [".pdf"]);
 typeMap.set(SVEDataType.BLOB, []);
 var SVEData = /** @class */ (function () {
