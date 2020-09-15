@@ -98,7 +98,7 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.getRightsForUser = function (handler) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id + "/rights", {
+            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id + "/user/" + handler.getID() + "/rights", {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -107,7 +107,11 @@ var SVEGroup = /** @class */ (function () {
             }).then(function (response) {
                 if (response.status < 400) {
                     response.json().then(function (val) {
-                        resolve(val);
+                        resolve({
+                            admin: val.admin,
+                            read: val.read,
+                            write: val.write
+                        });
                     });
                 }
                 else {

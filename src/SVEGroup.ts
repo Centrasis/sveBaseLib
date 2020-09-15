@@ -82,7 +82,11 @@ export class SVEGroup {
             }).then(response => {
                 if (response.status < 400) {
                     response.json().then((val) => {
-                        resolve(val as UserRights);
+                        resolve({
+                            admin: val.admin as boolean,
+                            read: val.read as boolean,
+                            write: val.write as boolean
+                        } as UserRights);
                     });
                 } else {
                     reject({
