@@ -73,7 +73,7 @@ export class SVEGroup {
 
     public getRightsForUser(handler: SVEAccount): Promise<UserRights> {
         return new Promise<UserRights>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + "/rights", {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + "/user/" + handler.getID() + "/rights", {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
