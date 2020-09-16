@@ -95,6 +95,21 @@ var SVEGroup = /** @class */ (function () {
             });
         });
     };
+    SVEGroup.prototype.setRightsForUser = function (handler, rights) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id + "/user/" + handler.getID() + "/rights", {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(rights)
+            }).then(function (response) {
+                resolve(response.status < 400);
+            });
+        });
+    };
     SVEGroup.prototype.getRightsForUser = function (handler) {
         var _this = this;
         return new Promise(function (resolve, reject) {

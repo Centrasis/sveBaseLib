@@ -71,6 +71,21 @@ export class SVEGroup {
         });
     }
 
+    public setRightsForUser(handler: SVEAccount, rights: UserRights): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + "/user/" + handler.getID() + "/rights", {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify(rights)
+            }).then(response => {
+                resolve(response.status < 400);
+            });
+        });
+    }
+
     public getRightsForUser(handler: SVEAccount): Promise<UserRights> {
         return new Promise<UserRights>((resolve, reject) => {
             fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + "/user/" + handler.getID() + "/rights", {
