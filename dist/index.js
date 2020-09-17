@@ -15,3 +15,4 @@ __exportStar(require("./SVEAccount"), exports);
 __exportStar(require("./SVEProject"), exports);
 __exportStar(require("./SVEGroup"), exports);
 __exportStar(require("./SVEData"), exports);
+__exportStar(require("./SVEQueries"), exports);
