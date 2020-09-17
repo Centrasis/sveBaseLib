@@ -47,7 +47,8 @@ export class SVEProjectQuery extends SVEQuery {
                             results = results.sort((a,b) => a.distance - b.distance);
                             let r: (SVEProject | SVEGroup)[] = [];
                             let i = 0;
-                            results.forEach(res => {
+                            for (let j = 0; j < results.length; j++) {
+                                let res = results[j];
                                 if (res.typ === QueryResultType.Project) {
                                     new SVEProject(res.id, requester, (prj) => {
                                         r.push(prj);
@@ -66,7 +67,7 @@ export class SVEProjectQuery extends SVEQuery {
                                         }
                                     });
                                 }
-                            });
+                            };
 
                             if (results.length === 0) {
                                 resolve([]);
