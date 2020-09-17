@@ -4,16 +4,16 @@ import {SVEProject} from './SVEProject';
 import {SVESystemInfo} from './SVESystemInfo';
 
 export class SVEQuery {
-    public static query(str: string, requester: SVEAccount): Promise<SVEGroup[] | SVEProject[]> {
-        return new Promise<SVEGroup[] | SVEProject[]>((res, rej) => {
+    public static query(str: string, requester: SVEAccount): Promise<(SVEProject | SVEGroup)[]> {
+        return new Promise<(SVEProject | SVEGroup)[]>((res, rej) => {
             res([]);
         });
     }
 }
 
 export class SVEProjectQuery extends SVEQuery {
-    public static query(str: string, requester: SVEAccount): Promise<SVEGroup[] | SVEProject[]> {
-        return new Promise<SVEGroup[] | SVEProject[]>((resolve, reject) => {
+    public static query(str: string, requester: SVEAccount): Promise<(SVEProject | SVEGroup)[]> {
+        return new Promise<(SVEProject | SVEGroup)[]>((resolve, reject) => {
             if (typeof SVESystemInfo.getInstance().sources.sveService !== undefined) {
                 fetch(SVESystemInfo.getInstance().sources.sveService + '/query/' + encodeURI(str), {
                         method: 'GET',
