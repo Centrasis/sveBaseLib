@@ -3,6 +3,16 @@ import {SVEGroup} from './SVEGroup';
 import {SVEProject} from './SVEProject';
 import {SVESystemInfo} from './SVESystemInfo';
 
+export enum QueryResultType {
+    Project,
+    Group
+}
+
+export interface RawQueryResult {
+    typ: QueryResultType,
+    id: number
+}
+
 export class SVEQuery {
     public static query(str: string, requester: SVEAccount): Promise<(SVEProject | SVEGroup)[]> {
         return new Promise<(SVEProject | SVEGroup)[]>((res, rej) => {
@@ -24,24 +34,38 @@ export class SVEProjectQuery extends SVEQuery {
                 }).then(response => {
                     if (response.status < 400) {
                         response.json().then((val) => {
-                            let projects: number[] = [];
-                            val.forEach((pid: number) => {
-                                projects.push(Number(pid));
-                            });
-
-                            let r: SVEProject[] = [];
-                            let i = 0;
-                            projects.forEach(pid => {
-                                new SVEProject(pid, requester, (prj) => {
-                                    r.push(prj);
-                                    i++;
-                                    if (i >= projects.length) {
-                                        resolve(r);
-                                    }
+                            let results: RawQueryResult[] = [];
+                            val.forEach((res: RawQueryResult) => {
+                                results.push({
+                                    typ: res.typ as QueryResultType,
+                                    id: Number(res.id)
                                 });
                             });
 
-                            if (projects.length === 0) {
+                            let r: (SVEProject | SVEGroup)[] = [];
+                            let i = 0;
+                            results.forEach(res => {
+                                if (res.typ === QueryResultType.Project) {
+                                    new SVEProject(res.id, requester, (prj) => {
+                                        r.push(prj);
+                                        i++;
+                                        if (i >= results.length) {
+                                            resolve(r);
+                                        }
+                                    });
+                                } else {
+                                    new SVEGroup(res.id, requester, (group) => {
+                                        if(group !== undefined)
+                                            r.push(group!);
+                                        i++;
+                                        if (i >= results.length) {
+                                            resolve(r);
+                                        }
+                                    });
+                                }
+                            });
+
+                            if (results.length === 0) {
                                 resolve([]);
                             }
                         });
