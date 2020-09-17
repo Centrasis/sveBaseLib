@@ -10,7 +10,8 @@ export enum QueryResultType {
 
 export interface RawQueryResult {
     typ: QueryResultType,
-    id: number
+    id: number,
+    distance: number
 }
 
 export class SVEQuery {
@@ -38,10 +39,12 @@ export class SVEProjectQuery extends SVEQuery {
                             val.forEach((res: RawQueryResult) => {
                                 results.push({
                                     typ: res.typ as QueryResultType,
-                                    id: Number(res.id)
+                                    id: Number(res.id),
+                                    distance: Number(res.distance)
                                 });
                             });
-
+                            
+                            results = results.sort((a,b) => a.distance - b.distance);
                             let r: (SVEProject | SVEGroup)[] = [];
                             let i = 0;
                             results.forEach(res => {
