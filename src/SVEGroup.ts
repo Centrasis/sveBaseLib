@@ -10,6 +10,10 @@ export interface UserRights {
     admin: boolean;
 }
 
+export interface GroupInitializer {
+    name: string
+}
+
 export class SVEGroup {
     protected handler?: SVEAccount;
     protected id: number = NaN;
@@ -113,34 +117,54 @@ export class SVEGroup {
         });
     }
 
-    public constructor(id: number, handler: SVEAccount, onReady?: (self?: SVEGroup) => void) {
+    public constructor(id: number | GroupInitializer, handler: SVEAccount, onReady?: (self?: SVEGroup) => void) {
         if (!SVESystemInfo.getIsServer()) {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json' 
-                    }
-            }).then(response => {
-                if (response.status < 400) {
-                    response.json().then((val) => {
-                        if("group" in val) {
-                            this.id = val.group.id;
-                            this.name = val.group.name;
-                            this.projects = val.projects as number[];
-                            this.handler = handler;
+            if(typeof id === "number") {
+                fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json' 
                         }
+                }).then(response => {
+                    if (response.status < 400) {
+                        response.json().then((val) => {
+                            if("group" in val) {
+                                this.id = val.group.id;
+                                this.name = val.group.name;
+                                this.projects = val.projects as number[];
+                                this.handler = handler;
+                            }
+                            if(onReady !== undefined)
+                                onReady!(this);
+                        });
+                    } else {
                         if(onReady !== undefined)
                             onReady!(this);
-                    });
-                } else {
-                    if(onReady !== undefined)
-                        onReady!(this);
-                }
-            }, err => { if(onReady !== undefined) onReady!(this) });
+                    }
+                }, err => { if(onReady !== undefined) onReady!(this) });
+            } else {
+                this.name = id.name;
+                onReady!(this);
+            }
         } else {
             onReady!(this);
         }
+    }
+
+    public store() {
+        return new Promise<boolean>((resolve, reject) => {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + ((this.id !== NaN) ? this.id : "new"), {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify(this)
+            }).then(response => {
+                resolve(response.status == 200);
+            });
+        });
     }
 
     public static getGroupsOf(handler: SVEAccount): Promise<SVEGroup[]> {

@@ -5,6 +5,9 @@ export interface UserRights {
     write: boolean;
     admin: boolean;
 }
+export interface GroupInitializer {
+    name: string;
+}
 export declare class SVEGroup {
     protected handler?: SVEAccount;
     protected id: number;
@@ -16,7 +19,8 @@ export declare class SVEGroup {
     getUsers(): Promise<SVEAccount[]>;
     setRightsForUser(handler: SVEAccount, rights: UserRights): Promise<boolean>;
     getRightsForUser(handler: SVEAccount): Promise<UserRights>;
-    constructor(id: number, handler: SVEAccount, onReady?: (self?: SVEGroup) => void);
+    constructor(id: number | GroupInitializer, handler: SVEAccount, onReady?: (self?: SVEGroup) => void);
+    store(): Promise<boolean>;
     static getGroupsOf(handler: SVEAccount): Promise<SVEGroup[]>;
 }
 //# sourceMappingURL=SVEGroup.d.ts.map

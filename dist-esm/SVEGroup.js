@@ -8,31 +8,37 @@ var SVEGroup = /** @class */ (function () {
         this.name = "";
         this.projects = [];
         if (!SVESystemInfo.getIsServer()) {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }).then(function (response) {
-                if (response.status < 400) {
-                    response.json().then(function (val) {
-                        if ("group" in val) {
-                            _this.id = val.group.id;
-                            _this.name = val.group.name;
-                            _this.projects = val.projects;
-                            _this.handler = handler;
-                        }
+            if (typeof id === "number") {
+                fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }).then(function (response) {
+                    if (response.status < 400) {
+                        response.json().then(function (val) {
+                            if ("group" in val) {
+                                _this.id = val.group.id;
+                                _this.name = val.group.name;
+                                _this.projects = val.projects;
+                                _this.handler = handler;
+                            }
+                            if (onReady !== undefined)
+                                onReady(_this);
+                        });
+                    }
+                    else {
                         if (onReady !== undefined)
                             onReady(_this);
-                    });
-                }
-                else {
-                    if (onReady !== undefined)
-                        onReady(_this);
-                }
-            }, function (err) { if (onReady !== undefined)
-                onReady(_this); });
+                    }
+                }, function (err) { if (onReady !== undefined)
+                    onReady(_this); });
+            }
+            else {
+                this.name = id.name;
+                onReady(this);
+            }
         }
         else {
             onReady(this);
@@ -133,6 +139,21 @@ var SVEGroup = /** @class */ (function () {
                     });
                 }
             }, function (err) { return reject(err); });
+        });
+    };
+    SVEGroup.prototype.store = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + ((_this.id !== NaN) ? _this.id : "new"), {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(_this)
+            }).then(function (response) {
+                resolve(response.status == 200);
+            });
         });
     };
     SVEGroup.getGroupsOf = function (handler) {
