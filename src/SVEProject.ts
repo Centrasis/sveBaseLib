@@ -18,10 +18,10 @@ export interface ProjectInitializer {
     id: number,
     name: string,
     group: SVEGroup,
-    splashImg: string,
+    splashImg?: number,
     owner: SVEAccount | number,
     state: string,
-    resultsURI: string,
+    resultsURI?: string,
     type: SVEProjectType
 }
 
@@ -154,7 +154,7 @@ export class SVEProject {
                             this.name = val.name;
                             this.type = val.type;
                             this.handler = handler;
-                            this.splashImgID = val.splashImgID;
+                            this.splashImgID = "splashImgID" in val ? Number(val.splashImgID) : 0;
                             this.dateRange = ("dateRange" in val) ? {
                                 begin: new Date(val.dateRange.begin),
                                 end : new Date(val.dateRange.end)
@@ -180,6 +180,8 @@ export class SVEProject {
             this.type = (idx as ProjectInitializer).type;
             this.handler = handler;
             this.owner = (idx as ProjectInitializer).owner;
+            this.splashImgID = ((idx as ProjectInitializer).splashImg !== undefined) ? (idx as ProjectInitializer).splashImg! : 0;
+
             if (onReady !== undefined)
                 onReady!(this);
         }

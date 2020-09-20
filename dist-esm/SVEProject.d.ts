@@ -13,10 +13,10 @@ export interface ProjectInitializer {
     id: number;
     name: string;
     group: SVEGroup;
-    splashImg: string;
+    splashImg?: number;
     owner: SVEAccount | number;
     state: string;
-    resultsURI: string;
+    resultsURI?: string;
     type: SVEProjectType;
 }
 export interface DateRange {

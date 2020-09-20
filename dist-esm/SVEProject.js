@@ -43,7 +43,7 @@ var SVEProject = /** @class */ (function () {
                             _this.name = val.name;
                             _this.type = val.type;
                             _this.handler = handler;
-                            _this.splashImgID = val.splashImgID;
+                            _this.splashImgID = "splashImgID" in val ? Number(val.splashImgID) : 0;
                             _this.dateRange = ("dateRange" in val) ? {
                                 begin: new Date(val.dateRange.begin),
                                 end: new Date(val.dateRange.end)
@@ -72,6 +72,7 @@ var SVEProject = /** @class */ (function () {
             this.type = idx.type;
             this.handler = handler;
             this.owner = idx.owner;
+            this.splashImgID = (idx.splashImg !== undefined) ? idx.splashImg : 0;
             if (onReady !== undefined)
                 onReady(this);
         }
