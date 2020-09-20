@@ -158,6 +158,17 @@ var SVEProject = /** @class */ (function () {
             });
         });
     };
+    SVEProject.prototype.getAsInitializer = function () {
+        return {
+            id: this.id,
+            group: this.group,
+            name: this.name,
+            owner: this.owner,
+            state: this.state,
+            type: this.type,
+            splashImg: this.splashImgID
+        };
+    };
     SVEProject.prototype.getGroup = function () {
         return this.group;
     };

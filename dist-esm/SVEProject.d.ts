@@ -15,7 +15,7 @@ export interface ProjectInitializer {
     group: SVEGroup;
     splashImg?: number;
     owner: SVEAccount | number;
-    state: string;
+    state: SVEProjectState;
     resultsURI?: string;
     type: SVEProjectType;
 }
@@ -48,6 +48,7 @@ export declare class SVEProject {
     store(): Promise<boolean>;
     remove(): Promise<boolean>;
     constructor(idx: number | ProjectInitializer, handler: SVEAccount, onReady?: (self: SVEProject) => void);
+    getAsInitializer(): ProjectInitializer;
     getGroup(): SVEGroup;
     getData(): Promise<SVEData[]>;
 }

@@ -20,7 +20,7 @@ export interface ProjectInitializer {
     group: SVEGroup,
     splashImg?: number,
     owner: SVEAccount | number,
-    state: string,
+    state: SVEProjectState,
     resultsURI?: string,
     type: SVEProjectType
 }
@@ -185,6 +185,18 @@ export class SVEProject {
             if (onReady !== undefined)
                 onReady!(this);
         }
+    }
+
+    public getAsInitializer(): ProjectInitializer {
+        return {
+            id: this.id,
+            group: this.group!,
+            name: this.name,
+            owner: this.owner!,
+            state: this.state,
+            type: this.type,
+            splashImg: this.splashImgID
+        };
     }
 
     public getGroup(): SVEGroup {

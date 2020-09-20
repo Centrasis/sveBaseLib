@@ -2,14 +2,14 @@ import { SVEAccount } from './SVEAccount';
 import { SVEProject } from './SVEProject';
 import { SVESystemInfo } from './SVESystemInfo';
 var SVEGroup = /** @class */ (function () {
-    function SVEGroup(id, handler, onReady) {
+    function SVEGroup(init, handler, onReady) {
         var _this = this;
         this.id = NaN;
         this.name = "";
         this.projects = [];
         if (!SVESystemInfo.getIsServer()) {
-            if (typeof id === "number") {
-                fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
+            if (init.id !== undefined && init.id !== NaN) {
+                fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + init.id, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -20,7 +20,7 @@ var SVEGroup = /** @class */ (function () {
                         response.json().then(function (val) {
                             if ("group" in val) {
                                 _this.id = val.group.id;
-                                _this.name = val.group.name;
+                                _this.name = (init.name === undefined) ? val.group.name : init.name;
                                 _this.projects = val.projects;
                                 _this.handler = handler;
                             }
@@ -36,7 +36,7 @@ var SVEGroup = /** @class */ (function () {
                     onReady(_this); });
             }
             else {
-                this.name = id.name;
+                this.name = init.name;
                 onReady(this);
             }
         }
@@ -170,7 +170,7 @@ var SVEGroup = /** @class */ (function () {
                         var gs = [];
                         var i = 0;
                         val.forEach(function (gid) {
-                            gs.push(new SVEGroup(gid, handler, function (s) {
+                            gs.push(new SVEGroup({ id: gid }, handler, function (s) {
                                 i++;
                                 if (i >= val.length) {
                                     resolve(gs);

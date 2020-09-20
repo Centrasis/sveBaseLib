@@ -58,7 +58,7 @@ export class SVEProjectQuery extends SVEQuery {
                                         }
                                     });
                                 } else {
-                                    new SVEGroup(res.id, requester, (group) => {
+                                    new SVEGroup({id: res.id}, requester, (group) => {
                                         if(group !== undefined)
                                             r.push(group!);
                                         i++;

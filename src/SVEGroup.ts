@@ -11,7 +11,8 @@ export interface UserRights {
 }
 
 export interface GroupInitializer {
-    name: string
+    id?: number,
+    name?: string
 }
 
 export class SVEGroup {
@@ -117,10 +118,10 @@ export class SVEGroup {
         });
     }
 
-    public constructor(id: number | GroupInitializer, handler: SVEAccount, onReady?: (self?: SVEGroup) => void) {
+    public constructor(init: GroupInitializer, handler: SVEAccount, onReady?: (self?: SVEGroup) => void) {
         if (!SVESystemInfo.getIsServer()) {
-            if(typeof id === "number") {
-                fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + id, {
+            if(init.id !== undefined && init.id !== NaN) {
+                fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + init.id, {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json',
@@ -131,7 +132,7 @@ export class SVEGroup {
                         response.json().then((val) => {
                             if("group" in val) {
                                 this.id = val.group.id;
-                                this.name = val.group.name;
+                                this.name = (init.name === undefined) ? val.group.name : init.name;
                                 this.projects = val.projects as number[];
                                 this.handler = handler;
                             }
@@ -144,7 +145,7 @@ export class SVEGroup {
                     }
                 }, err => { if(onReady !== undefined) onReady!(this) });
             } else {
-                this.name = id.name;
+                this.name = init.name!;
                 onReady!(this);
             }
         } else {
@@ -181,7 +182,7 @@ export class SVEGroup {
                         let gs: SVEGroup[] = [];
                         let i = 0;
                         val.forEach((gid: number) => {
-                            gs.push(new SVEGroup(gid, handler, (s) => {
+                            gs.push(new SVEGroup({id: gid}, handler, (s) => {
                                 i++;
                                 if (i >= val.length) {
                                     resolve(gs);

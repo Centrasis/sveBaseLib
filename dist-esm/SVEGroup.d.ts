@@ -6,7 +6,8 @@ export interface UserRights {
     admin: boolean;
 }
 export interface GroupInitializer {
-    name: string;
+    id?: number;
+    name?: string;
 }
 export declare class SVEGroup {
     protected handler?: SVEAccount;
@@ -19,7 +20,7 @@ export declare class SVEGroup {
     getUsers(): Promise<SVEAccount[]>;
     setRightsForUser(handler: SVEAccount, rights: UserRights): Promise<boolean>;
     getRightsForUser(handler: SVEAccount): Promise<UserRights>;
-    constructor(id: number | GroupInitializer, handler: SVEAccount, onReady?: (self?: SVEGroup) => void);
+    constructor(init: GroupInitializer, handler: SVEAccount, onReady?: (self?: SVEGroup) => void);
     store(): Promise<boolean>;
     static getGroupsOf(handler: SVEAccount): Promise<SVEGroup[]>;
 }

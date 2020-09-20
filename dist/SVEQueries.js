@@ -73,7 +73,7 @@ var SVEProjectQuery = /** @class */ (function (_super) {
                                     });
                                 }
                                 else {
-                                    new SVEGroup_1.SVEGroup(res.id, requester, function (group) {
+                                    new SVEGroup_1.SVEGroup({ id: res.id }, requester, function (group) {
                                         if (group !== undefined)
                                             r.push(group);
                                         i++;
