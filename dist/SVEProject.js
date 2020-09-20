@@ -141,7 +141,7 @@ var SVEProject = /** @class */ (function () {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(_this)
+                body: JSON.stringify(_this.getAsInitializer())
             }).then(function (response) {
                 resolve(response.status == 200);
             });

@@ -21,6 +21,7 @@ export declare class SVEGroup {
     setRightsForUser(handler: SVEAccount, rights: UserRights): Promise<boolean>;
     getRightsForUser(handler: SVEAccount): Promise<UserRights>;
     constructor(init: GroupInitializer, handler: SVEAccount, onReady?: (self?: SVEGroup) => void);
+    getAsInitializer(): GroupInitializer;
     store(): Promise<boolean>;
     static getGroupsOf(handler: SVEAccount): Promise<SVEGroup[]>;
 }

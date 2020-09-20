@@ -153,6 +153,13 @@ export class SVEGroup {
         }
     }
 
+    public getAsInitializer(): GroupInitializer {
+        return {
+            id: this.id,
+            name: this.name
+        };
+    }
+
     public store() {
         return new Promise<boolean>((resolve, reject) => {
             fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + ((this.id !== NaN) ? this.id : "new"), {
@@ -161,7 +168,7 @@ export class SVEGroup {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json' 
                 },
-                body: JSON.stringify(this)
+                body: JSON.stringify(this.getAsInitializer())
             }).then(response => {
                 resolve(response.status == 200);
             });

@@ -144,6 +144,12 @@ var SVEGroup = /** @class */ (function () {
             }, function (err) { return reject(err); });
         });
     };
+    SVEGroup.prototype.getAsInitializer = function () {
+        return {
+            id: this.id,
+            name: this.name
+        };
+    };
     SVEGroup.prototype.store = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -153,7 +159,7 @@ var SVEGroup = /** @class */ (function () {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(_this)
+                body: JSON.stringify(_this.getAsInitializer())
             }).then(function (response) {
                 resolve(response.status == 200);
             });

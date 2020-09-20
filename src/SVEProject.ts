@@ -112,7 +112,7 @@ export class SVEProject {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json' 
                 },
-                body: JSON.stringify(this)
+                body: JSON.stringify(this.getAsInitializer())
             }).then(response => {
                 resolve(response.status == 200);
             });
