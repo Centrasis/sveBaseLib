@@ -50,7 +50,7 @@ var SVEProject = /** @class */ (function () {
                             } : undefined;
                             _this.state = val.state;
                             _this.owner = new SVEAccount({ id: val.owner }, function (s) {
-                                _this.group = new SVEGroup(val.group, handler, function (self) {
+                                _this.group = new SVEGroup({ id: val.group }, handler, function (self) {
                                     if (onReady !== undefined)
                                         onReady(_this);
                                 });

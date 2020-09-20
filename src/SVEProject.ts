@@ -161,7 +161,7 @@ export class SVEProject {
                             } : undefined;
                             this.state = val.state as SVEProjectState;
                             this.owner = new SVEAccount({id: val.owner} as BasicUserInitializer, (s) => {
-                                this.group = new SVEGroup(val.group, handler, (self) => {
+                                this.group = new SVEGroup({id: val.group}, handler, (self) => {
                                     if (onReady !== undefined)
                                         onReady!(this);
                                 });
