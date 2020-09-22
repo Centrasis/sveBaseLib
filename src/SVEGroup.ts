@@ -170,7 +170,15 @@ export class SVEGroup {
                 },
                 body: JSON.stringify(this.getAsInitializer())
             }).then(response => {
-                resolve(response.status == 200);
+                if(response.status < 400) {
+                    response.json().then(val => {
+                        this.id = Number(val.id);
+                        this.name = val.name;
+                        resolve(true);
+                    });
+                } else {
+                    resolve(false);
+                }
             });
         });
     }

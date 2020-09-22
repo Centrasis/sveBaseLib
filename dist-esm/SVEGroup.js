@@ -158,7 +158,16 @@ var SVEGroup = /** @class */ (function () {
                 },
                 body: JSON.stringify(_this.getAsInitializer())
             }).then(function (response) {
-                resolve(response.status == 200);
+                if (response.status < 400) {
+                    response.json().then(function (val) {
+                        _this.id = Number(val.id);
+                        _this.name = val.name;
+                        resolve(true);
+                    });
+                }
+                else {
+                    resolve(false);
+                }
             });
         });
     };
