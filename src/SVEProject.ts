@@ -115,7 +115,26 @@ export class SVEProject {
                 },
                 body: JSON.stringify(this.getAsInitializer())
             }).then(response => {
-                resolve(response.status == 200);
+                if(response.status < 400) {
+                    response.json().then(val => {
+                        this.id = val.id;
+                        this.name = val.name;
+                        this.type = val.type;
+                        this.splashImgID = "splashImgID" in val ? Number(val.splashImgID) : 0;
+                        this.dateRange = ("dateRange" in val) ? {
+                            begin: new Date(val.dateRange.begin),
+                            end : new Date(val.dateRange.end)
+                        } : undefined;
+                        this.state = val.state as SVEProjectState;
+                        this.owner = new SVEAccount({id: val.owner.id} as BasicUserInitializer, (s) => {
+                            this.group = new SVEGroup({id: val.group.id}, this.handler!, (self) => {
+                                resolve(true);
+                            });
+                        });
+                    });
+                } else {
+                    resolve(false);
+                }
             });
         });
     }

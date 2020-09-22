@@ -140,7 +140,27 @@ var SVEProject = /** @class */ (function () {
                 },
                 body: JSON.stringify(_this.getAsInitializer())
             }).then(function (response) {
-                resolve(response.status == 200);
+                if (response.status < 400) {
+                    response.json().then(function (val) {
+                        _this.id = val.id;
+                        _this.name = val.name;
+                        _this.type = val.type;
+                        _this.splashImgID = "splashImgID" in val ? Number(val.splashImgID) : 0;
+                        _this.dateRange = ("dateRange" in val) ? {
+                            begin: new Date(val.dateRange.begin),
+                            end: new Date(val.dateRange.end)
+                        } : undefined;
+                        _this.state = val.state;
+                        _this.owner = new SVEAccount({ id: val.owner.id }, function (s) {
+                            _this.group = new SVEGroup({ id: val.group.id }, _this.handler, function (self) {
+                                resolve(true);
+                            });
+                        });
+                    });
+                }
+                else {
+                    resolve(false);
+                }
             });
         });
     };
