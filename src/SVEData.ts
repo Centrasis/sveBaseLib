@@ -52,10 +52,12 @@ mimeMap.set("mpe", 'video/mpeg');
 mimeMap.set("avi", 'video/x-msvideo');
 mimeMap.set("ogg", 'video/ogg');
 mimeMap.set("pdf", 'application/pdf');
+mimeMap.set("tiff", 'image/tiff');
+mimeMap.set("tif", 'image/tiff');
 
 var typeMap: Map<SVEDataType, string[]> = new Map();
 typeMap.set(SVEDataType.CSV, ['.csv', '.xlsx']);
-typeMap.set(SVEDataType.Image, [".png", ".jpg", ".jpeg", ".tiff", ".bmp", ".raw", ".gif"]);
+typeMap.set(SVEDataType.Image, [".png", ".jpg", ".jpeg", ".tiff", ".tif", ".bmp", ".raw", ".gif"]);
 typeMap.set(SVEDataType.Video, [".avi", ".mp4", ".mpg", ".mpeg", ".m4v", ".mov", ".ogg"]);
 typeMap.set(SVEDataType.PDF, [".pdf"]);
 typeMap.set(SVEDataType.BLOB, []);
