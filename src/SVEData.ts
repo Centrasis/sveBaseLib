@@ -344,7 +344,7 @@ export class SVEData {
         });
     }
 
-    public getLocalPath(): string {
+    public getLocalPath(version: SVEDataVersion): string {
         return "";
     }
 }

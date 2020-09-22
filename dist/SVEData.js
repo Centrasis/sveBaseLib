@@ -300,7 +300,7 @@ var SVEData = /** @class */ (function () {
             }
         });
     };
-    SVEData.prototype.getLocalPath = function () {
+    SVEData.prototype.getLocalPath = function (version) {
         return "";
     };
     return SVEData;
