@@ -119,13 +119,11 @@ export class SVEGroup {
     }
 
     public constructor(init: GroupInitializer, handler: SVEAccount, onReady?: (self?: SVEGroup) => void) {
-        console.log("Create Group from: " + JSON.stringify(init));
         this.id = (init.id !== undefined && init.id !== null) ? init.id : NaN;
         this.name = (init.name !== undefined && init.name !== null) ? init.name : "";
 
         if (!SVESystemInfo.getIsServer()) {
-            if(this.id !== NaN) {
-                console.log("Fetching group from server..");
+            if(!isNaN(this.id)) {
                 fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id, {
                         method: 'GET',
                         headers: {
@@ -167,7 +165,7 @@ export class SVEGroup {
 
     public store() {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + ((this.id !== NaN) ? this.id : "new"), {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + ((!isNaN(this.id)) ? this.id : "new"), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',

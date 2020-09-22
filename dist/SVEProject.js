@@ -135,7 +135,7 @@ var SVEProject = /** @class */ (function () {
     SVEProject.prototype.store = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/project/' + ((_this.id !== NaN) ? _this.id : "new"), {
+            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/project/' + ((!isNaN(_this.id)) ? _this.id : "new"), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',

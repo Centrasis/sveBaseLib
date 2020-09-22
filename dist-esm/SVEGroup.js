@@ -7,12 +7,10 @@ var SVEGroup = /** @class */ (function () {
         this.id = NaN;
         this.name = "";
         this.projects = [];
-        console.log("Create Group from: " + JSON.stringify(init));
         this.id = (init.id !== undefined && init.id !== null) ? init.id : NaN;
         this.name = (init.name !== undefined && init.name !== null) ? init.name : "";
         if (!SVESystemInfo.getIsServer()) {
-            if (this.id !== NaN) {
-                console.log("Fetching group from server..");
+            if (!isNaN(this.id)) {
                 fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id, {
                     method: 'GET',
                     headers: {
@@ -154,7 +152,7 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.store = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + ((_this.id !== NaN) ? _this.id : "new"), {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + ((!isNaN(_this.id)) ? _this.id : "new"), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',

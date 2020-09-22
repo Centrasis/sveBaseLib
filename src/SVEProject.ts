@@ -106,7 +106,7 @@ export class SVEProject {
     // store on server
     public store(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + ((this.id !== NaN) ? this.id : "new"), {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + ((!isNaN(this.id)) ? this.id : "new"), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
