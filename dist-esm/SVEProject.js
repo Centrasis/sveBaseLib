@@ -73,6 +73,7 @@ var SVEProject = /** @class */ (function () {
             this.handler = handler;
             this.owner = idx.owner;
             this.splashImgID = (idx.splashImg !== undefined) ? idx.splashImg : 0;
+            this.dateRange = idx.dateRange;
             if (onReady !== undefined)
                 onReady(this);
         }
@@ -166,7 +167,8 @@ var SVEProject = /** @class */ (function () {
             owner: this.owner,
             state: this.state,
             type: this.type,
-            splashImg: this.splashImgID
+            splashImg: this.splashImgID,
+            dateRange: this.dateRange
         };
     };
     SVEProject.prototype.getGroup = function () {

@@ -18,6 +18,7 @@ export interface ProjectInitializer {
     state: SVEProjectState;
     resultsURI?: string;
     type: SVEProjectType;
+    dateRange?: DateRange;
 }
 export interface DateRange {
     begin: Date;

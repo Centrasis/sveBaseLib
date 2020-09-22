@@ -22,7 +22,8 @@ export interface ProjectInitializer {
     owner: SVEAccount | number,
     state: SVEProjectState,
     resultsURI?: string,
-    type: SVEProjectType
+    type: SVEProjectType,
+    dateRange?: DateRange
 }
 
 export interface DateRange {
@@ -181,6 +182,7 @@ export class SVEProject {
             this.handler = handler;
             this.owner = (idx as ProjectInitializer).owner;
             this.splashImgID = ((idx as ProjectInitializer).splashImg !== undefined) ? (idx as ProjectInitializer).splashImg! : 0;
+            this.dateRange = (idx as ProjectInitializer).dateRange;
 
             if (onReady !== undefined)
                 onReady!(this);
@@ -195,7 +197,8 @@ export class SVEProject {
             owner: this.owner!,
             state: this.state,
             type: this.type,
-            splashImg: this.splashImgID
+            splashImg: this.splashImgID,
+            dateRange: this.dateRange
         };
     }
 
