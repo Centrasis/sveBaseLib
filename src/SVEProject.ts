@@ -104,6 +104,10 @@ export class SVEProject {
         }
     }
 
+    public setSplashImgID(id: number) {
+        this.splashImgID = id;
+    }
+
     // store on server
     public store(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {

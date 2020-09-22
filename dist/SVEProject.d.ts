@@ -46,6 +46,7 @@ export declare class SVEProject {
     setDateRange(range: DateRange): void;
     getType(): SVEProjectType;
     getOwner(): Promise<SVEAccount>;
+    setSplashImgID(id: number): void;
     store(): Promise<boolean>;
     remove(): Promise<boolean>;
     constructor(idx: number | ProjectInitializer, handler: SVEAccount, onReady?: (self: SVEProject) => void);

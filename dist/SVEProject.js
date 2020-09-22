@@ -132,6 +132,9 @@ var SVEProject = /** @class */ (function () {
             });
         }
     };
+    SVEProject.prototype.setSplashImgID = function (id) {
+        this.splashImgID = id;
+    };
     // store on server
     SVEProject.prototype.store = function () {
         var _this = this;
