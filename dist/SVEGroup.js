@@ -10,11 +10,13 @@ var SVEGroup = /** @class */ (function () {
         this.id = NaN;
         this.name = "";
         this.projects = [];
+        console.log("Create Group from: " + JSON.stringify(init));
         this.id = (init.id !== undefined && init.id !== null) ? init.id : NaN;
-        this.name = (init.name !== undefined && init.name !== null) ? this.name : "";
+        this.name = (init.name !== undefined && init.name !== null) ? init.name : "";
         if (!SVESystemInfo_1.SVESystemInfo.getIsServer()) {
-            if (init.id !== undefined && init.id !== null && init.id !== NaN) {
-                fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + init.id, {
+            if (this.id !== NaN) {
+                console.log("Fetching group from server..");
+                fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
