@@ -300,6 +300,9 @@ var SVEData = /** @class */ (function () {
             }
         });
     };
+    SVEData.prototype.getLocalPath = function () {
+        return "";
+    };
     return SVEData;
 }());
 exports.SVEData = SVEData;

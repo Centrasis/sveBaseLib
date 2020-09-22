@@ -60,5 +60,6 @@ export declare class SVEData {
     getURI(version: SVEDataVersion, download?: boolean): string;
     getBLOB(version: SVEDataVersion): Promise<ArrayBuffer>;
     getStream(version: SVEDataVersion): Promise<Stream>;
+    getLocalPath(): string;
 }
 //# sourceMappingURL=SVEData.d.ts.map

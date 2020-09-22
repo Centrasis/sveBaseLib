@@ -343,4 +343,8 @@ export class SVEData {
             }
         });
     }
+
+    public getLocalPath(): string {
+        return "";
+    }
 }
