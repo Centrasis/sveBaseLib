@@ -119,8 +119,11 @@ export class SVEGroup {
     }
 
     public constructor(init: GroupInitializer, handler: SVEAccount, onReady?: (self?: SVEGroup) => void) {
+        this.id = (init.id !== undefined && init.id !== null) ? init.id : NaN;
+        this.name = (init.name !== undefined && init.name !== null) ? this.name : "";
+
         if (!SVESystemInfo.getIsServer()) {
-            if(init.id !== undefined && init.id !== NaN) {
+            if(init.id !== undefined && init.id !== null && init.id !== NaN) {
                 fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + init.id, {
                         method: 'GET',
                         headers: {
