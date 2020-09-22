@@ -186,6 +186,21 @@ export class SVEGroup {
         });
     }
 
+    // remove from server
+    public remove(): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                }
+            }).then(response => {
+                resolve(response.status == 200);
+            });
+        });
+    }
+
     public static getGroupsOf(handler: SVEAccount): Promise<SVEGroup[]> {
         return new Promise<SVEGroup[]>((resolve, reject) => {
             fetch(SVESystemInfo.getInstance().sources.sveService + '/groups/', {

@@ -173,6 +173,21 @@ var SVEGroup = /** @class */ (function () {
             });
         });
     };
+    // remove from server
+    SVEGroup.prototype.remove = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                resolve(response.status == 200);
+            });
+        });
+    };
     SVEGroup.getGroupsOf = function (handler) {
         return new Promise(function (resolve, reject) {
             fetch(SVESystemInfo.getInstance().sources.sveService + '/groups/', {

@@ -23,6 +23,7 @@ export declare class SVEGroup {
     constructor(init: GroupInitializer, handler: SVEAccount, onReady?: (self?: SVEGroup) => void);
     getAsInitializer(): GroupInitializer;
     store(): Promise<boolean>;
+    remove(): Promise<boolean>;
     static getGroupsOf(handler: SVEAccount): Promise<SVEGroup[]>;
 }
 //# sourceMappingURL=SVEGroup.d.ts.map
