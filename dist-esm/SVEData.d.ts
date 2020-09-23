@@ -30,6 +30,7 @@ export interface SVELocalDataInfo {
 export declare class SVEData {
     protected type: SVEDataType;
     protected id: number;
+    protected name: string;
     protected data?: ArrayBuffer | Stream;
     protected parentProject?: SVEProject;
     protected handler: SVEAccount;

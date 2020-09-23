@@ -65,6 +65,7 @@ typeMap.set(SVEDataType.BLOB, []);
 export class SVEData {
     protected type: SVEDataType = SVEDataType.Image;
     protected id: number = -1;
+    protected name: string = "";
     protected data?: ArrayBuffer | Stream;
     protected parentProject?: SVEProject;
     protected handler: SVEAccount;
@@ -132,6 +133,7 @@ export class SVEData {
                             this.type = val.type as SVEDataType;
                             this.creation = val.creation;
                             this.lastAccess = val.lastAccess;
+                            this.name = val.name;
                             this.parentProject = new SVEProject(val.project.id, this.handler, (prj) => {
                                 onComplete(this);
                             });
@@ -259,7 +261,7 @@ export class SVEData {
 
     public getName(): string {
         if (this.localDataInfo === undefined) {
-            return "";
+            return this.name;
         } else {
             var path = require('path');
             return path.basename(this.localDataInfo.filePath);

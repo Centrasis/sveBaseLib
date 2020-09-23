@@ -50,6 +50,7 @@ var SVEData = /** @class */ (function () {
         var _this = this;
         this.type = SVEDataType.Image;
         this.id = -1;
+        this.name = "";
         this.lastAccess = new Date();
         this.creation = new Date();
         this.handler = handler;
@@ -69,6 +70,7 @@ var SVEData = /** @class */ (function () {
                             _this.type = val.type;
                             _this.creation = val.creation;
                             _this.lastAccess = val.lastAccess;
+                            _this.name = val.name;
                             _this.parentProject = new SVEProject_1.SVEProject(val.project.id, _this.handler, function (prj) {
                                 onComplete(_this);
                             });
@@ -216,7 +218,7 @@ var SVEData = /** @class */ (function () {
     };
     SVEData.prototype.getName = function () {
         if (this.localDataInfo === undefined) {
-            return "";
+            return this.name;
         }
         else {
             var path = require('path');
