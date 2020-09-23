@@ -153,7 +153,7 @@ export class SVEProject {
                     'Content-Type': 'application/json' 
                 }
             }).then(response => {
-                resolve(response.status == 200);
+                resolve(response.status == 200 || response.status == 204);
             });
         });
     }

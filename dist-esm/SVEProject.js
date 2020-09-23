@@ -178,7 +178,7 @@ var SVEProject = /** @class */ (function () {
                     'Content-Type': 'application/json'
                 }
             }).then(function (response) {
-                resolve(response.status == 200);
+                resolve(response.status == 200 || response.status == 204);
             });
         });
     };
