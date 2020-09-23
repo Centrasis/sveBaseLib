@@ -43,6 +43,7 @@ export declare class SVEProject {
     getSplashImageURI(): string;
     getName(): string;
     setName(name: string): void;
+    setType(newType: SVEProjectType): void;
     setDateRange(range: DateRange): void;
     getType(): SVEProjectType;
     getOwner(): Promise<SVEAccount>;

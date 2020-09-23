@@ -106,6 +106,9 @@ var SVEProject = /** @class */ (function () {
     SVEProject.prototype.setName = function (name) {
         this.name = name;
     };
+    SVEProject.prototype.setType = function (newType) {
+        this.type = newType;
+    };
     SVEProject.prototype.setDateRange = function (range) {
         this.dateRange = range;
     };

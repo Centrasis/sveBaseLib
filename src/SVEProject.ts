@@ -78,6 +78,10 @@ export class SVEProject {
         this.name = name;
     }
 
+    public setType(newType: SVEProjectType) {
+        this.type = newType;
+    }
+
     public setDateRange(range: DateRange) {
         this.dateRange = range;
     }
