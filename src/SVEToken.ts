@@ -56,6 +56,7 @@ export class SVEToken {
         this.type = type;
         this.target = target;
         if(!SVESystemInfo.getIsServer()) {
+            console.log("Validate token!");
             try {
                 fetch(SVESystemInfo.getAuthRoot() + '/token/validate', {
                     method: 'POST',
@@ -82,6 +83,7 @@ export class SVEToken {
                 onValidated(this);
             }
         } else {
+            console.log("Tokens should only be instanciated by clients!");
             onValidated(this);
         }
     }
@@ -95,6 +97,7 @@ export class SVEToken {
     }
 
     public use(): Promise<void> {
+        console.log("Use token!");
         return new Promise<void>((resolve, reject) => {
             if(this.isValid) {
                 fetch(SVESystemInfo.getAuthRoot() + '/token/use', {
