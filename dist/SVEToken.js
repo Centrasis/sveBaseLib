@@ -16,6 +16,7 @@ var SVEToken = /** @class */ (function () {
         this.type = type;
         this.target = target;
         if (!SVESystemInfo_1.SVESystemInfo.getIsServer()) {
+            console.log("Validate token!");
             try {
                 fetch(SVESystemInfo_1.SVESystemInfo.getAuthRoot() + '/token/validate', {
                     method: 'POST',
@@ -41,10 +42,12 @@ var SVEToken = /** @class */ (function () {
                 });
             }
             catch (_a) {
+                console.log("Tokens should only be instanciated by clients and fetch failed!");
                 onValidated(this);
             }
         }
         else {
+            console.log("Tokens should only be instanciated by clients!");
             onValidated(this);
         }
     }
@@ -80,6 +83,7 @@ var SVEToken = /** @class */ (function () {
     };
     SVEToken.prototype.use = function () {
         var _this = this;
+        console.log("Use token!");
         return new Promise(function (resolve, reject) {
             if (_this.isValid) {
                 fetch(SVESystemInfo_1.SVESystemInfo.getAuthRoot() + '/token/use', {
