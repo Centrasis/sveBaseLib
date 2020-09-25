@@ -68,7 +68,8 @@ var SVEData = /** @class */ (function () {
                             _this.creation = val.creation;
                             _this.lastAccess = val.lastAccess;
                             _this.name = val.name;
-                            _this.parentProject = new SVEProject(val.project.id, _this.handler, function (prj) {
+                            new SVEProject(val.project.id, _this.handler, function (prj) {
+                                _this.parentProject = prj;
                                 onComplete(_this);
                             });
                         });

@@ -40,11 +40,11 @@ var SVEProject = /** @class */ (function () {
                 }).then(function (response) {
                     if (response.status < 400) {
                         response.json().then(function (val) {
-                            _this.id = val.id;
+                            _this.id = Number(val.id);
                             _this.name = val.name;
                             _this.type = val.type;
                             _this.handler = handler;
-                            _this.result = val.result;
+                            _this.result = ("result" in val) ? Number(val.result) : undefined;
                             _this.splashImgID = "splashImgID" in val ? Number(val.splashImgID) : 0;
                             _this.dateRange = ("dateRange" in val) ? {
                                 begin: new Date(val.dateRange.begin),
