@@ -3,7 +3,8 @@ import { SVEGroup } from './SVEGroup';
 import { SVEData } from './SVEData';
 export declare enum SVEProjectType {
     Vacation = 0,
-    Sales = 1
+    Sales = 1,
+    Documents = 2
 }
 export declare enum SVEProjectState {
     Open = 0,

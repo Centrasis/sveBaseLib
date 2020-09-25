@@ -7,7 +7,8 @@ import { umask } from 'process';
 
 export enum SVEProjectType {
     Vacation,
-    Sales
+    Sales,
+    Documents
 }
 
 export enum SVEProjectState {
@@ -275,7 +276,13 @@ export class SVEProject {
                         let i = 0;
                         if (val.length > 0) {
                             val.forEach((v: any) => {
-                                r.push(new SVEData(this.handler!, {id: v.id as number, parentProject: this, type: v.type as SVEDataType, owner: v.owner }, (s) => {
+                                r.push(new SVEData(this.handler!, {
+                                        id: v.id as number, 
+                                        parentProject: this, 
+                                        type: v.type as SVEDataType, 
+                                        owner: v.owner,
+                                        name: v.name
+                                     }, (s) => {
                                     i++;
                                     if (i >= val.length) {
                                         resolve(r);

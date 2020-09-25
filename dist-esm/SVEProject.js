@@ -6,6 +6,7 @@ export var SVEProjectType;
 (function (SVEProjectType) {
     SVEProjectType[SVEProjectType["Vacation"] = 0] = "Vacation";
     SVEProjectType[SVEProjectType["Sales"] = 1] = "Sales";
+    SVEProjectType[SVEProjectType["Documents"] = 2] = "Documents";
 })(SVEProjectType || (SVEProjectType = {}));
 export var SVEProjectState;
 (function (SVEProjectState) {
@@ -241,7 +242,13 @@ var SVEProject = /** @class */ (function () {
                         var i = 0;
                         if (val.length > 0) {
                             val.forEach(function (v) {
-                                r.push(new SVEData(_this.handler, { id: v.id, parentProject: _this, type: v.type, owner: v.owner }, function (s) {
+                                r.push(new SVEData(_this.handler, {
+                                    id: v.id,
+                                    parentProject: _this,
+                                    type: v.type,
+                                    owner: v.owner,
+                                    name: v.name
+                                }, function (s) {
                                     i++;
                                     if (i >= val.length) {
                                         resolve(r);

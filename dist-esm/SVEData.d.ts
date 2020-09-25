@@ -22,6 +22,7 @@ export interface SVEDataInitializer {
     parentProject?: SVEProject;
     owner?: SVEAccount | number;
     creation?: Date;
+    name?: string;
 }
 export interface SVELocalDataInfo {
     filePath: string;

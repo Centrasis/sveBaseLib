@@ -86,6 +86,7 @@ var SVEData = /** @class */ (function () {
             }
             this.type = initInfo.type;
             this.data = initInfo.data;
+            this.name = (initInfo.name !== undefined) ? initInfo.name : "";
             if (initInfo.path !== undefined)
                 this.localDataInfo = initInfo.path;
             this.parentProject = initInfo.parentProject;
