@@ -57,32 +57,27 @@ export class SVEToken {
         this.target = target;
         if(!SVESystemInfo.getIsServer()) {
             console.log("Validate token!");
-            try {
-                fetch(SVESystemInfo.getAuthRoot() + '/token/validate', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json' 
-                    },
-                    body: JSON.stringify({
-                        type: type,
-                        target: target.getID(),
-                        token: token
-                    })
-                }).then(response => {
-                    if(response.status < 400) {
-                        response.json().then(val => {
-                            this.isValid = val.valid as boolean;
-                            onValidated(this);
-                        });
-                    } else {
+            fetch(SVESystemInfo.getAuthRoot() + '/token/validate', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify({
+                    type: type,
+                    target: target.getID(),
+                    token: token
+                })
+            }).then(response => {
+                if(response.status < 400) {
+                    response.json().then(val => {
+                        this.isValid = val.valid as boolean;
                         onValidated(this);
-                    }
-                });
-            } catch (e) {
-                console.log("Tokens should only be instanciated by clients and fetch failed (" + JSON.stringify(e) + ")!");
-                onValidated(this);
-            }
+                    });
+                } else {
+                    onValidated(this);
+                }
+            });
         } else {
             console.log("Tokens should only be instanciated by clients!");
             onValidated(this);
