@@ -3,6 +3,7 @@ import {SVEGroup} from './SVEGroup';
 import {SVESystemInfo} from './SVESystemInfo';
 import { SVEData, SVEDataType } from './SVEData';
 import { rejects } from 'assert';
+import { umask } from 'process';
 
 export enum SVEProjectType {
     Vacation,
@@ -21,7 +22,7 @@ export interface ProjectInitializer {
     splashImg?: number,
     owner: SVEAccount | number,
     state: SVEProjectState,
-    resultsURI?: string,
+    result?: number,
     type: SVEProjectType,
     dateRange?: DateRange
 }
@@ -44,6 +45,7 @@ export class SVEProject {
     protected splashImgID: number = 0;
     protected type: SVEProjectType = SVEProjectType.Vacation;
     protected dateRange?: DateRange;
+    protected result?: number;
     protected state: SVEProjectState = SVEProjectState.Open;
 
     public getID(): number {
@@ -56,6 +58,26 @@ export class SVEProject {
 
     public setState(state: SVEProjectState) {
         this.state = state;
+    }
+
+    public setResult(res?: number | SVEData) {
+        if(res === undefined || typeof res === "number") {
+            this.result = res;
+        } else {
+            this.result = res.getID();
+        }
+    }
+
+    public getResult(): Promise<SVEData> {
+        return new Promise<SVEData>((resolve, reject) => {
+            if (this.result === undefined) {
+                reject();
+            } else {
+                new SVEData(this.handler!, this.id, (data: SVEData) => {
+                    resolve(data);
+                });
+            }
+        });
     }
 
     public getSplashImgID(): number {
@@ -210,6 +232,7 @@ export class SVEProject {
             this.owner = (idx as ProjectInitializer).owner;
             this.splashImgID = ((idx as ProjectInitializer).splashImg !== undefined) ? (idx as ProjectInitializer).splashImg! : 0;
             this.dateRange = (idx as ProjectInitializer).dateRange;
+            this.result = (idx as ProjectInitializer).result;
 
             if (onReady !== undefined)
                 onReady!(this);
@@ -225,7 +248,8 @@ export class SVEProject {
             state: this.state,
             type: this.type,
             splashImg: this.splashImgID,
-            dateRange: this.dateRange
+            dateRange: this.dateRange,
+            result: this.result
         };
     }
 

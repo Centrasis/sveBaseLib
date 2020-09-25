@@ -16,7 +16,7 @@ export interface ProjectInitializer {
     splashImg?: number;
     owner: SVEAccount | number;
     state: SVEProjectState;
-    resultsURI?: string;
+    result?: number;
     type: SVEProjectType;
     dateRange?: DateRange;
 }
@@ -34,10 +34,13 @@ export declare class SVEProject {
     protected splashImgID: number;
     protected type: SVEProjectType;
     protected dateRange?: DateRange;
+    protected result?: number;
     protected state: SVEProjectState;
     getID(): number;
     getState(): SVEProjectState;
     setState(state: SVEProjectState): void;
+    setResult(res?: number | SVEData): void;
+    getResult(): Promise<SVEData>;
     getSplashImgID(): number;
     getDateRange(): DateRange | undefined;
     getSplashImageURI(): string;

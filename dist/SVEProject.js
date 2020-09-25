@@ -78,6 +78,7 @@ var SVEProject = /** @class */ (function () {
             this.owner = idx.owner;
             this.splashImgID = (idx.splashImg !== undefined) ? idx.splashImg : 0;
             this.dateRange = idx.dateRange;
+            this.result = idx.result;
             if (onReady !== undefined)
                 onReady(this);
         }
@@ -90,6 +91,27 @@ var SVEProject = /** @class */ (function () {
     };
     SVEProject.prototype.setState = function (state) {
         this.state = state;
+    };
+    SVEProject.prototype.setResult = function (res) {
+        if (res === undefined || typeof res === "number") {
+            this.result = res;
+        }
+        else {
+            this.result = res.getID();
+        }
+    };
+    SVEProject.prototype.getResult = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            if (_this.result === undefined) {
+                reject();
+            }
+            else {
+                new SVEData_1.SVEData(_this.handler, _this.id, function (data) {
+                    resolve(data);
+                });
+            }
+        });
     };
     SVEProject.prototype.getSplashImgID = function () {
         return this.splashImgID;
@@ -198,7 +220,8 @@ var SVEProject = /** @class */ (function () {
             state: this.state,
             type: this.type,
             splashImg: this.splashImgID,
-            dateRange: this.dateRange
+            dateRange: this.dateRange,
+            result: this.result
         };
     };
     SVEProject.prototype.getGroup = function () {
