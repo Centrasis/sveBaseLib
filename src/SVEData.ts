@@ -120,31 +120,35 @@ export class SVEData {
         if (typeof initInfo === "number") {
             this.id = initInfo as number;
 
-            if (typeof SVESystemInfo.getInstance().sources.sveService !== undefined) {
-                fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json' 
-                        }
-                }).then(response => {
-                    if (response.status < 400) {
-                        response.json().then((val) => {
-                            this.id = val.id;
-                            this.type = val.type as SVEDataType;
-                            this.creation = val.creation;
-                            this.lastAccess = val.lastAccess;
-                            this.name = val.name;
-                            new SVEProject(Number(val.project), this.handler, (prj: SVEProject) => {
-                                this.parentProject = prj;
-                                onComplete(this);
+            if (typeof SVESystemInfo.getInstance().sources.sveService !== undefined && !SVESystemInfo.getIsServer()) {
+                try {
+                    fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json' 
+                            }
+                    }).then(response => {
+                        if (response.status < 400) {
+                            response.json().then((val) => {
+                                this.id = val.id;
+                                this.type = val.type as SVEDataType;
+                                this.creation = val.creation;
+                                this.lastAccess = val.lastAccess;
+                                this.name = val.name;
+                                new SVEProject(Number(val.project), this.handler, (prj: SVEProject) => {
+                                    this.parentProject = prj;
+                                    onComplete(this);
+                                });
                             });
-                        });
-                    } else {
-                        this.id = -1;
-                        onComplete(this);
-                    }
-                }, err => onComplete(this));
+                        } else {
+                            this.id = NaN;
+                            onComplete(this);
+                        }
+                    }, err => onComplete(this));
+                } catch {
+                    onComplete(this);
+                }
             }
         } else {
             if ((initInfo as SVEDataInitializer).id !== undefined) {

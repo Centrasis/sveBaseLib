@@ -53,32 +53,37 @@ var SVEData = /** @class */ (function () {
         this.handler = handler;
         if (typeof initInfo === "number") {
             this.id = initInfo;
-            if (typeof SVESystemInfo.getInstance().sources.sveService !== undefined) {
-                fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                }).then(function (response) {
-                    if (response.status < 400) {
-                        response.json().then(function (val) {
-                            _this.id = val.id;
-                            _this.type = val.type;
-                            _this.creation = val.creation;
-                            _this.lastAccess = val.lastAccess;
-                            _this.name = val.name;
-                            new SVEProject(Number(val.project), _this.handler, function (prj) {
-                                _this.parentProject = prj;
-                                onComplete(_this);
+            if (typeof SVESystemInfo.getInstance().sources.sveService !== undefined && !SVESystemInfo.getIsServer()) {
+                try {
+                    fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(function (response) {
+                        if (response.status < 400) {
+                            response.json().then(function (val) {
+                                _this.id = val.id;
+                                _this.type = val.type;
+                                _this.creation = val.creation;
+                                _this.lastAccess = val.lastAccess;
+                                _this.name = val.name;
+                                new SVEProject(Number(val.project), _this.handler, function (prj) {
+                                    _this.parentProject = prj;
+                                    onComplete(_this);
+                                });
                             });
-                        });
-                    }
-                    else {
-                        _this.id = -1;
-                        onComplete(_this);
-                    }
-                }, function (err) { return onComplete(_this); });
+                        }
+                        else {
+                            _this.id = NaN;
+                            onComplete(_this);
+                        }
+                    }, function (err) { return onComplete(_this); });
+                }
+                catch (_a) {
+                    onComplete(this);
+                }
             }
         }
         else {
