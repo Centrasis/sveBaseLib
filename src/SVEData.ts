@@ -149,6 +149,8 @@ export class SVEData {
                 } catch {
                     onComplete(this);
                 }
+            } else {
+                onComplete(this);
             }
         } else {
             if ((initInfo as SVEDataInitializer).id !== undefined) {

@@ -85,6 +85,9 @@ var SVEData = /** @class */ (function () {
                     onComplete(this);
                 }
             }
+            else {
+                onComplete(this);
+            }
         }
         else {
             if (initInfo.id !== undefined) {
