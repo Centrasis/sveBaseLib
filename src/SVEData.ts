@@ -92,7 +92,7 @@ export class SVEData {
 
         this.type = SVEData.getTypeFrom(result.type);
 
-        this.owner = new SVEAccount({id: result.user_id} as BasicUserInitializer, (s) => {
+        this.owner = new SVEAccount({id: Number(result.user_id)} as BasicUserInitializer, (s) => {
             onComplete();
         });
     }
