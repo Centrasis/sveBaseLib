@@ -105,7 +105,7 @@ var SVEProject = /** @class */ (function () {
                 reject();
             }
             else {
-                new SVEData(_this.handler, _this.id, function (data) {
+                new SVEData(_this.handler, _this.result, function (data) {
                     resolve(data);
                 });
             }

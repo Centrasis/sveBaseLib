@@ -74,7 +74,7 @@ export class SVEProject {
             if (this.result === undefined) {
                 reject();
             } else {
-                new SVEData(this.handler!, this.id, (data: SVEData) => {
+                new SVEData(this.handler!, this.result!, (data: SVEData) => {
                     resolve(data);
                 });
             }
