@@ -150,6 +150,7 @@ export class SVEProject {
                         this.id = val.id;
                         this.name = val.name;
                         this.type = val.type;
+                        this.result = val.result;
                         this.splashImgID = "splashImgID" in val ? Number(val.splashImgID) : 0;
                         this.dateRange = ("dateRange" in val) ? {
                             begin: new Date(val.dateRange.begin),
@@ -204,6 +205,7 @@ export class SVEProject {
                             this.name = val.name;
                             this.type = val.type;
                             this.handler = handler;
+                            this.result = val.result;
                             this.splashImgID = "splashImgID" in val ? Number(val.splashImgID) : 0;
                             this.dateRange = ("dateRange" in val) ? {
                                 begin: new Date(val.dateRange.begin),
