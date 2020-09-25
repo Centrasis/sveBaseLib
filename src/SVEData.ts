@@ -135,7 +135,7 @@ export class SVEData {
                             this.creation = val.creation;
                             this.lastAccess = val.lastAccess;
                             this.name = val.name;
-                            new SVEProject(val.project.id, this.handler, (prj: SVEProject) => {
+                            new SVEProject(Number(val.project), this.handler, (prj: SVEProject) => {
                                 this.parentProject = prj;
                                 onComplete(this);
                             });
