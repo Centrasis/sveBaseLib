@@ -1,6 +1,7 @@
 import { SVEAccount } from "./SVEAccount";
 export interface SVESources {
     sveService?: string;
+    authService?: string;
     persistentDatabase?: string | any;
     volatileDatabase?: string | any;
     sveDataPath?: string;
@@ -31,6 +32,7 @@ declare class SVESystemInfo {
     static getSystemStatus(): SVESystemState;
     static getFullSystemState(): Promise<SVEFullSystemState>;
     static getAPIRoot(): string;
+    static getAuthRoot(): string;
 }
 export { SVESystemInfo };
 //# sourceMappingURL=SVESystemInfo.d.ts.map

@@ -14,7 +14,7 @@ var SVEToken = /** @class */ (function () {
         this.target = target;
         if (!SVESystemInfo.getIsServer()) {
             try {
-                fetch(SVESystemInfo.getInstance().sources.sveService + '/auth/token/validate', {
+                fetch(SVESystemInfo.getAuthRoot() + '/token/validate', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -47,7 +47,7 @@ var SVEToken = /** @class */ (function () {
     }
     SVEToken.register = function (type, target) {
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/auth/token/new', {
+            fetch(SVESystemInfo.getAuthRoot() + '/token/new', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -79,7 +79,7 @@ var SVEToken = /** @class */ (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             if (_this.isValid) {
-                fetch(SVESystemInfo.getInstance().sources.sveService + '/auth/token/use', {
+                fetch(SVESystemInfo.getAuthRoot() + '/token/use', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',

@@ -2,6 +2,7 @@ import { SessionUserInitializer, SVEAccount } from "./SVEAccount";
 
 export interface SVESources {
     sveService?: string;
+    authService?: string;
     persistentDatabase?: string | any;
     volatileDatabase?: string | any;
     sveDataPath?: string;
@@ -136,6 +137,10 @@ class SVESystemInfo {
 
     public static getAPIRoot(): string {
         return (SVESystemInfo.getInstance().sources.sveService !== undefined) ? SVESystemInfo.getInstance().sources.sveService! : "";
+    }
+
+    public static getAuthRoot(): string {
+        return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.authService! : "";
     }
 }
 

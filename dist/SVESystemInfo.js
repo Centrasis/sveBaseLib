@@ -107,6 +107,9 @@ var SVESystemInfo = /** @class */ (function () {
     SVESystemInfo.getAPIRoot = function () {
         return (SVESystemInfo.getInstance().sources.sveService !== undefined) ? SVESystemInfo.getInstance().sources.sveService : "";
     };
+    SVESystemInfo.getAuthRoot = function () {
+        return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.authService : "";
+    };
     return SVESystemInfo;
 }());
 exports.SVESystemInfo = SVESystemInfo;

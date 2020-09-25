@@ -24,7 +24,7 @@ export interface Token {
 export class SVEToken {
     public static register(type: TokenType, target: SVEGroup | SVEAccount): Promise<string> {
         return new  Promise<string>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/auth/token/new', {
+            fetch(SVESystemInfo.getAuthRoot() + '/token/new', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -57,7 +57,7 @@ export class SVEToken {
         this.target = target;
         if(!SVESystemInfo.getIsServer()) {
             try {
-                fetch(SVESystemInfo.getInstance().sources.sveService + '/auth/token/validate', {
+                fetch(SVESystemInfo.getAuthRoot() + '/token/validate', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -97,7 +97,7 @@ export class SVEToken {
     public use(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if(this.isValid) {
-                fetch(SVESystemInfo.getInstance().sources.sveService + '/auth/token/use', {
+                fetch(SVESystemInfo.getAuthRoot() + '/token/use', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
