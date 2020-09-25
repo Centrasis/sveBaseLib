@@ -20,8 +20,8 @@ export declare class SVEToken {
     protected isValid: boolean;
     protected token: string;
     protected type: TokenType;
-    protected target: SVEAccount | SVEGroup;
-    constructor(token: string, type: TokenType, target: SVEAccount | SVEGroup, onValidated: (token: SVEToken) => void);
+    protected target: SVEAccount | SVEGroup | number;
+    constructor(token: string, type: TokenType, target: SVEAccount | SVEGroup | number, onValidated: (token: SVEToken) => void);
     getIsValid(): boolean;
     setIsValid(): void;
     use(): Promise<void>;

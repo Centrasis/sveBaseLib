@@ -49,9 +49,9 @@ export class SVEToken {
     protected isValid: boolean = false;
     protected token: string = "";
     protected type: TokenType;
-    protected target: SVEAccount | SVEGroup;
+    protected target: SVEAccount | SVEGroup | number;
 
-    constructor(token: string, type: TokenType, target: SVEAccount | SVEGroup, onValidated:(token: SVEToken) => void) {
+    constructor(token: string, type: TokenType, target: SVEAccount | SVEGroup | number, onValidated:(token: SVEToken) => void) {
         this.token = token;
         this.type = type;
         this.target = target;
@@ -65,7 +65,7 @@ export class SVEToken {
                 },
                 body: JSON.stringify({
                     type: type,
-                    target: target.getID(),
+                    target: (typeof target === "number") ? target : target.getID(),
                     token: token
                 })
             }).then(response => {
@@ -104,7 +104,7 @@ export class SVEToken {
                     },
                     body: JSON.stringify({
                         type: this.type,
-                        target: this.target.getID(),
+                        target: (typeof this.target === "number") ? this.target : this.target.getID(),
                         token: this.token
                     })
                 }).then(response => {

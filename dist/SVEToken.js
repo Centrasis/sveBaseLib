@@ -17,34 +17,28 @@ var SVEToken = /** @class */ (function () {
         this.target = target;
         if (!SVESystemInfo_1.SVESystemInfo.getIsServer()) {
             console.log("Validate token!");
-            try {
-                fetch(SVESystemInfo_1.SVESystemInfo.getAuthRoot() + '/token/validate', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        type: type,
-                        target: target.getID(),
-                        token: token
-                    })
-                }).then(function (response) {
-                    if (response.status < 400) {
-                        response.json().then(function (val) {
-                            _this.isValid = val.valid;
-                            onValidated(_this);
-                        });
-                    }
-                    else {
+            fetch(SVESystemInfo_1.SVESystemInfo.getAuthRoot() + '/token/validate', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    type: type,
+                    target: (typeof target === "number") ? target : target.getID(),
+                    token: token
+                })
+            }).then(function (response) {
+                if (response.status < 400) {
+                    response.json().then(function (val) {
+                        _this.isValid = val.valid;
                         onValidated(_this);
-                    }
-                });
-            }
-            catch (e) {
-                console.log("Tokens should only be instanciated by clients and fetch failed (" + JSON.stringify(e) + ")!");
-                onValidated(this);
-            }
+                    });
+                }
+                else {
+                    onValidated(_this);
+                }
+            });
         }
         else {
             console.log("Tokens should only be instanciated by clients!");
@@ -94,7 +88,7 @@ var SVEToken = /** @class */ (function () {
                     },
                     body: JSON.stringify({
                         type: _this.type,
-                        target: _this.target.getID(),
+                        target: (typeof _this.target === "number") ? _this.target : _this.target.getID(),
                         token: _this.token
                     })
                 }).then(function (response) {
