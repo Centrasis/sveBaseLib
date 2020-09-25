@@ -79,8 +79,8 @@ export class SVEToken {
                         onValidated(this);
                     }
                 });
-            } catch {
-                console.log("Tokens should only be instanciated by clients and fetch failed!");
+            } catch (e) {
+                console.log("Tokens should only be instanciated by clients and fetch failed (" + JSON.stringify(e) + ")!");
                 onValidated(this);
             }
         } else {

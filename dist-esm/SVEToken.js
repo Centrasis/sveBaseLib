@@ -38,8 +38,8 @@ var SVEToken = /** @class */ (function () {
                     }
                 });
             }
-            catch (_a) {
-                console.log("Tokens should only be instanciated by clients and fetch failed!");
+            catch (e) {
+                console.log("Tokens should only be instanciated by clients and fetch failed (" + JSON.stringify(e) + ")!");
                 onValidated(this);
             }
         }
