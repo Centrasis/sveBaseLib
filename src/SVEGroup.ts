@@ -3,6 +3,7 @@ import { visitLexicalEnvironment } from 'typescript';
 import {BasicUserInitializer, SessionUserInitializer, SVEAccount} from './SVEAccount';
 import {ProjectInitializer, SVEProject, SVEProjectType} from './SVEProject';
 import {SVESystemInfo} from './SVESystemInfo';
+import { SVEToken, TokenType } from './SVEToken';
 
 export interface UserRights {
     read: boolean;
@@ -199,6 +200,10 @@ export class SVEGroup {
                 resolve(response.status == 200);
             });
         });
+    }
+
+    public createInviteToken(): Promise<string> {
+        return SVEToken.register(TokenType.RessourceToken, this);
     }
 
     public static getGroupsOf(handler: SVEAccount): Promise<SVEGroup[]> {

@@ -1,19 +1,5 @@
 import {SVESystemInfo} from './SVESystemInfo';
-
-/*const user = sql.define<"user", { id: number; name: string; password: string }>({
-    name: 'user',
-    columns: { 
-        id: {dataType: "number"}, 
-        name: {dataType: "string"}, 
-        password: {dataType: "string"}
-    },
-    schema: "snowvision_db"
-});*/
-
-export enum TokenType {
-    RessourceToken = 1,
-    DeviceToken
-};
+import {TokenUserLoginInfo, Token, TokenType, SVEToken} from './SVEToken';
 
 export interface BasicUserInitializer {
     name: string;
@@ -34,19 +20,6 @@ export interface SessionUserInitializer extends BasicUserInitializer {
 export interface BasicUserLoginInfo {
     name: string,
     pass: string
-}
-
-export interface TokenUserLoginInfo {
-    name: string,
-    token: string
-}
-
-export interface Token {
-    user: String,
-    token: String,
-    type: TokenType,
-    time: Date,
-    ressource: String
 }
 
 export function isLoginInfo(info: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo): boolean {
@@ -203,10 +176,8 @@ export class SVEAccount {
         });
     }
 
-    public createTokenFor(ressource: String, user: String): Promise<Token> {
-        return new Promise<Token>((resolve, reject) => {
-            reject({});
-        });
+    public createLoginToken(): Promise<string> {
+        return SVEToken.register(TokenType.DeviceToken, this);
     }
 
     protected doTokenLogin(token: Token): Promise<LoginState> {

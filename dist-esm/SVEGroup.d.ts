@@ -24,6 +24,7 @@ export declare class SVEGroup {
     getAsInitializer(): GroupInitializer;
     store(): Promise<boolean>;
     remove(): Promise<boolean>;
+    createInviteToken(): Promise<string>;
     static getGroupsOf(handler: SVEAccount): Promise<SVEGroup[]>;
 }
 //# sourceMappingURL=SVEGroup.d.ts.map

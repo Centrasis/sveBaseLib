@@ -1,6 +1,7 @@
 import { SVEAccount } from './SVEAccount';
 import { SVEProject } from './SVEProject';
 import { SVESystemInfo } from './SVESystemInfo';
+import { SVEToken, TokenType } from './SVEToken';
 var SVEGroup = /** @class */ (function () {
     function SVEGroup(init, handler, onReady) {
         var _this = this;
@@ -187,6 +188,9 @@ var SVEGroup = /** @class */ (function () {
                 resolve(response.status == 200);
             });
         });
+    };
+    SVEGroup.prototype.createInviteToken = function () {
+        return SVEToken.register(TokenType.RessourceToken, this);
     };
     SVEGroup.getGroupsOf = function (handler) {
         return new Promise(function (resolve, reject) {

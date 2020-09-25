@@ -1,9 +1,7 @@
 import {BasicUserInitializer, SVEAccount} from './SVEAccount';
 import {SVEProject} from './SVEProject';
-import {SVEGroup} from './SVEGroup';
 import {SVESystemInfo} from './SVESystemInfo';
 import { Stream } from 'stream';
-import { rejects } from 'assert';
 
 export enum SVEDataType {
     Image,

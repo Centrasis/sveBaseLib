@@ -1,19 +1,5 @@
 import { SVESystemInfo } from './SVESystemInfo';
-/*const user = sql.define<"user", { id: number; name: string; password: string }>({
-    name: 'user',
-    columns: {
-        id: {dataType: "number"},
-        name: {dataType: "string"},
-        password: {dataType: "string"}
-    },
-    schema: "snowvision_db"
-});*/
-export var TokenType;
-(function (TokenType) {
-    TokenType[TokenType["RessourceToken"] = 1] = "RessourceToken";
-    TokenType[TokenType["DeviceToken"] = 2] = "DeviceToken";
-})(TokenType || (TokenType = {}));
-;
+import { TokenType, SVEToken } from './SVEToken';
 var LoginState;
 (function (LoginState) {
     LoginState[LoginState["NotLoggedIn"] = 1] = "NotLoggedIn";
@@ -170,10 +156,8 @@ var SVEAccount = /** @class */ (function () {
             }
         });
     };
-    SVEAccount.prototype.createTokenFor = function (ressource, user) {
-        return new Promise(function (resolve, reject) {
-            reject({});
-        });
+    SVEAccount.prototype.createLoginToken = function () {
+        return SVEToken.register(TokenType.DeviceToken, this);
     };
     SVEAccount.prototype.doTokenLogin = function (token) {
         var _this = this;

@@ -1,22 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoginState = exports.SVEAccount = exports.isBasicUserInitializer = exports.isSessionUserInitializer = exports.isTokenInfo = exports.isLoginInfo = exports.TokenType = void 0;
+exports.LoginState = exports.SVEAccount = exports.isBasicUserInitializer = exports.isSessionUserInitializer = exports.isTokenInfo = exports.isLoginInfo = void 0;
 var SVESystemInfo_1 = require("./SVESystemInfo");
-/*const user = sql.define<"user", { id: number; name: string; password: string }>({
-    name: 'user',
-    columns: {
-        id: {dataType: "number"},
-        name: {dataType: "string"},
-        password: {dataType: "string"}
-    },
-    schema: "snowvision_db"
-});*/
-var TokenType;
-(function (TokenType) {
-    TokenType[TokenType["RessourceToken"] = 1] = "RessourceToken";
-    TokenType[TokenType["DeviceToken"] = 2] = "DeviceToken";
-})(TokenType = exports.TokenType || (exports.TokenType = {}));
-;
+var SVEToken_1 = require("./SVEToken");
 var LoginState;
 (function (LoginState) {
     LoginState[LoginState["NotLoggedIn"] = 1] = "NotLoggedIn";
@@ -56,7 +42,7 @@ var SVEAccount = /** @class */ (function () {
                     user: user.name,
                     token: user.token,
                     ressource: "LogIn",
-                    type: TokenType.DeviceToken,
+                    type: SVEToken_1.TokenType.DeviceToken,
                     time: new Date()
                 }).then(function (val) {
                     _this.loginState = val;
@@ -178,10 +164,8 @@ var SVEAccount = /** @class */ (function () {
             }
         });
     };
-    SVEAccount.prototype.createTokenFor = function (ressource, user) {
-        return new Promise(function (resolve, reject) {
-            reject({});
-        });
+    SVEAccount.prototype.createLoginToken = function () {
+        return SVEToken_1.SVEToken.register(SVEToken_1.TokenType.DeviceToken, this);
     };
     SVEAccount.prototype.doTokenLogin = function (token) {
         var _this = this;

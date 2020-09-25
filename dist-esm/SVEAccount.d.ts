@@ -1,7 +1,4 @@
-export declare enum TokenType {
-    RessourceToken = 1,
-    DeviceToken = 2
-}
+import { TokenUserLoginInfo, Token } from './SVEToken';
 export interface BasicUserInitializer {
     name: string;
     id: number;
@@ -18,17 +15,6 @@ export interface SessionUserInitializer extends BasicUserInitializer {
 export interface BasicUserLoginInfo {
     name: string;
     pass: string;
-}
-export interface TokenUserLoginInfo {
-    name: string;
-    token: string;
-}
-export interface Token {
-    user: String;
-    token: String;
-    type: TokenType;
-    time: Date;
-    ressource: String;
 }
 export declare function isLoginInfo(info: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo): boolean;
 export declare function isTokenInfo(info: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo): boolean;
@@ -47,7 +33,7 @@ export declare class SVEAccount {
     protected init(state: LoginState): void;
     protected getByID(id: number): Promise<boolean>;
     protected doLogin(info: BasicUserLoginInfo): Promise<LoginState>;
-    createTokenFor(ressource: String, user: String): Promise<Token>;
+    createLoginToken(): Promise<string>;
     protected doTokenLogin(token: Token): Promise<LoginState>;
     getState(): LoginState;
 }

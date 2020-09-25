@@ -4,6 +4,7 @@ exports.SVEGroup = void 0;
 var SVEAccount_1 = require("./SVEAccount");
 var SVEProject_1 = require("./SVEProject");
 var SVESystemInfo_1 = require("./SVESystemInfo");
+var SVEToken_1 = require("./SVEToken");
 var SVEGroup = /** @class */ (function () {
     function SVEGroup(init, handler, onReady) {
         var _this = this;
@@ -190,6 +191,9 @@ var SVEGroup = /** @class */ (function () {
                 resolve(response.status == 200);
             });
         });
+    };
+    SVEGroup.prototype.createInviteToken = function () {
+        return SVEToken_1.SVEToken.register(SVEToken_1.TokenType.RessourceToken, this);
     };
     SVEGroup.getGroupsOf = function (handler) {
         return new Promise(function (resolve, reject) {
