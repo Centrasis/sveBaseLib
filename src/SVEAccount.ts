@@ -67,9 +67,9 @@ export class SVEAccount {
 
             if (isTokenInfo(user)) {
                 this.doTokenLogin({
-                    user: (user as TokenUserLoginInfo).name,
+                    user: (user as TokenUserLoginInfo).user,
                     token: (user as TokenUserLoginInfo).token,
-                    ressource: "LogIn",
+                    ressource: this.id,
                     type: TokenType.DeviceToken,
                     time: new Date()
                 }).then((val: LoginState) => {

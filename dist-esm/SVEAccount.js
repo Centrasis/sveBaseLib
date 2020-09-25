@@ -31,9 +31,9 @@ var SVEAccount = /** @class */ (function () {
             this.init(LoginState.NotLoggedIn);
             if (isTokenInfo(user)) {
                 this.doTokenLogin({
-                    user: user.name,
+                    user: user.user,
                     token: user.token,
-                    ressource: "LogIn",
+                    ressource: this.id,
                     type: TokenType.DeviceToken,
                     time: new Date()
                 }).then(function (val) {
