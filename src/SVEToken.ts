@@ -107,13 +107,7 @@ export class SVEToken {
                     })
                 }).then(response => {
                     if(response.status < 400) {
-                        response.json().then(val => {
-                            if(val.success as boolean === true) {
-                                resolve();
-                            } else {
-                                reject();
-                            }
-                        });
+                        resolve();
                     } else {
                         reject();
                     }

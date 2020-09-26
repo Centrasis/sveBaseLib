@@ -91,14 +91,7 @@ var SVEToken = /** @class */ (function () {
                     })
                 }).then(function (response) {
                     if (response.status < 400) {
-                        response.json().then(function (val) {
-                            if (val.success === true) {
-                                resolve();
-                            }
-                            else {
-                                reject();
-                            }
-                        });
+                        resolve();
                     }
                     else {
                         reject();
