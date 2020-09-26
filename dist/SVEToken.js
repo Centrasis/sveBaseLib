@@ -30,10 +30,8 @@ var SVEToken = /** @class */ (function () {
                 })
             }).then(function (response) {
                 if (response.status < 400) {
-                    response.json().then(function (val) {
-                        _this.isValid = val.valid;
-                        onValidated(_this);
-                    });
+                    _this.isValid = true;
+                    onValidated(_this);
                 }
                 else {
                     onValidated(_this);

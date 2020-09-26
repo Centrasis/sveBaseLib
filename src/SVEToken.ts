@@ -70,10 +70,8 @@ export class SVEToken {
                 })
             }).then(response => {
                 if(response.status < 400) {
-                    response.json().then(val => {
-                        this.isValid = val.valid as boolean;
-                        onValidated(this);
-                    });
+                    this.isValid = true;
+                    onValidated(this);
                 } else {
                     onValidated(this);
                 }
