@@ -73,7 +73,8 @@ var SVESystemInfo = /** @class */ (function () {
                             resolve({
                                 authorizationSystem: val.status.authorizationSystem,
                                 basicSystem: val.status.basicSystem,
-                                tokenSystem: val.status.tokenSystem
+                                tokenSystem: val.status.tokenSystem,
+                                user: undefined
                             });
                         }
                         else {

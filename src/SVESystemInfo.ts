@@ -108,7 +108,8 @@ class SVESystemInfo {
                                 resolve({
                                     authorizationSystem: val.status.authorizationSystem as boolean,
                                     basicSystem: val.status.basicSystem as boolean,
-                                    tokenSystem: val.status.tokenSystem as boolean
+                                    tokenSystem: val.status.tokenSystem as boolean,
+                                    user: undefined
                                 });
                             } else {
                                 let loggedInAs = new SVEAccount(val.loggedInAs as SessionUserInitializer, (s) => {
