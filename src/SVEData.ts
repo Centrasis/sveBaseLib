@@ -173,10 +173,14 @@ export class SVEData {
     }
 
     public getOwnerID(): number {
-        if (typeof this.owner! === "number") {
-            return this.owner! as number;
+        if(this.owner !== undefined) {
+            if (typeof this.owner! === "number") {
+                return this.owner! as number;
+            } else {
+                return (this.owner! as SVEAccount).getID();
+            }
         } else {
-            return (this.owner! as SVEAccount).getID();
+            return NaN;
         }
     }
 

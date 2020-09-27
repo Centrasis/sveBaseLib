@@ -143,11 +143,16 @@ var SVEData = /** @class */ (function () {
         return this.id;
     };
     SVEData.prototype.getOwnerID = function () {
-        if (typeof this.owner === "number") {
-            return this.owner;
+        if (this.owner !== undefined) {
+            if (typeof this.owner === "number") {
+                return this.owner;
+            }
+            else {
+                return this.owner.getID();
+            }
         }
         else {
-            return this.owner.getID();
+            return NaN;
         }
     };
     //returns -1 when called by client
