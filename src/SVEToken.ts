@@ -56,7 +56,6 @@ export class SVEToken {
         this.type = type;
         this.target = target;
         if(!SVESystemInfo.getIsServer()) {
-            console.log("Validate token!");
             fetch(SVESystemInfo.getAuthRoot() + '/token/validate', {
                 method: 'POST',
                 headers: {
@@ -90,8 +89,22 @@ export class SVEToken {
         this.isValid = true;
     }
 
+    public invalidate() {
+        fetch(SVESystemInfo.getAuthRoot() + '/token', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({
+                type: this.type,
+                target: (typeof this.target === "number") ? this.target : this.target.getID(),
+                token: this.token
+            })
+        });
+    }
+
     public use(): Promise<void> {
-        console.log("Use token!");
         return new Promise<void>((resolve, reject) => {
             if(this.isValid) {
                 fetch(SVESystemInfo.getAuthRoot() + '/token/use', {

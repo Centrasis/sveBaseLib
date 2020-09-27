@@ -24,6 +24,7 @@ export declare class SVEToken {
     constructor(token: string, type: TokenType, target: SVEAccount | SVEGroup | number, onValidated: (token: SVEToken) => void);
     getIsValid(): boolean;
     setIsValid(): void;
+    invalidate(): void;
     use(): Promise<void>;
 }
 //# sourceMappingURL=SVEToken.d.ts.map

@@ -13,7 +13,6 @@ var SVEToken = /** @class */ (function () {
         this.type = type;
         this.target = target;
         if (!SVESystemInfo.getIsServer()) {
-            console.log("Validate token!");
             fetch(SVESystemInfo.getAuthRoot() + '/token/validate', {
                 method: 'POST',
                 headers: {
@@ -70,9 +69,22 @@ var SVEToken = /** @class */ (function () {
     SVEToken.prototype.setIsValid = function () {
         this.isValid = true;
     };
+    SVEToken.prototype.invalidate = function () {
+        fetch(SVESystemInfo.getAuthRoot() + '/token', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                type: this.type,
+                target: (typeof this.target === "number") ? this.target : this.target.getID(),
+                token: this.token
+            })
+        });
+    };
     SVEToken.prototype.use = function () {
         var _this = this;
-        console.log("Use token!");
         return new Promise(function (resolve, reject) {
             if (_this.isValid) {
                 fetch(SVESystemInfo.getAuthRoot() + '/token/use', {
