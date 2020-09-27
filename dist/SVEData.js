@@ -243,7 +243,7 @@ var SVEData = /** @class */ (function () {
     };
     SVEData.prototype.store = function () {
         return new Promise(function (resolve, reject) {
-            resolve(undefined);
+            resolve(false);
         });
     };
     SVEData.prototype.remove = function () {

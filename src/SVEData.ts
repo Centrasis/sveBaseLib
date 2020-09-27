@@ -283,9 +283,9 @@ export class SVEData {
         return this.parentProject!;
     }
 
-    public store(): Promise<SVEData|undefined> {
-        return new Promise<SVEData|undefined>((resolve, reject) => {
-            resolve(undefined);
+    public store(): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            resolve(false);
         });
     }
 

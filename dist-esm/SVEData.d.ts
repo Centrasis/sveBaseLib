@@ -57,7 +57,7 @@ export declare class SVEData {
     getName(): string;
     getType(): SVEDataType;
     getProject(): SVEProject;
-    store(): Promise<SVEData | undefined>;
+    store(): Promise<boolean>;
     remove(): Promise<boolean>;
     getURI(version: SVEDataVersion, download?: boolean): string;
     getBLOB(version: SVEDataVersion): Promise<ArrayBuffer>;
