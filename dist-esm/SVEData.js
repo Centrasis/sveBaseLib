@@ -240,7 +240,7 @@ var SVEData = /** @class */ (function () {
     };
     SVEData.prototype.store = function () {
         return new Promise(function (resolve, reject) {
-            resolve(false);
+            resolve(undefined);
         });
     };
     SVEData.prototype.remove = function () {
