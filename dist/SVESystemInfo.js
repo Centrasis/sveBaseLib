@@ -61,6 +61,34 @@ var SVESystemInfo = /** @class */ (function () {
     SVESystemInfo.getSystemStatus = function () {
         return this.getInstance().systemState;
     };
+    SVESystemInfo.getLoggedInUser = function () {
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo.getAPIRoot() + "/check", {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                if (response.status < 400) {
+                    response.json().then(function (val) {
+                        if ("loggedInAs" in val) {
+                            new SVEAccount_1.SVEAccount(val.loggedInAs, function (usr) {
+                                resolve(usr);
+                            });
+                        }
+                        else {
+                            console.log("No user logged in Session");
+                            reject();
+                        }
+                    });
+                }
+                else {
+                    reject();
+                }
+            }, function (err) { return reject(); });
+        });
+    };
     SVESystemInfo.getFullSystemState = function () {
         return new Promise(function (resolve, reject) {
             fetch(SVESystemInfo.getAPIRoot() + "/check", {
@@ -72,24 +100,11 @@ var SVESystemInfo = /** @class */ (function () {
             }).then(function (response) {
                 if (response.status < 400) {
                     response.json().then(function (val) {
-                        if (!("loggedInAs" in val)) {
-                            resolve({
-                                authorizationSystem: val.status.authorizationSystem,
-                                basicSystem: val.status.basicSystem,
-                                tokenSystem: val.status.tokenSystem,
-                                user: undefined
-                            });
-                        }
-                        else {
-                            var loggedInAs_1 = new SVEAccount_1.SVEAccount(val.loggedInAs, function (s) {
-                                resolve({
-                                    authorizationSystem: val.status.authorizationSystem,
-                                    basicSystem: val.status.basicSystem,
-                                    tokenSystem: val.status.tokenSystem,
-                                    user: loggedInAs_1
-                                });
-                            });
-                        }
+                        resolve({
+                            authorizationSystem: val.status.authorizationSystem,
+                            basicSystem: val.status.basicSystem,
+                            tokenSystem: val.status.tokenSystem
+                        });
                     }, function (err) { return reject({
                         error: "Server response was no valid JSON!",
                         err: err

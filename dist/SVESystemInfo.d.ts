@@ -30,6 +30,7 @@ declare class SVESystemInfo {
     sources: SVESources;
     SQLCredentials: SQLInfo;
     static getSystemStatus(): SVESystemState;
+    static getLoggedInUser(): Promise<SVEAccount>;
     static getFullSystemState(): Promise<SVEFullSystemState>;
     static getAPIRoot(): string;
     static getAuthRoot(): string;

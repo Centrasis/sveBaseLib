@@ -90,6 +90,14 @@ var SVEAccount = /** @class */ (function () {
     SVEAccount.prototype.getLoginState = function () {
         return this.loginState;
     };
+    SVEAccount.prototype.getInitializer = function () {
+        return {
+            id: this.id,
+            loginState: this.loginState,
+            name: this.name,
+            sessionID: ""
+        };
+    };
     SVEAccount.prototype.init = function (state) {
         if (state !== LoginState.NotLoggedIn) {
             this.loginState = state;

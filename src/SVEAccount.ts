@@ -60,6 +60,15 @@ export class SVEAccount {
         return this.loginState;
     }
 
+    public getInitializer(): SessionUserInitializer {
+        return {
+            id: this.id,
+            loginState: this.loginState,
+            name: this.name,
+            sessionID: ""
+        };
+    }
+
     // if onLogin is set a login will be perfomed. Otherwise the class will only be created
     public constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo, onLogin?: (state: SVEAccount) => void) {
         if(isLoginInfo(user) || isTokenInfo(user)) {
