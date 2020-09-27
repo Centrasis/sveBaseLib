@@ -49,7 +49,7 @@ var SVEProject = /** @class */ (function () {
                             _this.type = val.type;
                             _this.handler = handler;
                             _this.result = ("result" in val) ? Number(val.result) : undefined;
-                            _this.splashImgID = "splashImgID" in val ? Number(val.splashImgID) : 0;
+                            _this.splashImgID = "splashImg" in val ? Number(val.splashImg) : 0;
                             _this.dateRange = ("dateRange" in val) ? {
                                 begin: new Date(val.dateRange.begin),
                                 end: new Date(val.dateRange.end)
@@ -180,7 +180,7 @@ var SVEProject = /** @class */ (function () {
                         _this.name = val.name;
                         _this.type = val.type;
                         _this.result = val.result;
-                        _this.splashImgID = "splashImgID" in val ? Number(val.splashImgID) : 0;
+                        _this.splashImgID = "splashImg" in val ? Number(val.splashImg) : 0;
                         _this.dateRange = ("dateRange" in val) ? {
                             begin: new Date(val.dateRange.begin),
                             end: new Date(val.dateRange.end)

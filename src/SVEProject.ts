@@ -207,7 +207,7 @@ export class SVEProject {
                             this.type = val.type as SVEProjectType;
                             this.handler = handler;
                             this.result = ("result" in val) ? Number(val.result) : undefined;
-                            this.splashImgID = "splashImgID" in val ? Number(val.splashImgID) : 0;
+                            this.splashImgID = "splashImg" in val ? Number(val.splashImg) : 0;
                             this.dateRange = ("dateRange" in val) ? {
                                 begin: new Date(val.dateRange.begin),
                                 end : new Date(val.dateRange.end)
