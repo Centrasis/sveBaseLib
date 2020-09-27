@@ -51,7 +51,7 @@ export declare class SVEData {
     getCreationDate(): Date;
     getLastAccessDate(): Date;
     getCacheType(): string;
-    getContentType(): string;
+    getContentType(version: SVEDataVersion): string;
     static type2Str(t: SVEDataType): string;
     static getTypeFromExt(str: string): SVEDataType;
     getName(): string;

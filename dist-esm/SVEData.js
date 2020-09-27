@@ -177,11 +177,11 @@ var SVEData = /** @class */ (function () {
         }
         return r;
     };
-    SVEData.prototype.getContentType = function () {
+    SVEData.prototype.getContentType = function (version) {
         var r = "application/octet-stream";
         if (this.localDataInfo !== undefined) {
             var path = require('path');
-            r = mimeMap.get(path.extname((this.currentDataVersion == SVEDataVersion.Full) ? this.localDataInfo.filePath : this.localDataInfo.thumbnailPath).slice(1).toLowerCase());
+            r = mimeMap.get(path.extname((version === SVEDataVersion.Full) ? this.localDataInfo.filePath : this.localDataInfo.thumbnailPath).slice(1).toLowerCase());
         }
         else {
             if (this.type === SVEDataType.Image) {
