@@ -58,6 +58,7 @@ export declare class SVEData {
     getType(): SVEDataType;
     getProject(): SVEProject;
     store(): Promise<boolean>;
+    static getLatestUpload(user: SVEAccount): Promise<SVEData>;
     remove(): Promise<boolean>;
     getURI(version: SVEDataVersion, download?: boolean): string;
     getBLOB(version: SVEDataVersion): Promise<ArrayBuffer>;

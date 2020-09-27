@@ -289,6 +289,46 @@ export class SVEData {
         });
     }
 
+    public static getLatestUpload(user: SVEAccount): Promise<SVEData> {
+        return new Promise<SVEData>((resolve, reject) => {
+            fetch(SVESystemInfo.getAPIRoot() + "/data/latest", {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                }
+            }).then(response => {
+                if(response.status < 400) {
+                    response.json().then(val => {
+                        if (val.project !== undefined) {
+                            new SVEProject(Number(val.project), user, (prj) => {
+                                new SVEData(user, {
+                                    type: Number(val.type) as SVEDataType,
+                                    creation: new Date(val.creation),
+                                    id: Number(val.id),
+                                    name: val.name,
+                                    owner: Number(val.owner),
+                                    parentProject: prj,
+                                } as SVEDataInitializer, (data) => resolve(data));
+                            });
+                        } else {
+                            new SVEData(user, {
+                                type: Number(val.type) as SVEDataType,
+                                creation: new Date(val.creation),
+                                id: Number(val.id),
+                                name: val.name,
+                                owner: Number(val.owner),
+                                parentProject: undefined,
+                            } as SVEDataInitializer, (data) => resolve(data));
+                        }
+                    });
+                } else {
+                    reject();
+                }
+            });
+        });
+    }
+
     public remove(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             fetch(SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "/", {

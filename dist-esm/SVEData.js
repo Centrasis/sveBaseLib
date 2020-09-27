@@ -243,6 +243,47 @@ var SVEData = /** @class */ (function () {
             resolve(false);
         });
     };
+    SVEData.getLatestUpload = function (user) {
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo.getAPIRoot() + "/data/latest", {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                if (response.status < 400) {
+                    response.json().then(function (val) {
+                        if (val.project !== undefined) {
+                            new SVEProject(Number(val.project), user, function (prj) {
+                                new SVEData(user, {
+                                    type: Number(val.type),
+                                    creation: new Date(val.creation),
+                                    id: Number(val.id),
+                                    name: val.name,
+                                    owner: Number(val.owner),
+                                    parentProject: prj,
+                                }, function (data) { return resolve(data); });
+                            });
+                        }
+                        else {
+                            new SVEData(user, {
+                                type: Number(val.type),
+                                creation: new Date(val.creation),
+                                id: Number(val.id),
+                                name: val.name,
+                                owner: Number(val.owner),
+                                parentProject: undefined,
+                            }, function (data) { return resolve(data); });
+                        }
+                    });
+                }
+                else {
+                    reject();
+                }
+            });
+        });
+    };
     SVEData.prototype.remove = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
