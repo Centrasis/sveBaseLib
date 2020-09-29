@@ -187,9 +187,12 @@ var SVEData = /** @class */ (function () {
     };
     SVEData.prototype.getContentType = function (version) {
         var r = "application/octet-stream";
-        if (this.localDataInfo !== undefined) {
-            var path = require('path');
-            r = mimeMap.get(path.extname((version === SVEDataVersion.Full) ? this.localDataInfo.filePath : this.localDataInfo.thumbnailPath).slice(1).toLowerCase());
+        if (this.localDataInfo !== undefined || this.name.length > 0) {
+            var bname = this.name;
+            if (this.localDataInfo !== undefined) {
+                bname = (version === SVEDataVersion.Full) ? this.localDataInfo.filePath : this.localDataInfo.thumbnailPath;
+            }
+            r = mimeMap.get(bname.split('.').pop().toLowerCase());
         }
         else {
             if (this.type === SVEDataType.Image) {
