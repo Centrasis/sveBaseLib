@@ -2,6 +2,7 @@ import {BasicUserInitializer, SVEAccount} from './SVEAccount';
 import {SVEProject} from './SVEProject';
 import {SVESystemInfo} from './SVESystemInfo';
 import { Stream } from 'stream';
+import { basename } from 'path';
 
 export enum SVEDataType {
     Image,
@@ -222,9 +223,12 @@ export class SVEData {
     public getContentType(version: SVEDataVersion): string {
         let r = "application/octet-stream";
 
-        if (this.localDataInfo !== undefined) {
-            var path = require('path');
-            r = mimeMap.get((path.extname((version === SVEDataVersion.Full) ? this.localDataInfo.filePath : this.localDataInfo.thumbnailPath).slice(1) as string).toLowerCase()) as string;
+        if (this.localDataInfo !== undefined || this.name.length > 0) {
+            let bname = this.name;
+            if(this.localDataInfo !== undefined) {
+                bname = (version === SVEDataVersion.Full) ? this.localDataInfo.filePath : this.localDataInfo.thumbnailPath;
+            }
+            r = mimeMap.get((bname.split('.').pop() as string).toLowerCase()) as string;
         } else {
             if (this.type === SVEDataType.Image) {
                 r = "image/png";
