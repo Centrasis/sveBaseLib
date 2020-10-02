@@ -69,6 +69,33 @@ export class SVEAccount {
         };
     }
 
+    public static registerNewUser(login: BasicUserLoginInfo, token: SVEToken): Promise<SVEAccount> {
+        return new Promise<SVEAccount>((resolve, reject) => {
+            fetch(SVESystemInfo.getAPIRoot() + '/user/new', {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify({
+                    newUser: login.name,
+                    newPassword: login.pass,
+                    token: token
+                })
+            }).then(response => {
+                if(response.status < 400) {
+                    response.json().then(val => {
+                        new SVEAccount({ id: Number(val.id), name: val.name as string } as BasicUserInitializer, (usr) => {
+                            resolve(usr);
+                        });
+                    });
+                } else {
+                    reject();
+                }
+            }, err => reject(err));
+        });
+    }
+
     // if onLogin is set a login will be perfomed. Otherwise the class will only be created
     public constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo, onLogin?: (state: SVEAccount) => void) {
         if(isLoginInfo(user) || isTokenInfo(user)) {

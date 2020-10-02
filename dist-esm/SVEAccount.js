@@ -98,6 +98,33 @@ var SVEAccount = /** @class */ (function () {
             sessionID: ""
         };
     };
+    SVEAccount.registerNewUser = function (login, token) {
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo.getAPIRoot() + '/user/new', {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    newUser: login.name,
+                    newPassword: login.pass,
+                    token: token
+                })
+            }).then(function (response) {
+                if (response.status < 400) {
+                    response.json().then(function (val) {
+                        new SVEAccount({ id: Number(val.id), name: val.name }, function (usr) {
+                            resolve(usr);
+                        });
+                    });
+                }
+                else {
+                    reject();
+                }
+            }, function (err) { return reject(err); });
+        });
+    };
     SVEAccount.prototype.init = function (state) {
         if (state !== LoginState.NotLoggedIn) {
             this.loginState = state;

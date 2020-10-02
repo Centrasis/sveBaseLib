@@ -1,4 +1,4 @@
-import { TokenUserLoginInfo, Token } from './SVEToken';
+import { TokenUserLoginInfo, Token, SVEToken } from './SVEToken';
 export interface BasicUserInitializer {
     name: string;
     id: number;
@@ -30,6 +30,7 @@ export declare class SVEAccount {
     setSessionID(id: string): void;
     getLoginState(): LoginState;
     getInitializer(): SessionUserInitializer;
+    static registerNewUser(login: BasicUserLoginInfo, token: SVEToken): Promise<SVEAccount>;
     constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo, onLogin?: (state: SVEAccount) => void);
     protected init(state: LoginState): void;
     protected getByID(id: number): Promise<boolean>;
