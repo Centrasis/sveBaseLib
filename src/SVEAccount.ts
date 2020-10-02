@@ -85,7 +85,7 @@ export class SVEAccount {
             }).then(response => {
                 if(response.status < 400) {
                     response.json().then(val => {
-                        new SVEAccount({ id: Number(val.id), name: val.name as string } as BasicUserInitializer, (usr) => {
+                        new SVEAccount({ pass: login.pass, name: login.name } as BasicUserLoginInfo, (usr) => {
                             resolve(usr);
                         });
                     });

@@ -114,7 +114,7 @@ var SVEAccount = /** @class */ (function () {
             }).then(function (response) {
                 if (response.status < 400) {
                     response.json().then(function (val) {
-                        new SVEAccount({ id: Number(val.id), name: val.name }, function (usr) {
+                        new SVEAccount({ pass: login.pass, name: login.name }, function (usr) {
                             resolve(usr);
                         });
                     });
