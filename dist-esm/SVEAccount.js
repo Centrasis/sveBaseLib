@@ -125,6 +125,23 @@ var SVEAccount = /** @class */ (function () {
             }, function (err) { return reject(err); });
         });
     };
+    SVEAccount.prototype.changePassword = function (oldPw, newPw) {
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo.getAPIRoot() + '/user/change/pw', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    oldPassword: oldPw,
+                    newPassword: newPw
+                })
+            }).then(function (response) {
+                resolve(response.status < 400);
+            }, function (err) { return reject(err); });
+        });
+    };
     SVEAccount.prototype.init = function (state) {
         if (state !== LoginState.NotLoggedIn) {
             this.loginState = state;
