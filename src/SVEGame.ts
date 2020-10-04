@@ -17,10 +17,15 @@ export enum GameState {
     Lost
 }
 
+export interface SetDataRequest {
+    field: string,
+    value: any
+}
+
 export interface GameRequest {
     invoker: string;
     target?: string;
-    action: any;
+    action: string | SetDataRequest;
 }
 
 export class SVEGame {

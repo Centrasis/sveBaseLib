@@ -12,10 +12,14 @@ export declare enum GameState {
     Won = 1,
     Lost = 2
 }
+export interface SetDataRequest {
+    field: string;
+    value: any;
+}
 export interface GameRequest {
     invoker: string;
     target?: string;
-    action: any;
+    action: string | SetDataRequest;
 }
 export declare class SVEGame {
     host: string;
