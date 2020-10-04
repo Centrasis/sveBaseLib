@@ -5,6 +5,12 @@ export var GameState;
     GameState[GameState["Won"] = 1] = "Won";
     GameState[GameState["Lost"] = 2] = "Lost";
 })(GameState || (GameState = {}));
+export var TargetType;
+(function (TargetType) {
+    TargetType[TargetType["Player"] = 0] = "Player";
+    TargetType[TargetType["Game"] = 1] = "Game";
+    TargetType[TargetType["Entity"] = 2] = "Entity";
+})(TargetType || (TargetType = {}));
 var SVEGame = /** @class */ (function () {
     function SVEGame(info) {
         this.gameState = GameState.Undetermined;

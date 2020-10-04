@@ -22,9 +22,20 @@ export interface SetDataRequest {
     value: any
 }
 
+export enum TargetType {
+    Player,
+    Game,
+    Entity
+}
+
+export interface ActionTarget {
+    type: TargetType,
+    id: string
+}
+
 export interface GameRequest {
     invoker: string;
-    target?: string;
+    target?: ActionTarget;
     action: string | SetDataRequest;
 }
 

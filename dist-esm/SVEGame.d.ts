@@ -16,9 +16,18 @@ export interface SetDataRequest {
     field: string;
     value: any;
 }
+export declare enum TargetType {
+    Player = 0,
+    Game = 1,
+    Entity = 2
+}
+export interface ActionTarget {
+    type: TargetType;
+    id: string;
+}
 export interface GameRequest {
     invoker: string;
-    target?: string;
+    target?: ActionTarget;
     action: string | SetDataRequest;
 }
 export declare class SVEGame {
