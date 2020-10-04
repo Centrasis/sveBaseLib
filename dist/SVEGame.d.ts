@@ -5,6 +5,12 @@ export interface GameInfo {
     maxPlayers: number;
     players?: number;
     gameType: string;
+    gameState: GameState;
+}
+export declare enum GameState {
+    Undetermined = 0,
+    Won = 1,
+    Lost = 2
 }
 export interface GameRequest {
     invoker: string;
@@ -17,7 +23,8 @@ export declare class SVEGame {
     gameType: string;
     maxPlayers: number;
     protected socket: WebSocket | undefined;
-    constructor(host: string, name: string, gameType: string, maxPlayers: number);
+    gameState: GameState;
+    constructor(info: GameInfo);
     join(): WebSocket;
     onJoined(): void;
     onEnd(): void;

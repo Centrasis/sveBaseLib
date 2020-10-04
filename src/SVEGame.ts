@@ -8,6 +8,13 @@ export interface GameInfo {
     maxPlayers: number;
     players?: number;
     gameType: string;
+    gameState: GameState;
+}
+
+export enum GameState {
+    Undetermined,
+    Won,
+    Lost
 }
 
 export interface GameRequest {
@@ -22,12 +29,14 @@ export class SVEGame {
     public gameType: string;
     public maxPlayers: number;
     protected socket: WebSocket | undefined;
+    public gameState: GameState = GameState.Undetermined;
 
-    constructor(host: string, name: string, gameType: string, maxPlayers: number) {
-        this.host = host;
-        this.name = name;
-        this.gameType = gameType;
-        this.maxPlayers = maxPlayers;
+    constructor(info: GameInfo) {
+        this.host = info.host;
+        this.name = info.name;
+        this.gameType = info.gameType;
+        this.maxPlayers = info.maxPlayers;
+        this.gameState = info.gameState;
     }
 
     public join(): WebSocket {
@@ -91,7 +100,7 @@ export class SVEGame {
                     let list: SVEGame[] = [];
                     response.json().then(val => {
                         val.forEach((gi: GameInfo) => {
-                            list.push(new SVEGame(gi.host, gi.name, gi.gameType, gi.maxPlayers));
+                            list.push(new SVEGame(gi));
                         });
                         resolve(list);
                     }, err => reject());
@@ -110,7 +119,8 @@ export class SVEGame {
             gameType: this.gameType,
             host: this.host,
             maxPlayers: this.maxPlayers,
-            name: this.name
+            name: this.name,
+            gameState: this.gameState
         }
     }
 

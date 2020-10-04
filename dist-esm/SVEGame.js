@@ -1,10 +1,18 @@
 import { SVESystemInfo } from "./SVESystemInfo";
+export var GameState;
+(function (GameState) {
+    GameState[GameState["Undetermined"] = 0] = "Undetermined";
+    GameState[GameState["Won"] = 1] = "Won";
+    GameState[GameState["Lost"] = 2] = "Lost";
+})(GameState || (GameState = {}));
 var SVEGame = /** @class */ (function () {
-    function SVEGame(host, name, gameType, maxPlayers) {
-        this.host = host;
-        this.name = name;
-        this.gameType = gameType;
-        this.maxPlayers = maxPlayers;
+    function SVEGame(info) {
+        this.gameState = GameState.Undetermined;
+        this.host = info.host;
+        this.name = info.name;
+        this.gameType = info.gameType;
+        this.maxPlayers = info.maxPlayers;
+        this.gameState = info.gameState;
     }
     SVEGame.prototype.join = function () {
         var _this = this;
@@ -59,7 +67,7 @@ var SVEGame = /** @class */ (function () {
                     var list_1 = [];
                     response.json().then(function (val) {
                         val.forEach(function (gi) {
-                            list_1.push(new SVEGame(gi.host, gi.name, gi.gameType, gi.maxPlayers));
+                            list_1.push(new SVEGame(gi));
                         });
                         resolve(list_1);
                     }, function (err) { return reject(); });
@@ -77,7 +85,8 @@ var SVEGame = /** @class */ (function () {
             gameType: this.gameType,
             host: this.host,
             maxPlayers: this.maxPlayers,
-            name: this.name
+            name: this.name,
+            gameState: this.gameState
         };
     };
     SVEGame.prototype.sendGameRequest = function (req) {
