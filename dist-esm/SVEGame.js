@@ -6,7 +6,25 @@ var SVEGame = /** @class */ (function () {
         this.gameType = gameType;
         this.maxPlayers = maxPlayers;
     }
-    SVEGame.prototype.join = function (player, game) {
+    SVEGame.prototype.join = function () {
+        var _this = this;
+        var ws = new WebSocket("wss://" + window.location.hostname + "/" + SVESystemInfo.getGameRoot() + "/join/" + this.name);
+        ws.onopen = function (e) {
+            _this.onJoined();
+        };
+        ws.onmessage = function (e) {
+            _this.onRequest(JSON.parse(e.data));
+        };
+        ws.onclose = function (e) {
+            _this.onEnd();
+        };
+        return ws;
+    };
+    SVEGame.prototype.onJoined = function () {
+    };
+    SVEGame.prototype.onEnd = function () {
+    };
+    SVEGame.prototype.onRequest = function (req) {
     };
     SVEGame.prototype.create = function () {
         var _this = this;

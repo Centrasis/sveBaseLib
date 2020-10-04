@@ -17,7 +17,10 @@ export declare class SVEGame {
     gameType: string;
     maxPlayers: number;
     constructor(host: string, name: string, gameType: string, maxPlayers: number);
-    join(player: SVEAccount, game: string): void;
+    join(): WebSocket;
+    onJoined(): void;
+    onEnd(): void;
+    onRequest(req: GameRequest): void;
     create(): Promise<void>;
     static getGames(): Promise<SVEGame[]>;
     leave(player: SVEAccount): void;

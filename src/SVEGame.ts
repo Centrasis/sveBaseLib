@@ -29,8 +29,33 @@ export class SVEGame {
         this.maxPlayers = maxPlayers;
     }
 
-    public join(player: SVEAccount, game: string) {
-        
+    public join(): WebSocket {
+        let ws = new WebSocket("wss://" + window.location.hostname + "/" + SVESystemInfo.getGameRoot() + "/join/" + this.name);
+        ws.onopen = (e) => {
+            this.onJoined();
+        };
+
+        ws.onmessage = (e) => {
+            this.onRequest(JSON.parse(e.data) as GameRequest);
+        };
+
+        ws.onclose = (e) => {
+            this.onEnd();
+        };
+
+        return ws;
+    }
+
+    public onJoined() {
+
+    }
+
+    public onEnd() {
+
+    }
+
+    public onRequest(req: GameRequest) {
+
     }
 
     public create(): Promise<void> {
