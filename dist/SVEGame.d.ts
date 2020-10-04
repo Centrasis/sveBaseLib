@@ -16,6 +16,7 @@ export declare class SVEGame {
     name: string;
     gameType: string;
     maxPlayers: number;
+    protected socket: WebSocket | undefined;
     constructor(host: string, name: string, gameType: string, maxPlayers: number);
     join(): WebSocket;
     onJoined(): void;

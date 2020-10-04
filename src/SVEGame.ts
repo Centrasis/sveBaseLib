@@ -21,6 +21,7 @@ export class SVEGame {
     public name: string;
     public gameType: string;
     public maxPlayers: number;
+    protected socket: WebSocket | undefined;
 
     constructor(host: string, name: string, gameType: string, maxPlayers: number) {
         this.host = host;
@@ -30,20 +31,20 @@ export class SVEGame {
     }
 
     public join(): WebSocket {
-        let ws = new WebSocket("wss://" + window.location.hostname + "/" + SVESystemInfo.getGameRoot() + "/join/" + this.name);
-        ws.onopen = (e) => {
+        this.socket = new WebSocket("wss://" + window.location.hostname + "/" + SVESystemInfo.getGameRoot() + "/join/" + this.name);
+        this.socket.onopen = (e) => {
             this.onJoined();
         };
 
-        ws.onmessage = (e) => {
+        this.socket.onmessage = (e) => {
             this.onRequest(JSON.parse(e.data) as GameRequest);
         };
 
-        ws.onclose = (e) => {
+        this.socket.onclose = (e) => {
             this.onEnd();
         };
 
-        return ws;
+        return this.socket;
     }
 
     public onJoined() {

@@ -8,17 +8,17 @@ var SVEGame = /** @class */ (function () {
     }
     SVEGame.prototype.join = function () {
         var _this = this;
-        var ws = new WebSocket("wss://" + window.location.hostname + "/" + SVESystemInfo.getGameRoot() + "/join/" + this.name);
-        ws.onopen = function (e) {
+        this.socket = new WebSocket("wss://" + window.location.hostname + "/" + SVESystemInfo.getGameRoot() + "/join/" + this.name);
+        this.socket.onopen = function (e) {
             _this.onJoined();
         };
-        ws.onmessage = function (e) {
+        this.socket.onmessage = function (e) {
             _this.onRequest(JSON.parse(e.data));
         };
-        ws.onclose = function (e) {
+        this.socket.onclose = function (e) {
             _this.onEnd();
         };
-        return ws;
+        return this.socket;
     };
     SVEGame.prototype.onJoined = function () {
     };
