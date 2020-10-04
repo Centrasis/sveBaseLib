@@ -113,4 +113,8 @@ export class SVEGame {
             name: this.name
         }
     }
+
+    public sendGameRequest(req: GameRequest) {
+        this.socket!.send(JSON.stringify(req));
+    }
 }

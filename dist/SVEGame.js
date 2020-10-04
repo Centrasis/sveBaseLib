@@ -83,6 +83,9 @@ var SVEGame = /** @class */ (function () {
             name: this.name
         };
     };
+    SVEGame.prototype.sendGameRequest = function (req) {
+        this.socket.send(JSON.stringify(req));
+    };
     return SVEGame;
 }());
 exports.SVEGame = SVEGame;

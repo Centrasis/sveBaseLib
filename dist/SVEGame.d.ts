@@ -26,5 +26,6 @@ export declare class SVEGame {
     static getGames(): Promise<SVEGame[]>;
     leave(player: SVEAccount): void;
     getAsInitializer(): GameInfo;
+    sendGameRequest(req: GameRequest): void;
 }
 //# sourceMappingURL=SVEGame.d.ts.map
