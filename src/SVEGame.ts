@@ -1,3 +1,4 @@
+import { promises } from "fs";
 import { SVEAccount } from "./SVEAccount";
 import { SVESystemInfo } from "./SVESystemInfo";
 
@@ -44,6 +45,30 @@ export class SVEGame {
             }).then(response => {
                 if(response.status < 400) {
                     resolve();
+                } else {
+                    reject();
+                }
+            });
+        });
+    }
+
+    public static getGames(): Promise<SVEGame[]> {
+        return new Promise<SVEGame[]>((resolve, reject) => {
+            fetch(SVESystemInfo.getGameRoot() + '/list', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                }
+            }).then(response => {
+                if(response.status < 400) {
+                    let list: SVEGame[] = [];
+                    response.json().then(val => {
+                        val.forEach((gi: GameInfo) => {
+                            list.push(new SVEGame(gi.host, gi.name, gi.gameType, gi.maxPlayers));
+                        });
+                        resolve(list);
+                    }, err => reject());
                 } else {
                     reject();
                 }
