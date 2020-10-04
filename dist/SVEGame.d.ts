@@ -3,6 +3,7 @@ export interface GameInfo {
     name: string;
     host: string;
     maxPlayers: number;
+    minPlayers?: number;
     players?: number;
     gameType: string;
     gameState: GameState;
