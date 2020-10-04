@@ -32,6 +32,7 @@ export declare class SVEAccount {
     getInitializer(): SessionUserInitializer;
     static registerNewUser(login: BasicUserLoginInfo, token: SVEToken): Promise<SVEAccount>;
     changePassword(oldPw: string, newPw: string): Promise<boolean>;
+    setEmail(email: string): Promise<boolean>;
     constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo, onLogin?: (state: SVEAccount) => void);
     protected init(state: LoginState): void;
     protected getByID(id: number): Promise<boolean>;

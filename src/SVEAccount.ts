@@ -114,6 +114,23 @@ export class SVEAccount {
         });
     }
 
+    public setEmail(email: string): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            fetch(SVESystemInfo.getAPIRoot() + '/user/change/email', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify({
+                    email: email
+                })
+            }).then(response => {
+                resolve(response.status < 400);
+            }, err => reject(err));
+        });
+    }
+
     // if onLogin is set a login will be perfomed. Otherwise the class will only be created
     public constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo, onLogin?: (state: SVEAccount) => void) {
         if(isLoginInfo(user) || isTokenInfo(user)) {

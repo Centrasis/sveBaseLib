@@ -142,6 +142,22 @@ var SVEAccount = /** @class */ (function () {
             }, function (err) { return reject(err); });
         });
     };
+    SVEAccount.prototype.setEmail = function (email) {
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo.getAPIRoot() + '/user/change/email', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email
+                })
+            }).then(function (response) {
+                resolve(response.status < 400);
+            }, function (err) { return reject(err); });
+        });
+    };
     SVEAccount.prototype.init = function (state) {
         if (state !== LoginState.NotLoggedIn) {
             this.loginState = state;

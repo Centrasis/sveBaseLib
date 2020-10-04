@@ -123,6 +123,9 @@ var SVESystemInfo = /** @class */ (function () {
     SVESystemInfo.getAuthRoot = function () {
         return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.authService : "";
     };
+    SVESystemInfo.getGameRoot = function () {
+        return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.gameService : "";
+    };
     return SVESystemInfo;
 }());
 export { SVESystemInfo };
