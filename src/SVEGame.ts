@@ -70,6 +70,11 @@ export class SVEGame {
 
         this.socket.onclose = (e) => {
             console.log("End game: " + this.name);
+            if (e.wasClean) {
+                console.log(`Connection closed cleanly, code=${e.code} reason=${e.reason}`);
+            } else {
+                console.log("Connection died!");
+            }
             this.onEnd();
         };
 

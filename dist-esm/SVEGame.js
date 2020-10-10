@@ -33,6 +33,12 @@ var SVEGame = /** @class */ (function () {
         };
         this.socket.onclose = function (e) {
             console.log("End game: " + _this.name);
+            if (e.wasClean) {
+                console.log("Connection closed cleanly, code=" + e.code + " reason=" + e.reason);
+            }
+            else {
+                console.log("Connection died!");
+            }
             _this.onEnd();
         };
         this.socket.onerror = function (e) {
