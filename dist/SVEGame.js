@@ -25,14 +25,21 @@ var SVEGame = /** @class */ (function () {
     }
     SVEGame.prototype.join = function () {
         var _this = this;
+        console.log("Try join game: " + this.name);
         this.socket = new WebSocket("wss://" + window.location.hostname + "/" + SVESystemInfo_1.SVESystemInfo.getGameRoot() + "/join/" + this.name);
         this.socket.onopen = function (e) {
+            console.log("Joined game: " + _this.name);
             _this.onJoined();
         };
         this.socket.onmessage = function (e) {
             _this.onRequest(JSON.parse(e.data));
         };
         this.socket.onclose = function (e) {
+            console.log("End game: " + _this.name);
+            _this.onEnd();
+        };
+        this.socket.onerror = function (e) {
+            console.log("Error with game connection: " + JSON.stringify(e));
             _this.onEnd();
         };
         return this.socket;

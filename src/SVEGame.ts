@@ -57,8 +57,10 @@ export class SVEGame {
     }
 
     public join(): WebSocket {
+        console.log("Try join game: " + this.name);
         this.socket = new WebSocket("wss://" + window.location.hostname + "/" + SVESystemInfo.getGameRoot() + "/join/" + this.name);
         this.socket.onopen = (e) => {
+            console.log("Joined game: " + this.name);
             this.onJoined();
         };
 
@@ -67,6 +69,12 @@ export class SVEGame {
         };
 
         this.socket.onclose = (e) => {
+            console.log("End game: " + this.name);
+            this.onEnd();
+        };
+
+        this.socket.onerror = (e) => {
+            console.log("Error with game connection: " + JSON.stringify(e));
             this.onEnd();
         };
 
