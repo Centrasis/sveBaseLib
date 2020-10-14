@@ -31,8 +31,8 @@ export class SVEClassificator {
 
     public static issueRelearn(model: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.aiService + '/models/' + model, {
-                method: 'PATCH',
+            fetch(SVESystemInfo.getInstance().sources.aiService + '/models/' + model + "/train", {
+                method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json' 
