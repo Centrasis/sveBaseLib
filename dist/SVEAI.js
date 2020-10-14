@@ -45,6 +45,29 @@ var SVEClassificator = /** @class */ (function () {
             });
         });
     };
+    SVEClassificator.getClasses = function (model) {
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.aiService + "/models/" + model + "/classes", {
+                method: "GET"
+            }).then(function (response) {
+                if (response.status < 400) {
+                    response.json().then(function (val) {
+                        var ret = [];
+                        val.forEach(function (el) {
+                            ret.push({
+                                key: Number(el.key),
+                                class: el.class
+                            });
+                        });
+                        resolve(ret);
+                    });
+                }
+                else {
+                    reject();
+                }
+            });
+        });
+    };
     return SVEClassificator;
 }());
 exports.SVEClassificator = SVEClassificator;
