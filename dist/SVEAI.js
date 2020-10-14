@@ -7,7 +7,7 @@ var SVEClassificator = /** @class */ (function () {
     }
     SVEClassificator.classify = function (model, data, className) {
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.aiService + '/models/' + model + "/classify", {
+            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.aiService + '/model/' + model + "/classify", {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -27,9 +27,9 @@ var SVEClassificator = /** @class */ (function () {
             });
         });
     };
-    SVEClassificator.issueRelearn = function (model) {
+    SVEClassificator.issueRelearn = function (model, forceNew) {
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.aiService + '/models/' + model + "/train", {
+            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.aiService + '/model/' + model + ((forceNew) ? "/retrain" : "/train"), {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -47,7 +47,7 @@ var SVEClassificator = /** @class */ (function () {
     };
     SVEClassificator.getClasses = function (model) {
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.aiService + "/models/" + model + "/classes", {
+            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.aiService + "/model/" + model + "/classes", {
                 method: "GET"
             }).then(function (response) {
                 if (response.status < 400) {

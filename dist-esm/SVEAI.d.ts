@@ -5,7 +5,7 @@ export interface AIClass {
 }
 export declare class SVEClassificator {
     static classify(model: string, data: SVEData, className: string): Promise<void>;
-    static issueRelearn(model: string): Promise<void>;
+    static issueRelearn(model: string, forceNew: boolean): Promise<void>;
     static getClasses(model: string): Promise<AIClass[]>;
 }
 //# sourceMappingURL=SVEAI.d.ts.map
