@@ -18,8 +18,7 @@
   "scripts": {
     "tsc": "tsc -b && tsc -m es6 --outDir dist-esm",
     "webpack": "npm run tsc && node build/build.js",
-    "build": "npm run tsc",
-    "prepare": "npm run tsc"
+    "build": "npm run tsc"
   },
   "author": "ftl999",
   "license": "ISC",
