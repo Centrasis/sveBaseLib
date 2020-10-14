@@ -26,8 +26,8 @@ var SVEClassificator = /** @class */ (function () {
     };
     SVEClassificator.issueRelearn = function (model) {
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getInstance().sources.aiService + '/models/' + model, {
-                method: 'PATCH',
+            fetch(SVESystemInfo.getInstance().sources.aiService + '/models/' + model + "/train", {
+                method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
