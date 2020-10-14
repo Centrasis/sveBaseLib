@@ -6,3 +6,4 @@ export * from './SVEData';
 export * from './SVEQueries';
 export * from './SVEToken';
 export * from './SVEGame';
+export * from './SVEAI';

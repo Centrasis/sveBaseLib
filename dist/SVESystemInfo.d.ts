@@ -3,6 +3,7 @@ export interface SVESources {
     sveService?: string;
     authService?: string;
     gameService?: string;
+    aiService?: string;
     persistentDatabase?: string | any;
     volatileDatabase?: string | any;
     sveDataPath?: string;
