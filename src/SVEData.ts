@@ -205,6 +205,8 @@ export class SVEData {
             if((initInfo as SVEDataInitializer).creation !== undefined)
                 this.creation = (initInfo as SVEDataInitializer).creation!;
 
+            this.classifiedAs = (initInfo as SVEDataInitializer).classifiedAs;
+
             onComplete(this);
         }
     }

@@ -106,6 +106,7 @@ var SVEData = /** @class */ (function () {
             this.owner = initInfo.owner;
             if (initInfo.creation !== undefined)
                 this.creation = initInfo.creation;
+            this.classifiedAs = initInfo.classifiedAs;
             onComplete(this);
         }
     }
