@@ -98,10 +98,10 @@ export class SVEData {
         });
     }
 
-    public pullClassification(): Promise<void> {
+    public pullClassification(modelName: string = "documents"): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if(SVESystemInfo.getInstance().sources.aiService !== undefined) {
-                fetch(SVESystemInfo.getInstance().sources.aiService! + '/model/documents/class', {
+                fetch(SVESystemInfo.getInstance().sources.aiService! + '/model/' + modelName + '/class', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',

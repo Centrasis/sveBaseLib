@@ -44,7 +44,7 @@ export declare class SVEData {
     protected classifiedAs?: string;
     static getMimeTypeMap(): Map<string, string>;
     initFromResult(result: any, parentProject: SVEProject | undefined, onComplete: () => void): void;
-    pullClassification(): Promise<void>;
+    pullClassification(modelName?: string): Promise<void>;
     isClassfied(): boolean;
     getClassName(): string;
     static getTypeFrom(str: string): SVEDataType;

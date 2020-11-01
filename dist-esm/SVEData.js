@@ -122,11 +122,12 @@ var SVEData = /** @class */ (function () {
             onComplete();
         });
     };
-    SVEData.prototype.pullClassification = function () {
+    SVEData.prototype.pullClassification = function (modelName) {
         var _this = this;
+        if (modelName === void 0) { modelName = "documents"; }
         return new Promise(function (resolve, reject) {
             if (SVESystemInfo.getInstance().sources.aiService !== undefined) {
-                fetch(SVESystemInfo.getInstance().sources.aiService + '/model/documents/class', {
+                fetch(SVESystemInfo.getInstance().sources.aiService + '/model/' + modelName + '/class', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
