@@ -131,15 +131,12 @@ var SVEData = /** @class */ (function () {
         if (modelName === void 0) { modelName = "documents"; }
         return new Promise(function (resolve, reject) {
             if (SVESystemInfo_1.SVESystemInfo.getInstance().sources.aiService !== undefined) {
-                fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.aiService + '/model/' + modelName + '/class', {
+                fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.aiService + '/model/' + modelName + '/classification/' + _this.id, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        file: _this.id
-                    })
+                    }
                 }).then(function (response) {
                     if (response.status < 400) {
                         response.json().then(function (val) {
