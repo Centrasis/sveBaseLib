@@ -23,6 +23,7 @@ export interface SVEDataInitializer {
     owner?: SVEAccount | number;
     creation?: Date;
     name?: string;
+    classifiedAs?: string;
 }
 export interface SVELocalDataInfo {
     filePath: string;
@@ -40,8 +41,12 @@ export declare class SVEData {
     protected lastAccess: Date;
     protected creation: Date;
     protected currentDataVersion?: SVEDataVersion;
+    protected classifiedAs?: string;
     static getMimeTypeMap(): Map<string, string>;
     initFromResult(result: any, parentProject: SVEProject | undefined, onComplete: () => void): void;
+    pullClassification(): Promise<void>;
+    isClassfied(): boolean;
+    getClassName(): string;
     static getTypeFrom(str: string): SVEDataType;
     constructor(handler: SVEAccount, initInfo: number | SVEDataInitializer, onComplete: (self: SVEData) => void);
     getID(): number;

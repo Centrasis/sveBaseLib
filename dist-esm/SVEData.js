@@ -50,6 +50,7 @@ var SVEData = /** @class */ (function () {
         this.name = "";
         this.lastAccess = new Date();
         this.creation = new Date();
+        this.classifiedAs = undefined;
         this.handler = handler;
         if (typeof initInfo === "number") {
             this.id = initInfo;
@@ -71,7 +72,7 @@ var SVEData = /** @class */ (function () {
                                 _this.name = val.name;
                                 new SVEProject(Number(val.project), _this.handler, function (prj) {
                                     _this.parentProject = prj;
-                                    onComplete(_this);
+                                    _this.pullClassification().then(function () { return onComplete(_this); }, function (err) { return onComplete(_this); });
                                 });
                             });
                         }
@@ -120,6 +121,44 @@ var SVEData = /** @class */ (function () {
         this.owner = new SVEAccount({ id: Number(result.user_id) }, function (s) {
             onComplete();
         });
+    };
+    SVEData.prototype.pullClassification = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            if (SVESystemInfo.getInstance().sources.aiService !== undefined) {
+                fetch(SVESystemInfo.getInstance().sources.aiService + '/model/documents/class', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        file: _this.id
+                    })
+                }).then(function (response) {
+                    if (response.status < 400) {
+                        response.json().then(function (val) {
+                            _this.classifiedAs = (val.success == true) ? val.class : undefined;
+                            resolve();
+                        }, function (err) { return reject(err); });
+                    }
+                    else {
+                        _this.classifiedAs = undefined;
+                        reject();
+                    }
+                }, function (err) { return reject(err); });
+            }
+            else {
+                _this.classifiedAs = undefined;
+                resolve();
+            }
+        });
+    };
+    SVEData.prototype.isClassfied = function () {
+        return this.classifiedAs !== undefined;
+    };
+    SVEData.prototype.getClassName = function () {
+        return this.classifiedAs;
     };
     SVEData.getTypeFrom = function (str) {
         if (str === "Image") {

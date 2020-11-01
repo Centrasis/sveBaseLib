@@ -26,7 +26,8 @@ export interface SVEDataInitializer {
     parentProject?: SVEProject,
     owner?: SVEAccount | number,
     creation?: Date,
-    name?: string
+    name?: string,
+    classifiedAs?: string
 }
 
 export interface SVELocalDataInfo {
@@ -74,6 +75,7 @@ export class SVEData {
     protected lastAccess: Date = new Date();
     protected creation: Date = new Date();
     protected currentDataVersion?: SVEDataVersion;
+    protected classifiedAs?: string = undefined;
 
     public static getMimeTypeMap(): Map<string, string> {
         return mimeMap;
@@ -94,6 +96,44 @@ export class SVEData {
         this.owner = new SVEAccount({id: Number(result.user_id)} as BasicUserInitializer, (s) => {
             onComplete();
         });
+    }
+
+    public pullClassification(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            if(SVESystemInfo.getInstance().sources.aiService !== undefined) {
+                fetch(SVESystemInfo.getInstance().sources.aiService! + '/model/documents/class', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify({
+                        file: this.id
+                    })
+                }).then(response => {
+                    if (response.status < 400) {
+                        response.json().then((val) => {
+                            this.classifiedAs = ((val.success as boolean) == true) ? val.class as string : undefined;
+                            resolve();
+                        }, err => reject(err));
+                    } else {
+                        this.classifiedAs = undefined;
+                        reject();
+                    }
+                }, err => reject(err));
+            } else {
+                this.classifiedAs = undefined;
+                resolve();
+            }
+        });
+    }
+
+    public isClassfied(): boolean {
+        return this.classifiedAs !== undefined;
+    }
+
+    public getClassName(): string {
+        return this.classifiedAs!;
     }
 
     public static getTypeFrom(str: string): SVEDataType {
@@ -137,7 +177,7 @@ export class SVEData {
                                 this.name = val.name;
                                 new SVEProject(Number(val.project), this.handler, (prj: SVEProject) => {
                                     this.parentProject = prj;
-                                    onComplete(this);
+                                    this.pullClassification().then(() => onComplete(this), err => onComplete(this));
                                 });
                             });
                         } else {
