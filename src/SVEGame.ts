@@ -46,7 +46,7 @@ export enum GameRejectReason {
     PlayerLimitExceeded
 }
 
-export abstract class SVEGame {
+export class SVEGame {
     public host: string;
     public name: string;
     public gameType: string;
@@ -73,7 +73,9 @@ export abstract class SVEGame {
         this.gameState = info.gameState;
     }
 
-    public abstract OnGameRejected(reason: GameRejectReason): void;
+    public OnGameRejected(reason: GameRejectReason): void {
+
+    }
 
     public IsHostInstance(): boolean {
         return this.isHost;
@@ -171,9 +173,13 @@ export abstract class SVEGame {
         this.playerList.push(player);
     }
 
-    public abstract OnConnected: (success: Boolean) => void;
+    public OnConnected(success: Boolean): void {
 
-    public abstract onEnd(): void;
+    }
+
+    public onEnd(): void {
+        
+    }
 
     public onRequest(req: GameRequest) {
         if (typeof req.action === "string") {

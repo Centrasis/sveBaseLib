@@ -38,6 +38,8 @@ var SVEGame = /** @class */ (function () {
         this.maxPlayers = info.maxPlayers;
         this.gameState = info.gameState;
     }
+    SVEGame.prototype.OnGameRejected = function (reason) {
+    };
     SVEGame.prototype.IsHostInstance = function () {
         return this.isHost;
     };
@@ -122,6 +124,10 @@ var SVEGame = /** @class */ (function () {
     };
     SVEGame.prototype.onJoined = function (player) {
         this.playerList.push(player);
+    };
+    SVEGame.prototype.OnConnected = function (success) {
+    };
+    SVEGame.prototype.onEnd = function () {
     };
     SVEGame.prototype.onRequest = function (req) {
         var _this = this;

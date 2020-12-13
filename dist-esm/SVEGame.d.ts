@@ -37,7 +37,7 @@ export declare enum GameRejectReason {
     GameNotPresent = 0,
     PlayerLimitExceeded = 1
 }
-export declare abstract class SVEGame {
+export declare class SVEGame {
     host: string;
     name: string;
     gameType: string;
@@ -51,14 +51,14 @@ export declare abstract class SVEGame {
     gameState: GameState;
     protected peerOpts: Peer.PeerJSOption;
     constructor(info: GameInfo);
-    abstract OnGameRejected(reason: GameRejectReason): void;
+    OnGameRejected(reason: GameRejectReason): void;
     IsHostInstance(): boolean;
     protected setupHostPeerConnection(): Promise<void>;
     protected setupPeerConnection(peerID: string): Promise<Peer.DataConnection>;
     join(localPlayer: SVEAccount): Peer;
     onJoined(player: SVEAccount): void;
-    abstract OnConnected: (success: Boolean) => void;
-    abstract onEnd(): void;
+    OnConnected(success: Boolean): void;
+    onEnd(): void;
     onRequest(req: GameRequest): void;
     create(): Promise<void>;
     static getGames(): Promise<GameInfo[]>;
