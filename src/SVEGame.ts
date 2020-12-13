@@ -41,7 +41,12 @@ export interface GameRequest {
     action: string | SetDataRequest;
 }
 
-export class SVEGame {
+export enum GameRejectReason {
+    GameNotPresent,
+    PlayerLimitExceeded
+}
+
+export abstract class SVEGame {
     public host: string;
     public name: string;
     public gameType: string;
@@ -68,7 +73,9 @@ export class SVEGame {
         this.gameState = info.gameState;
     }
 
-    public getIsHost(): boolean {
+    public abstract OnGameRejected(reason: GameRejectReason): void;
+
+    public IsHostInstance(): boolean {
         return this.isHost;
     }
 
@@ -119,6 +126,7 @@ export class SVEGame {
             conn.on('close', () => {
                 console.log("End game: " + this.name);
                 this.onEnd();
+                this.OnGameRejected(GameRejectReason.PlayerLimitExceeded);
                 if (!returned) {
                     returned = true;
                     reject(null);
@@ -128,6 +136,7 @@ export class SVEGame {
             conn.on('error', (err:any) => {
                 console.log("Error with game connection: " + JSON.stringify(err));
                 this.onEnd();
+                this.OnGameRejected(GameRejectReason.GameNotPresent);
                 if (!returned) {
                     returned = true;
                     reject(err);
@@ -139,10 +148,12 @@ export class SVEGame {
     public join(localPlayer: SVEAccount): Peer {
         console.log("Try join game: " + this.name);
         this.socket = new Peer(this.peerOpts);
+        this.isHost = false;
 
         this.setupPeerConnection(this.hostPeerID).then((c) => {
             this.connections = [c];
             this.localPlayer = localPlayer;
+            this.OnConnected(true);
             this.sendGameRequest({
                 action: "join",
                 target: {
@@ -151,7 +162,7 @@ export class SVEGame {
                 },
                 invoker: this.localPlayer.getName()
             });
-        });
+        }, err => this.OnConnected(false));
 
         return this.socket;
     }
@@ -160,9 +171,9 @@ export class SVEGame {
         this.playerList.push(player);
     }
 
-    public onEnd() {
+    public abstract OnConnected: (success: Boolean) => void;
 
-    }
+    public abstract onEnd(): void;
 
     public onRequest(req: GameRequest) {
         if (typeof req.action === "string") {
@@ -201,7 +212,7 @@ export class SVEGame {
                     }
                 }
             }
-            if (req.action === "playersList?" && this.getIsHost()) {
+            if (req.action === "playersList?" && this.IsHostInstance()) {
                 let list: string[] = [];
                 this.playerList.forEach(p => list.push(p.getName()));
                 this.sendGameRequest({
@@ -249,8 +260,8 @@ export class SVEGame {
         });
     }
 
-    public static getGames(): Promise<SVEGame[]> {
-        return new Promise<SVEGame[]>((resolve, reject) => {
+    public static getGames(): Promise<GameInfo[]> {
+        return new Promise<GameInfo[]>((resolve, reject) => {
             fetch(SVESystemInfo.getGameRoot() + '/list', {
                 method: 'GET',
                 headers: {
@@ -259,10 +270,10 @@ export class SVEGame {
                 }
             }).then(response => {
                 if(response.status < 400) {
-                    let list: SVEGame[] = [];
+                    let list: GameInfo[] = [];
                     response.json().then(val => {
                         val.forEach((gi: GameInfo) => {
-                            list.push(new SVEGame(gi));
+                            list.push(gi);
                         });
                         resolve(list);
                     }, err => reject());
