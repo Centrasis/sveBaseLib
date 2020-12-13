@@ -183,11 +183,11 @@ export class SVEGame {
     }
 
     public onEnd(): void {
-
+        this.bIsRunning = false;
     }
 
     public onStart(): void {
-
+        this.bIsRunning = true;
     }
 
     public EndGame() {
@@ -198,13 +198,11 @@ export class SVEGame {
             });
 
             this.onEnd();
-            this.bIsRunning = false;
         }
     }
 
     public StartGame(): void {
         if (this.IsHostInstance()) {
-            this.bIsRunning = true;
             this.sendGameRequest({
                 action: "!startGame",
                 invoker: this.localUser!.getName(),

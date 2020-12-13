@@ -132,8 +132,10 @@ var SVEGame = /** @class */ (function () {
     SVEGame.prototype.OnConnected = function (success) {
     };
     SVEGame.prototype.onEnd = function () {
+        this.bIsRunning = false;
     };
     SVEGame.prototype.onStart = function () {
+        this.bIsRunning = true;
     };
     SVEGame.prototype.EndGame = function () {
         if (this.IsHostInstance()) {
@@ -142,12 +144,10 @@ var SVEGame = /** @class */ (function () {
                 invoker: this.localUser.getName()
             });
             this.onEnd();
-            this.bIsRunning = false;
         }
     };
     SVEGame.prototype.StartGame = function () {
         if (this.IsHostInstance()) {
-            this.bIsRunning = true;
             this.sendGameRequest({
                 action: "!startGame",
                 invoker: this.localUser.getName(),
