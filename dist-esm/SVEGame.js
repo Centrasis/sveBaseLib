@@ -159,12 +159,58 @@ var SVEGame = /** @class */ (function () {
             this.onStart();
         }
     };
+    SVEGame.prototype.GiveUp = function () {
+        this.SetGameState(GameState.Lost);
+        this.EndGame();
+    };
+    SVEGame.prototype.SetGameState = function (gs) {
+        if (this.IsHostInstance()) {
+            this.gameState = gs;
+            this.sendGameRequest({
+                action: {
+                    field: "gameState",
+                    value: gs
+                },
+                invoker: this.localUser.getName(),
+                target: {
+                    type: TargetType.Game,
+                    id: ""
+                }
+            });
+            this.OnGameStateChange(gs);
+        }
+    };
+    // player null is not valid!
+    SVEGame.prototype.NotifyPlayer = function (player, notification) {
+        this.sendGameRequest({
+            action: {
+                field: "!notify",
+                value: notification
+            },
+            invoker: this.localUser.getName(),
+            target: {
+                type: TargetType.Player,
+                id: player.getName()
+            }
+        });
+    };
+    SVEGame.prototype.OnGameStateChange = function (gs) {
+    };
     SVEGame.prototype.onRequest = function (req) {
         var _this = this;
         if (typeof req.action === "string") {
             if (req.action === "!startGame") {
                 this.bIsRunning = true;
                 this.onStart();
+                return;
+            }
+            if (req.action === "!endGame") {
+                this.onEnd();
+                return;
+            }
+            if (req.action === "!notify") {
+                console.log("Notify: ", JSON.stringify(req));
+                return;
             }
             if (req.action === "join" && req.target !== undefined) {
                 if (req.target.type === TargetType.Game) {
@@ -224,6 +270,11 @@ var SVEGame = /** @class */ (function () {
                         _this.playerList.push(usr);
                     });
                 });
+            }
+            if (req.action.field === "gameState") {
+                this.host = req.invoker;
+                this.gameState = req.action.value;
+                this.OnGameStateChange(this.gameState);
             }
         }
     };

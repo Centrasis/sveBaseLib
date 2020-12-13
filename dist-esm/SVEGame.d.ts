@@ -64,6 +64,10 @@ export declare class SVEGame {
     onStart(): void;
     EndGame(): void;
     StartGame(): void;
+    GiveUp(): void;
+    SetGameState(gs: GameState): void;
+    NotifyPlayer(player: SVEAccount, notification: String): void;
+    protected OnGameStateChange(gs: GameState): void;
     onRequest(req: GameRequest): void;
     create(): Promise<void>;
     static getGames(): Promise<GameInfo[]>;
