@@ -58,7 +58,9 @@ var SVEGame = /** @class */ (function () {
                     console.log("A player connection was closed");
                 });
                 c.on('data', function (e) {
-                    _this.onRequest(JSON.parse(e));
+                    _this.onRequest(e);
+                    // broadcasting
+                    _this.sendGameRequest(e);
                 });
                 c.on('error', function (err) {
                     console.log("An peer error occured: " + JSON.stringify(err));

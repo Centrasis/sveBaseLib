@@ -98,7 +98,9 @@ export class SVEGame {
                 });
 
                 c.on('data', (e:any) => {
-                    this.onRequest(JSON.parse(e as string) as GameRequest);
+                    this.onRequest(e as GameRequest);
+                    // broadcasting
+                    this.sendGameRequest(e as GameRequest);
                 });
 
                 c.on('error', (err) => {
