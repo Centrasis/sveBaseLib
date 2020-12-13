@@ -53,10 +53,11 @@ export class SVEGame {
     public maxPlayers: number;
     public hostPeerID: string = "";
     protected socket?: Peer = undefined;
-    protected localPlayer?: SVEAccount;
+    protected localUser?: SVEAccount;
     protected playerList: SVEAccount[] = [];
     protected connections: Peer.DataConnection[] = [];
-    private isHost: boolean = false;
+    private bIsHost: boolean = false;
+    private bIsRunning: boolean = false;
     public gameState: GameState = GameState.Undetermined;
     protected peerOpts: Peer.PeerJSOption = {
         host:"/",
@@ -78,7 +79,11 @@ export class SVEGame {
     }
 
     public IsHostInstance(): boolean {
-        return this.isHost;
+        return this.bIsHost;
+    }
+
+    public IsRunning(): boolean {
+        return this.bIsRunning;
     }
 
     protected setupHostPeerConnection(): Promise<void> {
@@ -150,11 +155,11 @@ export class SVEGame {
     public join(localPlayer: SVEAccount): Peer {
         console.log("Try join game: " + this.name);
         this.socket = new Peer(this.peerOpts);
-        this.isHost = false;
+        this.bIsHost = false;
 
         this.setupPeerConnection(this.hostPeerID).then((c) => {
             this.connections = [c];
-            this.localPlayer = localPlayer;
+            this.localUser = localPlayer;
             this.OnConnected(true);
             this.sendGameRequest({
                 action: "join",
@@ -162,7 +167,7 @@ export class SVEGame {
                     type: TargetType.Game,
                     id: ""
                 },
-                invoker: this.localPlayer.getName()
+                invoker: this.localUser.getName()
             });
         }, err => this.OnConnected(false));
 
@@ -178,11 +183,46 @@ export class SVEGame {
     }
 
     public onEnd(): void {
-        
+
+    }
+
+    public onStart(): void {
+
+    }
+
+    public EndGame() {
+        if (this.IsHostInstance()) {
+            this.sendGameRequest({
+                action: "!endGame",
+                invoker: this.localUser!.getName()
+            });
+
+            this.onEnd();
+            this.bIsRunning = false;
+        }
+    }
+
+    public StartGame(): void {
+        if (this.IsHostInstance()) {
+            this.bIsRunning = true;
+            this.sendGameRequest({
+                action: "!startGame",
+                invoker: this.localUser!.getName(),
+                target: {
+                    type: TargetType.Game,
+                    id: ""
+                }
+            });
+            this.onStart();
+        }
     }
 
     public onRequest(req: GameRequest) {
         if (typeof req.action === "string") {
+            if (req.action === "!startGame") {
+                this.bIsRunning = true;
+                this.onStart();
+            }
             if (req.action === "join" && req.target !== undefined) {
                 if (req.target.type === TargetType.Game) {
                     if (this.connections.length <= this.maxPlayers) {
@@ -192,7 +232,7 @@ export class SVEGame {
                                 id: req.invoker,
                                 type: TargetType.Player
                             },
-                            invoker: this.localPlayer!.getName()
+                            invoker: this.localUser!.getName()
                         });
                     } else {
                         this.sendGameRequest({
@@ -201,7 +241,7 @@ export class SVEGame {
                                 id: req.invoker,
                                 type: TargetType.Player
                             },
-                            invoker: this.localPlayer!.getName()
+                            invoker: this.localUser!.getName()
                         });
                     }
                 }
@@ -209,8 +249,8 @@ export class SVEGame {
             if (req.action === "join:OK" && req.target !== undefined) {
                 this.host = req.invoker;
                 if (req.target.type === TargetType.Player) {
-                    if (req.target.id === this.localPlayer!.getName()) {
-                        this.onJoined(this.localPlayer!);
+                    if (req.target.id === this.localUser!.getName()) {
+                        this.onJoined(this.localUser!);
                     } else {
                         new SVEAccount({name: req.target.id, id: -1, sessionID: "", loginState: LoginState.NotLoggedIn}, (usr) => {
                             this.onJoined(usr);
@@ -226,7 +266,7 @@ export class SVEGame {
                         field: "playersList",
                         value: JSON.stringify(list)
                     },
-                    invoker: this.localPlayer!.getName()
+                    invoker: this.localUser!.getName()
                 });
             }
         } else {
@@ -246,7 +286,7 @@ export class SVEGame {
         return new Promise<void>((resolve, reject) => {
             this.socket = new Peer(this.peerOpts);
             this.hostPeerID = this.socket.id;
-            this.isHost = true;
+            this.bIsHost = true;
             this.setupHostPeerConnection().then(() => {
                 fetch(SVESystemInfo.getGameRoot() + '/new', {
                     method: 'PUT',

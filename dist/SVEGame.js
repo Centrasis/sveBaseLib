@@ -30,7 +30,8 @@ var SVEGame = /** @class */ (function () {
         this.socket = undefined;
         this.playerList = [];
         this.connections = [];
-        this.isHost = false;
+        this.bIsHost = false;
+        this.bIsRunning = false;
         this.gameState = GameState.Undetermined;
         this.peerOpts = {
             host: "/",
@@ -47,7 +48,10 @@ var SVEGame = /** @class */ (function () {
     SVEGame.prototype.OnGameRejected = function (reason) {
     };
     SVEGame.prototype.IsHostInstance = function () {
-        return this.isHost;
+        return this.bIsHost;
+    };
+    SVEGame.prototype.IsRunning = function () {
+        return this.bIsRunning;
     };
     SVEGame.prototype.setupHostPeerConnection = function () {
         var _this = this;
@@ -112,10 +116,10 @@ var SVEGame = /** @class */ (function () {
         var _this = this;
         console.log("Try join game: " + this.name);
         this.socket = new peerjs_1.default(this.peerOpts);
-        this.isHost = false;
+        this.bIsHost = false;
         this.setupPeerConnection(this.hostPeerID).then(function (c) {
             _this.connections = [c];
-            _this.localPlayer = localPlayer;
+            _this.localUser = localPlayer;
             _this.OnConnected(true);
             _this.sendGameRequest({
                 action: "join",
@@ -123,7 +127,7 @@ var SVEGame = /** @class */ (function () {
                     type: TargetType.Game,
                     id: ""
                 },
-                invoker: _this.localPlayer.getName()
+                invoker: _this.localUser.getName()
             });
         }, function (err) { return _this.OnConnected(false); });
         return this.socket;
@@ -135,9 +139,39 @@ var SVEGame = /** @class */ (function () {
     };
     SVEGame.prototype.onEnd = function () {
     };
+    SVEGame.prototype.onStart = function () {
+    };
+    SVEGame.prototype.EndGame = function () {
+        if (this.IsHostInstance()) {
+            this.sendGameRequest({
+                action: "!endGame",
+                invoker: this.localUser.getName()
+            });
+            this.onEnd();
+            this.bIsRunning = false;
+        }
+    };
+    SVEGame.prototype.StartGame = function () {
+        if (this.IsHostInstance()) {
+            this.bIsRunning = true;
+            this.sendGameRequest({
+                action: "!startGame",
+                invoker: this.localUser.getName(),
+                target: {
+                    type: TargetType.Game,
+                    id: ""
+                }
+            });
+            this.onStart();
+        }
+    };
     SVEGame.prototype.onRequest = function (req) {
         var _this = this;
         if (typeof req.action === "string") {
+            if (req.action === "!startGame") {
+                this.bIsRunning = true;
+                this.onStart();
+            }
             if (req.action === "join" && req.target !== undefined) {
                 if (req.target.type === TargetType.Game) {
                     if (this.connections.length <= this.maxPlayers) {
@@ -147,7 +181,7 @@ var SVEGame = /** @class */ (function () {
                                 id: req.invoker,
                                 type: TargetType.Player
                             },
-                            invoker: this.localPlayer.getName()
+                            invoker: this.localUser.getName()
                         });
                     }
                     else {
@@ -157,7 +191,7 @@ var SVEGame = /** @class */ (function () {
                                 id: req.invoker,
                                 type: TargetType.Player
                             },
-                            invoker: this.localPlayer.getName()
+                            invoker: this.localUser.getName()
                         });
                     }
                 }
@@ -165,8 +199,8 @@ var SVEGame = /** @class */ (function () {
             if (req.action === "join:OK" && req.target !== undefined) {
                 this.host = req.invoker;
                 if (req.target.type === TargetType.Player) {
-                    if (req.target.id === this.localPlayer.getName()) {
-                        this.onJoined(this.localPlayer);
+                    if (req.target.id === this.localUser.getName()) {
+                        this.onJoined(this.localUser);
                     }
                     else {
                         new SVEAccount_1.SVEAccount({ name: req.target.id, id: -1, sessionID: "", loginState: SVEAccount_1.LoginState.NotLoggedIn }, function (usr) {
@@ -183,7 +217,7 @@ var SVEGame = /** @class */ (function () {
                         field: "playersList",
                         value: JSON.stringify(list_1)
                     },
-                    invoker: this.localPlayer.getName()
+                    invoker: this.localUser.getName()
                 });
             }
         }
@@ -204,7 +238,7 @@ var SVEGame = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             _this.socket = new peerjs_1.default(_this.peerOpts);
             _this.hostPeerID = _this.socket.id;
-            _this.isHost = true;
+            _this.bIsHost = true;
             _this.setupHostPeerConnection().then(function () {
                 fetch(SVESystemInfo_1.SVESystemInfo.getGameRoot() + '/new', {
                     method: 'PUT',
