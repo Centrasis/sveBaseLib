@@ -156,7 +156,7 @@ export class SVEGame {
 
     public join(localPlayer: SVEAccount) {
         console.log("Try join game: " + this.name);
-        fetch(SVESystemInfo.getGameRoot() + '/new', {
+        fetch(SVESystemInfo.getGameRoot() + '/join/' + this.name, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -164,21 +164,28 @@ export class SVEGame {
             }
         }).then(response => {
             if(response.status < 400) {
-                this.socket = new Peer(this.peerOpts);
-                this.bIsHost = false;
-                this.setupPeerConnection(this.hostPeerID).then((c) => {
-                    this.connections = [c];
-                    this.localUser = localPlayer;
-                    this.OnConnected(true);
-                    this.sendGameRequest({
-                        action: "join",
-                        target: {
-                            type: TargetType.Game,
-                            id: ""
-                        },
-                        invoker: this.localUser.getName()
-                    });
-                }, err => this.OnConnected(false));
+                response.json().then(res => {
+                    if ("success" in res && res.success === false) {
+                        return;
+                    } else {
+                        this.hostPeerID = (res as GameInfo).peerID!;
+                        this.socket = new Peer(this.peerOpts);
+                        this.bIsHost = false;
+                        this.setupPeerConnection(this.hostPeerID).then((c) => {
+                            this.connections = [c];
+                            this.localUser = localPlayer;
+                            this.OnConnected(true);
+                            this.sendGameRequest({
+                                action: "join",
+                                target: {
+                                    type: TargetType.Game,
+                                    id: ""
+                                },
+                                invoker: this.localUser.getName()
+                            });
+                        }, err => this.OnConnected(false));
+                    }
+                });
             }
         });
     }

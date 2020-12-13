@@ -57,7 +57,7 @@ export declare class SVEGame {
     IsRunning(): boolean;
     protected setupHostPeerConnection(): Promise<void>;
     protected setupPeerConnection(peerID: string): Promise<Peer.DataConnection>;
-    join(localPlayer: SVEAccount): Peer;
+    join(localPlayer: SVEAccount): void;
     onJoined(player: SVEAccount): void;
     OnConnected(success: Boolean): void;
     onEnd(): void;

@@ -111,22 +111,39 @@ var SVEGame = /** @class */ (function () {
     SVEGame.prototype.join = function (localPlayer) {
         var _this = this;
         console.log("Try join game: " + this.name);
-        this.socket = new Peer(this.peerOpts);
-        this.bIsHost = false;
-        this.setupPeerConnection(this.hostPeerID).then(function (c) {
-            _this.connections = [c];
-            _this.localUser = localPlayer;
-            _this.OnConnected(true);
-            _this.sendGameRequest({
-                action: "join",
-                target: {
-                    type: TargetType.Game,
-                    id: ""
-                },
-                invoker: _this.localUser.getName()
-            });
-        }, function (err) { return _this.OnConnected(false); });
-        return this.socket;
+        fetch(SVESystemInfo.getGameRoot() + '/join/' + this.name, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function (response) {
+            if (response.status < 400) {
+                response.json().then(function (res) {
+                    if ("success" in res && res.success === false) {
+                        return;
+                    }
+                    else {
+                        _this.hostPeerID = res.peerID;
+                        _this.socket = new Peer(_this.peerOpts);
+                        _this.bIsHost = false;
+                        _this.setupPeerConnection(_this.hostPeerID).then(function (c) {
+                            _this.connections = [c];
+                            _this.localUser = localPlayer;
+                            _this.OnConnected(true);
+                            _this.sendGameRequest({
+                                action: "join",
+                                target: {
+                                    type: TargetType.Game,
+                                    id: ""
+                                },
+                                invoker: _this.localUser.getName()
+                            });
+                        }, function (err) { return _this.OnConnected(false); });
+                    }
+                });
+            }
+        });
     };
     SVEGame.prototype.onJoined = function (player) {
         this.playerList.push(player);
