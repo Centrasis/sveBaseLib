@@ -216,10 +216,6 @@ var SVEGame = /** @class */ (function () {
                 this.onEnd();
                 return;
             }
-            if (req.action === "!notify") {
-                console.log("Notify: ", JSON.stringify(req));
-                return;
-            }
             if (req.action === "join" && req.target !== undefined) {
                 if (req.target.type === TargetType.Game) {
                     if (this.connections.length <= this.maxPlayers) {
@@ -283,6 +279,10 @@ var SVEGame = /** @class */ (function () {
                 this.host = req.invoker;
                 this.gameState = req.action.value;
                 this.OnGameStateChange(this.gameState);
+            }
+            if (req.action.field === "!notify") {
+                console.log("Notify: ", JSON.stringify(req.action.value));
+                return;
             }
         }
     };
@@ -350,6 +350,7 @@ var SVEGame = /** @class */ (function () {
     };
     SVEGame.prototype.sendGameRequest = function (req) {
         this.connections.forEach(function (c) { return c.send(req); });
+        this.onRequest(req);
     };
     return SVEGame;
 }());

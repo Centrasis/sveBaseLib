@@ -271,10 +271,6 @@ export class SVEGame {
                 this.onEnd();
                 return;
             }
-            if (req.action === "!notify") {
-                console.log("Notify: ", JSON.stringify(req));
-                return;
-            }
             if (req.action === "join" && req.target !== undefined) {
                 if (req.target.type === TargetType.Game) {
                     if (this.connections.length <= this.maxPlayers) {
@@ -335,6 +331,10 @@ export class SVEGame {
                 this.host = req.invoker;
                 this.gameState = req.action.value as GameState;
                 this.OnGameStateChange(this.gameState);
+            }
+            if (req.action.field === "!notify") {
+                console.log("Notify: ", JSON.stringify(req.action.value));
+                return;
             }
         }
     }
@@ -404,5 +404,6 @@ export class SVEGame {
 
     public sendGameRequest(req: GameRequest) {
         this.connections.forEach(c => c.send(req));
+        this.onRequest(req);
     }
 }
