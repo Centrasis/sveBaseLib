@@ -217,11 +217,63 @@ export class SVEGame {
         }
     }
 
+    public GiveUp(): void {
+        this.SetGameState(GameState.Lost);
+
+        this.EndGame();
+    }
+
+    public SetGameState(gs: GameState) {
+        if(this.IsHostInstance()) {
+            this.gameState = gs;
+            this.sendGameRequest({
+                action: {
+                    field: "gameState",
+                    value: gs
+                },
+                invoker: this.localUser!.getName(),
+                target: {
+                    type: TargetType.Game,
+                    id: ""
+                }
+            });
+            this.OnGameStateChange(gs);
+        }
+    }
+
+    // player null is not valid!
+    public NotifyPlayer(player: SVEAccount, notification: String): void {
+        this.sendGameRequest({
+            action: { 
+                field: "!notify",
+                value: notification
+            },
+            invoker: this.localUser!.getName(),
+            target: {
+                type: TargetType.Player,
+                id: player.getName()
+            }
+        });
+    }
+
+    protected OnGameStateChange(gs: GameState) {
+
+    }
+
     public onRequest(req: GameRequest) {
         if (typeof req.action === "string") {
             if (req.action === "!startGame") {
                 this.bIsRunning = true;
                 this.onStart();
+                return;
+            }
+            if(req.action === "!endGame") {
+                this.onEnd();
+                return;
+            }
+            if (req.action === "!notify") {
+                console.log("Notify: ", JSON.stringify(req));
+                return;
             }
             if (req.action === "join" && req.target !== undefined) {
                 if (req.target.type === TargetType.Game) {
@@ -278,6 +330,11 @@ export class SVEGame {
                         this.playerList.push(usr);
                     });
                 });
+            }
+            if (req.action.field === "gameState") {
+                this.host = req.invoker;
+                this.gameState = req.action.value as GameState;
+                this.OnGameStateChange(this.gameState);
             }
         }
     }
