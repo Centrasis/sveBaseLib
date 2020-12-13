@@ -1,3 +1,5 @@
+import Peer from 'peerjs';
+import { LoginState, SVEAccount } from "./SVEAccount";
 import { SVESystemInfo } from "./SVESystemInfo";
 export var GameState;
 (function (GameState) {
@@ -11,65 +13,202 @@ export var TargetType;
     TargetType[TargetType["Game"] = 1] = "Game";
     TargetType[TargetType["Entity"] = 2] = "Entity";
 })(TargetType || (TargetType = {}));
+export var GameRejectReason;
+(function (GameRejectReason) {
+    GameRejectReason[GameRejectReason["GameNotPresent"] = 0] = "GameNotPresent";
+    GameRejectReason[GameRejectReason["PlayerLimitExceeded"] = 1] = "PlayerLimitExceeded";
+})(GameRejectReason || (GameRejectReason = {}));
 var SVEGame = /** @class */ (function () {
     function SVEGame(info) {
+        this.hostPeerID = "";
+        this.socket = undefined;
+        this.playerList = [];
+        this.connections = [];
+        this.isHost = false;
         this.gameState = GameState.Undetermined;
+        this.peerOpts = {
+            host: "/",
+            path: "/peer",
+            secure: true
+        };
         this.host = info.host;
+        this.hostPeerID = (info.peerID !== undefined) ? info.peerID : "";
         this.name = info.name;
         this.gameType = info.gameType;
         this.maxPlayers = info.maxPlayers;
         this.gameState = info.gameState;
     }
-    SVEGame.prototype.join = function () {
+    SVEGame.prototype.IsHostInstance = function () {
+        return this.isHost;
+    };
+    SVEGame.prototype.setupHostPeerConnection = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.socket.on("connection", function (c) {
+                c.on('open', function () {
+                    console.log("New player connection");
+                });
+                c.on('close', function () {
+                    console.log("A player connection was closed");
+                });
+                c.on('data', function (e) {
+                    _this.onRequest(JSON.parse(e));
+                });
+                c.on('error', function (err) {
+                    console.log("An peer error occured: " + JSON.stringify(err));
+                });
+                if (_this.connections.length < _this.maxPlayers - 1) {
+                    _this.connections.push(c);
+                }
+                else {
+                    c.close();
+                }
+            });
+            resolve();
+        });
+    };
+    SVEGame.prototype.setupPeerConnection = function (peerID) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var conn = _this.socket.connect(peerID);
+            var returned = false;
+            conn.on('open', function () {
+                console.log("Connected with game: " + _this.name);
+                returned = true;
+                resolve(conn);
+            });
+            conn.on('data', function (e) {
+                _this.onRequest(e);
+            });
+            conn.on('close', function () {
+                console.log("End game: " + _this.name);
+                _this.onEnd();
+                _this.OnGameRejected(GameRejectReason.PlayerLimitExceeded);
+                if (!returned) {
+                    returned = true;
+                    reject(null);
+                }
+            });
+            conn.on('error', function (err) {
+                console.log("Error with game connection: " + JSON.stringify(err));
+                _this.onEnd();
+                _this.OnGameRejected(GameRejectReason.GameNotPresent);
+                if (!returned) {
+                    returned = true;
+                    reject(err);
+                }
+            });
+        });
+    };
+    SVEGame.prototype.join = function (localPlayer) {
         var _this = this;
         console.log("Try join game: " + this.name);
-        this.socket = new WebSocket("wss://" + window.location.hostname + "/" + SVESystemInfo.getGameRoot() + "/join/" + this.name);
-        this.socket.onopen = function (e) {
-            console.log("Joined game: " + _this.name);
-            _this.onJoined();
-        };
-        this.socket.onmessage = function (e) {
-            _this.onRequest(JSON.parse(e.data));
-        };
-        this.socket.onclose = function (e) {
-            console.log("End game: " + _this.name);
-            if (e.wasClean) {
-                console.log("Connection closed cleanly, code=" + e.code + " reason=" + e.reason);
-            }
-            else {
-                console.log("Connection died!");
-            }
-            _this.onEnd();
-        };
-        this.socket.onerror = function (e) {
-            console.log("Error with game connection: " + JSON.stringify(e));
-            _this.onEnd();
-        };
+        this.socket = new Peer(this.peerOpts);
+        this.isHost = false;
+        this.setupPeerConnection(this.hostPeerID).then(function (c) {
+            _this.connections = [c];
+            _this.localPlayer = localPlayer;
+            _this.OnConnected(true);
+            _this.sendGameRequest({
+                action: "join",
+                target: {
+                    type: TargetType.Game,
+                    id: ""
+                },
+                invoker: _this.localPlayer.getName()
+            });
+        }, function (err) { return _this.OnConnected(false); });
         return this.socket;
     };
-    SVEGame.prototype.onJoined = function () {
-    };
-    SVEGame.prototype.onEnd = function () {
+    SVEGame.prototype.onJoined = function (player) {
+        this.playerList.push(player);
     };
     SVEGame.prototype.onRequest = function (req) {
+        var _this = this;
+        if (typeof req.action === "string") {
+            if (req.action === "join" && req.target !== undefined) {
+                if (req.target.type === TargetType.Game) {
+                    if (this.connections.length <= this.maxPlayers) {
+                        this.sendGameRequest({
+                            action: "join:OK",
+                            target: {
+                                id: req.invoker,
+                                type: TargetType.Player
+                            },
+                            invoker: this.localPlayer.getName()
+                        });
+                    }
+                    else {
+                        this.sendGameRequest({
+                            action: "join:REJECT",
+                            target: {
+                                id: req.invoker,
+                                type: TargetType.Player
+                            },
+                            invoker: this.localPlayer.getName()
+                        });
+                    }
+                }
+            }
+            if (req.action === "join:OK" && req.target !== undefined) {
+                this.host = req.invoker;
+                if (req.target.type === TargetType.Player) {
+                    if (req.target.id === this.localPlayer.getName()) {
+                        this.onJoined(this.localPlayer);
+                    }
+                    else {
+                        new SVEAccount({ name: req.target.id, id: -1, sessionID: "", loginState: LoginState.NotLoggedIn }, function (usr) {
+                            _this.onJoined(usr);
+                        });
+                    }
+                }
+            }
+            if (req.action === "playersList?" && this.IsHostInstance()) {
+                var list_1 = [];
+                this.playerList.forEach(function (p) { return list_1.push(p.getName()); });
+                this.sendGameRequest({
+                    action: {
+                        field: "playersList",
+                        value: JSON.stringify(list_1)
+                    },
+                    invoker: this.localPlayer.getName()
+                });
+            }
+        }
+        else {
+            if (req.action.field === "playersList") {
+                this.host = req.invoker;
+                this.playerList = [];
+                JSON.parse(req.action.value).forEach(function (p) {
+                    new SVEAccount({ name: p, id: -1, sessionID: "", loginState: LoginState.NotLoggedIn }, function (usr) {
+                        _this.playerList.push(usr);
+                    });
+                });
+            }
+        }
     };
     SVEGame.prototype.create = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getGameRoot() + '/new', {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(_this.getAsInitializer())
-            }).then(function (response) {
-                if (response.status < 400) {
-                    resolve();
-                }
-                else {
-                    reject();
-                }
+            _this.socket = new Peer(_this.peerOpts);
+            _this.hostPeerID = _this.socket.id;
+            _this.isHost = true;
+            _this.setupHostPeerConnection().then(function () {
+                fetch(SVESystemInfo.getGameRoot() + '/new', {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(_this.getAsInitializer())
+                }).then(function (response) {
+                    if (response.status < 400) {
+                        resolve();
+                    }
+                    else {
+                        reject();
+                    }
+                });
             });
         });
     };
@@ -83,12 +222,12 @@ var SVEGame = /** @class */ (function () {
                 }
             }).then(function (response) {
                 if (response.status < 400) {
-                    var list_1 = [];
+                    var list_2 = [];
                     response.json().then(function (val) {
                         val.forEach(function (gi) {
-                            list_1.push(new SVEGame(gi));
+                            list_2.push(gi);
                         });
-                        resolve(list_1);
+                        resolve(list_2);
                     }, function (err) { return reject(); });
                 }
                 else {
@@ -98,6 +237,7 @@ var SVEGame = /** @class */ (function () {
         });
     };
     SVEGame.prototype.leave = function (player) {
+        this.playerList = this.playerList.filter(function (v) { return v.getName() === player.getName(); });
     };
     SVEGame.prototype.getAsInitializer = function () {
         return {
@@ -105,11 +245,12 @@ var SVEGame = /** @class */ (function () {
             host: this.host,
             maxPlayers: this.maxPlayers,
             name: this.name,
-            gameState: this.gameState
+            gameState: this.gameState,
+            peerID: this.hostPeerID
         };
     };
     SVEGame.prototype.sendGameRequest = function (req) {
-        this.socket.send(JSON.stringify(req));
+        this.connections.forEach(function (c) { return c.send(req); });
     };
     return SVEGame;
 }());

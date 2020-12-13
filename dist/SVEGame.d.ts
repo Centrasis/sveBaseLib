@@ -1,3 +1,4 @@
+import Peer from 'peerjs';
 import { SVEAccount } from "./SVEAccount";
 export interface GameInfo {
     name: string;
@@ -7,6 +8,7 @@ export interface GameInfo {
     playersCount?: number;
     gameType: string;
     gameState: GameState;
+    peerID?: string;
 }
 export declare enum GameState {
     Undetermined = 0,
@@ -31,20 +33,35 @@ export interface GameRequest {
     target?: ActionTarget;
     action: string | SetDataRequest;
 }
-export declare class SVEGame {
+export declare enum GameRejectReason {
+    GameNotPresent = 0,
+    PlayerLimitExceeded = 1
+}
+export declare abstract class SVEGame {
     host: string;
     name: string;
     gameType: string;
     maxPlayers: number;
-    protected socket: WebSocket | undefined;
+    hostPeerID: string;
+    protected socket?: Peer;
+    protected localPlayer?: SVEAccount;
+    protected playerList: SVEAccount[];
+    protected connections: Peer.DataConnection[];
+    private isHost;
     gameState: GameState;
+    protected peerOpts: Peer.PeerJSOption;
     constructor(info: GameInfo);
-    join(): WebSocket;
-    onJoined(): void;
-    onEnd(): void;
+    abstract OnGameRejected(reason: GameRejectReason): void;
+    IsHostInstance(): boolean;
+    protected setupHostPeerConnection(): Promise<void>;
+    protected setupPeerConnection(peerID: string): Promise<Peer.DataConnection>;
+    join(localPlayer: SVEAccount): Peer;
+    onJoined(player: SVEAccount): void;
+    abstract OnConnected: (success: Boolean) => void;
+    abstract onEnd(): void;
     onRequest(req: GameRequest): void;
     create(): Promise<void>;
-    static getGames(): Promise<SVEGame[]>;
+    static getGames(): Promise<GameInfo[]>;
     leave(player: SVEAccount): void;
     getAsInitializer(): GameInfo;
     sendGameRequest(req: GameRequest): void;
