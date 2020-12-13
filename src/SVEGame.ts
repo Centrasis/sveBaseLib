@@ -154,26 +154,33 @@ export class SVEGame {
         });
     }
 
-    public join(localPlayer: SVEAccount): Peer {
+    public join(localPlayer: SVEAccount) {
         console.log("Try join game: " + this.name);
-        this.socket = new Peer(this.peerOpts);
-        this.bIsHost = false;
-
-        this.setupPeerConnection(this.hostPeerID).then((c) => {
-            this.connections = [c];
-            this.localUser = localPlayer;
-            this.OnConnected(true);
-            this.sendGameRequest({
-                action: "join",
-                target: {
-                    type: TargetType.Game,
-                    id: ""
-                },
-                invoker: this.localUser.getName()
-            });
-        }, err => this.OnConnected(false));
-
-        return this.socket;
+        fetch(SVESystemInfo.getGameRoot() + '/new', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json' 
+            }
+        }).then(response => {
+            if(response.status < 400) {
+                this.socket = new Peer(this.peerOpts);
+                this.bIsHost = false;
+                this.setupPeerConnection(this.hostPeerID).then((c) => {
+                    this.connections = [c];
+                    this.localUser = localPlayer;
+                    this.OnConnected(true);
+                    this.sendGameRequest({
+                        action: "join",
+                        target: {
+                            type: TargetType.Game,
+                            id: ""
+                        },
+                        invoker: this.localUser.getName()
+                    });
+                }, err => this.OnConnected(false));
+            }
+        });
     }
 
     public onJoined(player: SVEAccount) {
