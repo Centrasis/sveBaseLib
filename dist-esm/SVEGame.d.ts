@@ -1,5 +1,3 @@
-import Peer from 'peerjs';
-import { SVEAccount } from "./SVEAccount";
 export interface GameInfo {
     name: string;
     host: string;
@@ -36,43 +34,5 @@ export interface GameRequest {
 export declare enum GameRejectReason {
     GameNotPresent = 0,
     PlayerLimitExceeded = 1
-}
-export declare class SVEGame {
-    host: string;
-    name: string;
-    gameType: string;
-    maxPlayers: number;
-    hostPeerID: string;
-    protected socket?: Peer;
-    protected localUser?: SVEAccount;
-    protected playerList: SVEAccount[];
-    protected connections: Peer.DataConnection[];
-    private bIsHost;
-    private bIsRunning;
-    gameState: GameState;
-    protected peerOpts: Peer.PeerJSOption;
-    constructor(info: GameInfo);
-    OnGameRejected(reason: GameRejectReason): void;
-    IsHostInstance(): boolean;
-    IsRunning(): boolean;
-    protected setupHostPeerConnection(): Promise<void>;
-    protected setupPeerConnection(peerID: string): Promise<Peer.DataConnection>;
-    join(localPlayer: SVEAccount): void;
-    onJoined(player: SVEAccount): void;
-    OnConnected(success: Boolean): void;
-    onEnd(): void;
-    onStart(): void;
-    EndGame(): void;
-    StartGame(): void;
-    GiveUp(): void;
-    SetGameState(gs: GameState): void;
-    NotifyPlayer(player: SVEAccount, notification: String): void;
-    protected OnGameStateChange(gs: GameState): void;
-    onRequest(req: GameRequest): void;
-    create(): Promise<void>;
-    static getGames(): Promise<GameInfo[]>;
-    leave(player: SVEAccount): void;
-    getAsInitializer(): GameInfo;
-    sendGameRequest(req: GameRequest): void;
 }
 //# sourceMappingURL=SVEGame.d.ts.map
