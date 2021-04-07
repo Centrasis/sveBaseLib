@@ -108,7 +108,7 @@ var SVEAccount = /** @class */ (function () {
     };
     SVEAccount.registerNewUser = function (login, token) {
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/user/new', {
+            fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/user/new', {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -135,7 +135,7 @@ var SVEAccount = /** @class */ (function () {
     };
     SVEAccount.prototype.changePassword = function (oldPw, newPw) {
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/user/change/pw', {
+            fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/user/change/pw', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -152,7 +152,7 @@ var SVEAccount = /** @class */ (function () {
     };
     SVEAccount.prototype.setEmail = function (email) {
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/user/change/email', {
+            fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/user/change/email', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -179,7 +179,7 @@ var SVEAccount = /** @class */ (function () {
     SVEAccount.prototype.getByID = function (id) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/user/' + id, {
+            fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/user/' + id, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -203,8 +203,8 @@ var SVEAccount = /** @class */ (function () {
     SVEAccount.prototype.doLogin = function (info) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            if (SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService !== undefined) {
-                fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
+            if (SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() !== undefined) {
+                fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/doLogin', {
                     method: 'POST',
                     body: JSON.stringify({
                         user: info.name,
@@ -238,8 +238,8 @@ var SVEAccount = /** @class */ (function () {
     SVEAccount.prototype.doTokenLogin = function (token) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            if (SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService !== undefined) {
-                fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
+            if (SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() !== undefined) {
+                fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/doLogin', {
                     method: 'POST',
                     body: JSON.stringify({ token: token }),
                     headers: {

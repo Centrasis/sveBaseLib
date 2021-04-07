@@ -2,6 +2,7 @@ import { SVEAccount } from "./SVEAccount";
 export interface SVESources {
     sveService?: string;
     accountService?: string;
+    authService?: string;
     gameService?: string;
     aiService?: string;
     persistentDatabase?: string | any;
@@ -35,6 +36,7 @@ declare class SVESystemInfo {
     static getLoggedInUser(): Promise<SVEAccount>;
     static getFullSystemState(): Promise<SVEFullSystemState>;
     static getAPIRoot(): string;
+    static getAccountServiceRoot(): string;
     static getAuthRoot(): string;
     static getGameRoot(): string;
 }

@@ -123,11 +123,14 @@ var SVESystemInfo = /** @class */ (function () {
     SVESystemInfo.getAPIRoot = function () {
         return (SVESystemInfo.getInstance().sources.sveService !== undefined) ? SVESystemInfo.getInstance().sources.sveService : "";
     };
+    SVESystemInfo.getAccountServiceRoot = function () {
+        return (SVESystemInfo.getInstance().sources.accountService !== undefined) ? SVESystemInfo.getInstance().sources.accountService : "";
+    };
     SVESystemInfo.getAuthRoot = function () {
         return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.authService : "";
     };
     SVESystemInfo.getGameRoot = function () {
-        return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.gameService : "";
+        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? SVESystemInfo.getInstance().sources.gameService : "";
     };
     return SVESystemInfo;
 }());
