@@ -71,7 +71,7 @@ export class SVEAccount {
 
     public static registerNewUser(login: BasicUserLoginInfo, token: SVEToken): Promise<SVEAccount> {
         return new Promise<SVEAccount>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + '/user/new', {
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/new', {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -98,7 +98,7 @@ export class SVEAccount {
 
     public changePassword(oldPw: string, newPw: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + '/user/change/pw', {
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/change/pw', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -116,7 +116,7 @@ export class SVEAccount {
 
     public setEmail(email: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + '/user/change/email', {
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/change/email', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -195,7 +195,7 @@ export class SVEAccount {
 
     protected getByID(id: number): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/user/' + id, {
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/' + id, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -218,8 +218,8 @@ export class SVEAccount {
 
     protected doLogin(info: BasicUserLoginInfo): Promise<LoginState> {
         return new Promise<LoginState>((resolve, reject) => {
-            if (SVESystemInfo.getInstance().sources.sveService !== undefined) {
-                fetch(SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
+            if (SVESystemInfo.getAccountServiceRoot() !== undefined) {
+                fetch(SVESystemInfo.getAccountServiceRoot() + '/doLogin', {
                         method: 'POST',
                         body: JSON.stringify({
                             user: info.name,
@@ -253,8 +253,8 @@ export class SVEAccount {
 
     protected doTokenLogin(token: Token): Promise<LoginState> {
         return new Promise<LoginState>((resolve, reject) => {
-            if (SVESystemInfo.getInstance().sources.sveService !== undefined) {
-                fetch(SVESystemInfo.getInstance().sources.sveService + '/doLogin', {
+            if (SVESystemInfo.getAccountServiceRoot() !== undefined) {
+                fetch(SVESystemInfo.getAccountServiceRoot() + '/doLogin', {
                         method: 'POST',
                         body: JSON.stringify({token}),
                         headers: {

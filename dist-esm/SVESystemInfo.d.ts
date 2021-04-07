@@ -1,7 +1,7 @@
 import { SVEAccount } from "./SVEAccount";
 export interface SVESources {
     sveService?: string;
-    authService?: string;
+    accountService?: string;
     gameService?: string;
     aiService?: string;
     persistentDatabase?: string | any;

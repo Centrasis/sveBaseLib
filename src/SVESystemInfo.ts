@@ -2,7 +2,7 @@ import { SessionUserInitializer, SVEAccount } from "./SVEAccount";
 
 export interface SVESources {
     sveService?: string;
-    authService?: string;
+    accountService?: string;
     gameService?: string;
     aiService?: string;
     persistentDatabase?: string | any;
@@ -157,12 +157,12 @@ class SVESystemInfo {
         return (SVESystemInfo.getInstance().sources.sveService !== undefined) ? SVESystemInfo.getInstance().sources.sveService! : "";
     }
 
-    public static getAuthRoot(): string {
-        return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.authService! : "";
+    public static getAccountServiceRoot(): string {
+        return (SVESystemInfo.getInstance().sources.accountService !== undefined) ? SVESystemInfo.getInstance().sources.accountService! : "";
     }
 
     public static getGameRoot(): string {
-        return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.gameService! : "";
+        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? SVESystemInfo.getInstance().sources.gameService! : "";
     }
 }
 
