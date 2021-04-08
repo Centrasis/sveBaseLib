@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoginState = exports.SVEAccount = exports.isBasicUserInitializer = exports.isSessionUserInitializer = exports.isTokenInfo = exports.isLoginInfo = void 0;
+exports.LoginState = exports.SVEAccount = exports.isBasicUserInitializer = exports.isSessionUserInitializer = exports.isTokenInfo = exports.isLoginInfo = exports.SessionUserInitializerType = void 0;
 var SVESystemInfo_1 = require("./SVESystemInfo");
 var SVEToken_1 = require("./SVEToken");
 var LoginState;
@@ -11,6 +11,16 @@ var LoginState;
 })(LoginState || (LoginState = {}));
 exports.LoginState = LoginState;
 ;
+var SessionUserInitializerType = /** @class */ (function () {
+    function SessionUserInitializerType() {
+        this.sessionID = "";
+        this.loginState = LoginState.NotLoggedIn;
+        this.name = "";
+        this.id = -1;
+    }
+    return SessionUserInitializerType;
+}());
+exports.SessionUserInitializerType = SessionUserInitializerType;
 function isLoginInfo(info) {
     return "name" in info && "pass" in info;
 }
@@ -103,7 +113,7 @@ var SVEAccount = /** @class */ (function () {
             id: this.id,
             loginState: this.loginState,
             name: this.name,
-            sessionID: ""
+            sessionID: this.sessionID
         };
     };
     SVEAccount.registerNewUser = function (login, token) {
@@ -220,6 +230,7 @@ var SVEAccount = /** @class */ (function () {
                             if (val.success === true) {
                                 _this.name = val.user;
                                 _this.id = val.id;
+                                _this.sessionID = val.sessionID;
                                 _this.init(LoginState.LoggedInByUser);
                             }
                             resolve(_this.loginState);

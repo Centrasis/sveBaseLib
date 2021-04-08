@@ -12,6 +12,13 @@ export interface SessionUserInitializer extends BasicUserInitializer {
     sessionID: string;
     loginState: LoginState;
 }
+export declare class SessionUserInitializerType implements SessionUserInitializer {
+    sessionID: string;
+    loginState: LoginState;
+    name: string;
+    id: number;
+    constructor();
+}
 export interface BasicUserLoginInfo {
     name: string;
     pass: string;

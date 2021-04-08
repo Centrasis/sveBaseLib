@@ -22,6 +22,10 @@ export class SessionUserInitializerType implements SessionUserInitializer {
     public loginState: LoginState = LoginState.NotLoggedIn;
     public name: string = "";
     public id: number = -1;
+
+    constructor() {
+        
+    }
 }
 
 export interface BasicUserLoginInfo {

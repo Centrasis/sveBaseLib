@@ -7,6 +7,16 @@ var LoginState;
     LoginState[LoginState["LoggedInByToken"] = 3] = "LoggedInByToken";
 })(LoginState || (LoginState = {}));
 ;
+var SessionUserInitializerType = /** @class */ (function () {
+    function SessionUserInitializerType() {
+        this.sessionID = "";
+        this.loginState = LoginState.NotLoggedIn;
+        this.name = "";
+        this.id = -1;
+    }
+    return SessionUserInitializerType;
+}());
+export { SessionUserInitializerType };
 export function isLoginInfo(info) {
     return "name" in info && "pass" in info;
 }
@@ -95,7 +105,7 @@ var SVEAccount = /** @class */ (function () {
             id: this.id,
             loginState: this.loginState,
             name: this.name,
-            sessionID: ""
+            sessionID: this.sessionID
         };
     };
     SVEAccount.registerNewUser = function (login, token) {
@@ -212,6 +222,7 @@ var SVEAccount = /** @class */ (function () {
                             if (val.success === true) {
                                 _this.name = val.user;
                                 _this.id = val.id;
+                                _this.sessionID = val.sessionID;
                                 _this.init(LoginState.LoggedInByUser);
                             }
                             resolve(_this.loginState);
