@@ -74,7 +74,7 @@ export class SVEAccount {
         return this.loginState;
     }
 
-    public getInitializer(): SessionUserInitializer {
+    public getInitializer(): SessionUserInitializerType {
         return {
             id: this.id,
             loginState: this.loginState,
