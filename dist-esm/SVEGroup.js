@@ -12,7 +12,7 @@ var SVEGroup = /** @class */ (function () {
         this.name = (init.name !== undefined && init.name !== null) ? init.name : "";
         if (!SVESystemInfo.getIsServer()) {
             if (!isNaN(this.id)) {
-                fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id, {
+                fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + this.id + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID), {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -75,7 +75,7 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.getUsers = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id + '/users', {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id + '/users?sessionID=' + encodeURI(_this.handler.getInitializer().sessionID), {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -104,7 +104,7 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.setRightsForUser = function (handler, rights) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id + "/user/" + handler.getID() + "/rights", {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id + "/user/" + handler.getID() + "/rights?sessionID=" + encodeURI(_this.handler.getInitializer().sessionID), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -119,7 +119,7 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.getRightsForUser = function (handler) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id + "/user/" + handler.getID() + "/rights", {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id + "/user/" + handler.getID() + "/rights?sessionID=" + encodeURI(_this.handler.getInitializer().sessionID), {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -153,7 +153,7 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.store = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + ((!isNaN(_this.id)) ? _this.id : "new"), {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + ((!isNaN(_this.id)) ? _this.id : "new") + "?sessionID=" + encodeURI(_this.handler.getInitializer().sessionID), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -178,7 +178,7 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.remove = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id, {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/group/' + _this.id + "?sessionID=" + encodeURI(_this.handler.getInitializer().sessionID), {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -190,11 +190,11 @@ var SVEGroup = /** @class */ (function () {
         });
     };
     SVEGroup.prototype.createInviteToken = function () {
-        return SVEToken.register(TokenType.RessourceToken, this);
+        return SVEToken.register(this.handler, TokenType.RessourceToken, this);
     };
     SVEGroup.getGroupsOf = function (handler) {
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/groups/', {
+            fetch(SVESystemInfo.getInstance().sources.sveService + '/groups?sessionID=' + encodeURI(handler.getInitializer().sessionID), {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

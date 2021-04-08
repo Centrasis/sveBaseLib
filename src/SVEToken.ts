@@ -22,7 +22,7 @@ export interface Token {
 }
 
 export class SVEToken {
-    public static register(type: TokenType, target: SVEGroup | SVEAccount): Promise<string> {
+    public static register(owner: SVEAccount, type: TokenType, target: SVEGroup | SVEAccount): Promise<string> {
         return new  Promise<string>((resolve, reject) => {
             fetch(SVESystemInfo.getAuthRoot() + '/token/new', {
                 method: 'POST',
@@ -32,7 +32,8 @@ export class SVEToken {
                 },
                 body: JSON.stringify({
                     type: type,
-                    target: target.getID()
+                    target: target.getID(),
+                    sessionID: owner.getInitializer().sessionID
                 })
             }).then(response => {
                 if(response.status < 400) {
@@ -89,7 +90,7 @@ export class SVEToken {
         this.isValid = true;
     }
 
-    public invalidate() {
+    public invalidate(user: SVEAccount) {
         fetch(SVESystemInfo.getAuthRoot() + '/token', {
             method: 'DELETE',
             headers: {
@@ -99,12 +100,13 @@ export class SVEToken {
             body: JSON.stringify({
                 type: this.type,
                 target: (typeof this.target === "number") ? this.target : this.target.getID(),
-                token: this.token
+                token: this.token,
+                sessionID: user.getInitializer().sessionID
             })
         });
     }
 
-    public use(): Promise<void> {
+    public use(user: SVEAccount | undefined = undefined): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if(this.isValid) {
                 fetch(SVESystemInfo.getAuthRoot() + '/token/use', {
@@ -116,7 +118,8 @@ export class SVEToken {
                     body: JSON.stringify({
                         type: this.type,
                         target: (typeof this.target === "number") ? this.target : this.target.getID(),
-                        token: this.token
+                        token: this.token,
+                        sessionID: (user !== undefined) ? user.getInitializer().sessionID : ""
                     })
                 }).then(response => {
                     if(response.status < 400) {

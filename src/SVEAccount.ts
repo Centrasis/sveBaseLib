@@ -120,7 +120,8 @@ export class SVEAccount {
                 },
                 body: JSON.stringify({
                     oldPassword: oldPw,
-                    newPassword: newPw
+                    newPassword: newPw,
+                    sessionID: this.sessionID
                 })
             }).then(response => {
                 resolve(response.status < 400);
@@ -137,7 +138,8 @@ export class SVEAccount {
                     'Content-Type': 'application/json' 
                 },
                 body: JSON.stringify({
-                    email: email
+                    email: email,
+                    sessionID: this.sessionID
                 })
             }).then(response => {
                 resolve(response.status < 400);
@@ -209,7 +211,7 @@ export class SVEAccount {
 
     protected getByID(id: number): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/' + id, {
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/' + id + '?sessionID=' + encodeURI(this.sessionID), {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -263,7 +265,7 @@ export class SVEAccount {
     }
 
     public createLoginToken(): Promise<string> {
-        return SVEToken.register(TokenType.DeviceToken, this);
+        return SVEToken.register(this, TokenType.DeviceToken, this);
     }
 
     protected doTokenLogin(token: Token): Promise<LoginState> {

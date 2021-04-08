@@ -148,6 +148,7 @@ var SVEAccount = /** @class */ (function () {
         });
     };
     SVEAccount.prototype.changePassword = function (oldPw, newPw) {
+        var _this = this;
         return new Promise(function (resolve, reject) {
             fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/user/change/pw', {
                 method: 'POST',
@@ -157,7 +158,8 @@ var SVEAccount = /** @class */ (function () {
                 },
                 body: JSON.stringify({
                     oldPassword: oldPw,
-                    newPassword: newPw
+                    newPassword: newPw,
+                    sessionID: _this.sessionID
                 })
             }).then(function (response) {
                 resolve(response.status < 400);
@@ -165,6 +167,7 @@ var SVEAccount = /** @class */ (function () {
         });
     };
     SVEAccount.prototype.setEmail = function (email) {
+        var _this = this;
         return new Promise(function (resolve, reject) {
             fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/user/change/email', {
                 method: 'POST',
@@ -173,7 +176,8 @@ var SVEAccount = /** @class */ (function () {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    email: email
+                    email: email,
+                    sessionID: _this.sessionID
                 })
             }).then(function (response) {
                 resolve(response.status < 400);
@@ -193,7 +197,7 @@ var SVEAccount = /** @class */ (function () {
     SVEAccount.prototype.getByID = function (id) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/user/' + id, {
+            fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/user/' + id + '?sessionID=' + encodeURI(_this.sessionID), {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -248,7 +252,7 @@ var SVEAccount = /** @class */ (function () {
         });
     };
     SVEAccount.prototype.createLoginToken = function () {
-        return SVEToken_1.SVEToken.register(SVEToken_1.TokenType.DeviceToken, this);
+        return SVEToken_1.SVEToken.register(this, SVEToken_1.TokenType.DeviceToken, this);
     };
     SVEAccount.prototype.doTokenLogin = function (token) {
         var _this = this;

@@ -3,6 +3,7 @@ import {SVEProject} from './SVEProject';
 import {SVESystemInfo} from './SVESystemInfo';
 import { Stream } from 'stream';
 import { basename } from 'path';
+import { rejects } from 'assert';
 
 export enum SVEDataType {
     Image,
@@ -100,28 +101,33 @@ export class SVEData {
 
     public pullClassification(modelName: string = "documents"): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            if(SVESystemInfo.getInstance().sources.aiService !== undefined) {
-                fetch(SVESystemInfo.getInstance().sources.aiService! + '/model/' + modelName + '/classification/' + this.id, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json' 
-                    }
-                }).then(response => {
-                    if (response.status < 400) {
-                        response.json().then((val) => {
-                            this.classifiedAs = ((val.success as boolean) == true) ? val.class as string : undefined;
-                            resolve();
-                        }, err => reject(err));
-                    } else {
-                        this.classifiedAs = undefined;
-                        reject();
-                    }
-                }, err => reject(err));
-            } else {
-                this.classifiedAs = undefined;
-                resolve();
-            }
+            this.getOwner().then((o) => {
+                let sessID = o.getInitializer().sessionID;
+                if(SVESystemInfo.getInstance().sources.aiService !== undefined) {
+                    fetch(SVESystemInfo.getInstance().sources.aiService! + '/model/' + modelName + '/classification/' + this.id + "?sessionID=" + encodeURI(sessID), {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json' 
+                        }
+                    }).then(response => {
+                        if (response.status < 400) {
+                            response.json().then((val) => {
+                                this.classifiedAs = ((val.success as boolean) == true) ? val.class as string : undefined;
+                                resolve();
+                            }, err => reject(err));
+                        } else {
+                            this.classifiedAs = undefined;
+                            reject();
+                        }
+                    }, err => reject(err));
+                } else {
+                    this.classifiedAs = undefined;
+                    resolve();
+                }
+            }, err => {
+                reject(err)
+            });
         });
     }
 
@@ -158,30 +164,33 @@ export class SVEData {
 
             if (typeof SVESystemInfo.getInstance().sources.sveService !== undefined && !SVESystemInfo.getIsServer()) {
                 try {
-                    fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id, {
-                            method: 'GET',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json' 
-                            }
-                    }).then(response => {
-                        if (response.status < 400) {
-                            response.json().then((val) => {
-                                this.id = val.id;
-                                this.type = val.type as SVEDataType;
-                                this.creation = val.creation;
-                                this.lastAccess = val.lastAccess;
-                                this.name = val.name;
-                                new SVEProject(Number(val.project), this.handler, (prj: SVEProject) => {
-                                    this.parentProject = prj;
-                                    this.pullClassification().then(() => onComplete(this), err => onComplete(this));
+                    this.getOwner().then((o) => {
+                        let sessID = o.getInitializer().sessionID;
+                        fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id + '?sessionID=' + encodeURI(sessID), {
+                                method: 'GET',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json' 
+                                }
+                        }).then(response => {
+                            if (response.status < 400) {
+                                response.json().then((val) => {
+                                    this.id = val.id;
+                                    this.type = val.type as SVEDataType;
+                                    this.creation = val.creation;
+                                    this.lastAccess = val.lastAccess;
+                                    this.name = val.name;
+                                    new SVEProject(Number(val.project), this.handler, (prj: SVEProject) => {
+                                        this.parentProject = prj;
+                                        this.pullClassification().then(() => onComplete(this), err => onComplete(this));
+                                    });
                                 });
-                            });
-                        } else {
-                            this.id = NaN;
-                            onComplete(this);
-                        }
-                    }, err => onComplete(this));
+                            } else {
+                                this.id = NaN;
+                                onComplete(this);
+                            }
+                        }, err => onComplete(this));
+                    }, err =>  onComplete(this));
                 } catch {
                     onComplete(this);
                 }
@@ -338,7 +347,8 @@ export class SVEData {
 
     public static getLatestUpload(user: SVEAccount): Promise<SVEData> {
         return new Promise<SVEData>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + "/data/latest", {
+            let sessID = user.getInitializer().sessionID;
+            fetch(SVESystemInfo.getAPIRoot() + "/data/latest" + "?sessionID=" + encodeURI(sessID), {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -378,14 +388,17 @@ export class SVEData {
 
     public remove(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "/", {
-                method: 'DELETE',
-                headers: {
-                    'Accept': '*'
-                }
-            }).then(response => {
-                resolve(response.status == 200);
-            });
+            this.getOwner().then((o) => {
+                let sessID = o.getInitializer().sessionID;
+                fetch(SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "?sessionID=" + encodeURI(sessID), {
+                    method: 'DELETE',
+                    headers: {
+                        'Accept': '*'
+                    }
+                }).then(response => {
+                    resolve(response.status == 200);
+                });
+            }, err => reject(err));
         });
     }
 
@@ -395,32 +408,36 @@ export class SVEData {
 
     public getBLOB(version: SVEDataVersion): Promise<ArrayBuffer> {
         return new Promise<ArrayBuffer>((resolve, reject) => {
-            if(this.data === undefined || this.currentDataVersion !== version) {
-                this.currentDataVersion = version;
-                var self = this;
-                fetch(this.getURI(version), {
-                        method: 'GET',
-                        headers: {
-                            'Accept': '*'
+            this.getOwner().then((o) => {
+                let sessID = o.getInitializer().sessionID;
+                if(this.data === undefined || this.currentDataVersion !== version) {
+                    this.currentDataVersion = version;
+                    var self = this;
+                    
+                    fetch(this.getURI(version) + "?sessionID=" + encodeURI(sessID), {
+                            method: 'GET',
+                            headers: {
+                                'Accept': '*'
+                            }
+                    }).then(response => {
+                        if (response.status < 400) {
+                            response.arrayBuffer().then((val) => {
+                                self.data = val;
+                                resolve(self.data);
+                            });
+                        } else {
+                            reject(null);
                         }
-                }).then(response => {
-                    if (response.status < 400) {
-                        response.arrayBuffer().then((val) => {
-                            self.data = val;
-                            resolve(self.data);
-                        });
-                    } else {
-                        reject(null);
-                    }
-                }, err => reject(err));
-                return;
-            }
+                    }, err => reject(err));
+                    return;
+                }
 
-            if(this.data !== undefined) {
-                resolve(this.data! as ArrayBuffer);
-            } else {
-                reject(null);
-            }
+                if(this.data !== undefined) {
+                    resolve(this.data! as ArrayBuffer);
+                } else {
+                    reject(null);
+                }
+            }, err => reject(err));
         });
     }
 

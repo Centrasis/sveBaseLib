@@ -42,7 +42,7 @@ var SVEToken = /** @class */ (function () {
             onValidated(this);
         }
     }
-    SVEToken.register = function (type, target) {
+    SVEToken.register = function (owner, type, target) {
         return new Promise(function (resolve, reject) {
             fetch(SVESystemInfo_1.SVESystemInfo.getAuthRoot() + '/token/new', {
                 method: 'POST',
@@ -52,7 +52,8 @@ var SVEToken = /** @class */ (function () {
                 },
                 body: JSON.stringify({
                     type: type,
-                    target: target.getID()
+                    target: target.getID(),
+                    sessionID: owner.getInitializer().sessionID
                 })
             }).then(function (response) {
                 if (response.status < 400) {
@@ -72,7 +73,7 @@ var SVEToken = /** @class */ (function () {
     SVEToken.prototype.setIsValid = function () {
         this.isValid = true;
     };
-    SVEToken.prototype.invalidate = function () {
+    SVEToken.prototype.invalidate = function (user) {
         fetch(SVESystemInfo_1.SVESystemInfo.getAuthRoot() + '/token', {
             method: 'DELETE',
             headers: {
@@ -82,12 +83,14 @@ var SVEToken = /** @class */ (function () {
             body: JSON.stringify({
                 type: this.type,
                 target: (typeof this.target === "number") ? this.target : this.target.getID(),
-                token: this.token
+                token: this.token,
+                sessionID: user.getInitializer().sessionID
             })
         });
     };
-    SVEToken.prototype.use = function () {
+    SVEToken.prototype.use = function (user) {
         var _this = this;
+        if (user === void 0) { user = undefined; }
         return new Promise(function (resolve, reject) {
             if (_this.isValid) {
                 fetch(SVESystemInfo_1.SVESystemInfo.getAuthRoot() + '/token/use', {
@@ -99,7 +102,8 @@ var SVEToken = /** @class */ (function () {
                     body: JSON.stringify({
                         type: _this.type,
                         target: (typeof _this.target === "number") ? _this.target : _this.target.getID(),
-                        token: _this.token
+                        token: _this.token,
+                        sessionID: (user !== undefined) ? user.getInitializer().sessionID : ""
                     })
                 }).then(function (response) {
                     if (response.status < 400) {

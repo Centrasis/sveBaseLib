@@ -16,7 +16,7 @@ export interface Token {
     ressource?: number;
 }
 export declare class SVEToken {
-    static register(type: TokenType, target: SVEGroup | SVEAccount): Promise<string>;
+    static register(owner: SVEAccount, type: TokenType, target: SVEGroup | SVEAccount): Promise<string>;
     protected isValid: boolean;
     protected token: string;
     protected type: TokenType;
@@ -24,7 +24,7 @@ export declare class SVEToken {
     constructor(token: string, type: TokenType, target: SVEAccount | SVEGroup | number, onValidated: (token: SVEToken) => void);
     getIsValid(): boolean;
     setIsValid(): void;
-    invalidate(): void;
-    use(): Promise<void>;
+    invalidate(user: SVEAccount): void;
+    use(user?: SVEAccount | undefined): Promise<void>;
 }
 //# sourceMappingURL=SVEToken.d.ts.map
