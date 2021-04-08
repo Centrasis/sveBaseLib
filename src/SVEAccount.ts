@@ -17,6 +17,13 @@ export interface SessionUserInitializer extends BasicUserInitializer {
     loginState: LoginState;
 }
 
+export class SessionUserInitializerType implements SessionUserInitializer {
+    public sessionID: string = "";
+    public loginState: LoginState = LoginState.NotLoggedIn;
+    public name: string = "";
+    public id: number = -1;
+}
+
 export interface BasicUserLoginInfo {
     name: string,
     pass: string
@@ -65,7 +72,7 @@ export class SVEAccount {
             id: this.id,
             loginState: this.loginState,
             name: this.name,
-            sessionID: ""
+            sessionID: this.sessionID
         };
     }
 
@@ -235,6 +242,7 @@ export class SVEAccount {
                             if(val.success === true) {
                                 this.name = val.user;
                                 this.id = val.id;
+                                this.sessionID = val.sessionID;
                                 this.init(LoginState.LoggedInByUser);
                             }
                             resolve(this.loginState);
