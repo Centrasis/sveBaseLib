@@ -17,7 +17,7 @@ export declare class SessionUserInitializerType implements SessionUserInitialize
     loginState: LoginState;
     name: string;
     id: number;
-    constructor();
+    constructor(init: SessionUserInitializer);
 }
 export interface BasicUserLoginInfo {
     name: string;

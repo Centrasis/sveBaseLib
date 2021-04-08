@@ -8,11 +8,15 @@ var LoginState;
 })(LoginState || (LoginState = {}));
 ;
 var SessionUserInitializerType = /** @class */ (function () {
-    function SessionUserInitializerType() {
+    function SessionUserInitializerType(init) {
         this.sessionID = "";
         this.loginState = LoginState.NotLoggedIn;
         this.name = "";
         this.id = -1;
+        this.id = init.id;
+        this.name = init.name;
+        this.loginState = init.loginState;
+        this.sessionID = init.sessionID;
     }
     return SessionUserInitializerType;
 }());
