@@ -23,8 +23,11 @@ export class SessionUserInitializerType implements SessionUserInitializer {
     public name: string = "";
     public id: number = -1;
 
-    constructor() {
-        
+    constructor(init: SessionUserInitializer) {
+        this.id = init.id;
+        this.name = init.name;
+        this.loginState = init.loginState;
+        this.sessionID = init.sessionID;
     }
 }
 
