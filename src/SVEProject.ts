@@ -40,7 +40,7 @@ export class SVEProject {
     protected name: string = "";
     protected group?: SVEGroup;
     protected owner?: SVEAccount | number;
-    protected handler?: SVEAccount;
+    protected handler: SVEAccount;
     protected splashImgID: number = 0;
     protected type: SVEProjectType = SVEProjectType.Vacation;
     protected dateRange?: DateRange;
@@ -72,7 +72,7 @@ export class SVEProject {
             if (this.result === undefined) {
                 reject();
             } else {
-                new SVEData(this.handler!, this.result!, (data: SVEData) => {
+                new SVEData(this.handler, this.result!, (data: SVEData) => {
                     resolve(data);
                 });
             }
@@ -136,7 +136,7 @@ export class SVEProject {
     // store on server
     public store(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + '/project/' + ((!isNaN(this.id)) ? this.id : "new") + "?sessionID=" + encodeURI(this.handler!.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/project/' + ((!isNaN(this.id)) ? this.id : "new") + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -157,7 +157,7 @@ export class SVEProject {
                         } : undefined;
                         this.state = val.state as SVEProjectState;
                         this.owner = new SVEAccount({id: val.owner.id} as BasicUserInitializer, (s) => {
-                            this.group = new SVEGroup({id: val.group.id}, this.handler!, (self) => {
+                            this.group = new SVEGroup({id: val.group.id}, this.handler, (self) => {
                                 resolve(true);
                             });
                         });
@@ -172,7 +172,7 @@ export class SVEProject {
     // remove from server
     public remove(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + '/project/' + this.id + "?sessionID=" + encodeURI(this.handler!.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/project/' + this.id + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID), {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -186,12 +186,13 @@ export class SVEProject {
 
     public constructor(idx: number | ProjectInitializer, handler: SVEAccount, onReady?: (self: SVEProject) => void) {
         // if get by id
+        this.handler = handler;
         if (!isProjectInitializer(idx)) {
             if (SVESystemInfo.getIsServer()) {
                 if (onReady !== undefined)
                     onReady!(this);
             } else {
-                fetch(SVESystemInfo.getAPIRoot() + '/project/' + idx + "?sessionID=" + encodeURI(this.handler!.getInitializer().sessionID), {
+                fetch(SVESystemInfo.getAPIRoot() + '/project/' + idx + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID), {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json',
@@ -260,7 +261,7 @@ export class SVEProject {
 
     public getData(): Promise<SVEData[]> {
         return new Promise<SVEData[]>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + '/project/' + this.id + '/data?sessionID=' + encodeURI(this.handler!.getInitializer().sessionID),
+            fetch(SVESystemInfo.getAPIRoot() + '/project/' + this.id + '/data?sessionID=' + encodeURI(this.handler.getInitializer().sessionID),
                 {
                     method: "GET",
                     headers: {
@@ -274,7 +275,7 @@ export class SVEProject {
                         let i = 0;
                         if (val.length > 0) {
                             val.forEach((v: any) => {
-                                r.push(new SVEData(this.handler!, {
+                                r.push(new SVEData(this.handler, {
                                         id: v.id as number, 
                                         parentProject: this, 
                                         type: v.type as SVEDataType, 

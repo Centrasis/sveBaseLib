@@ -10,6 +10,7 @@ var SVEGroup = /** @class */ (function () {
         this.projects = [];
         this.id = (init.id !== undefined && init.id !== null) ? init.id : NaN;
         this.name = (init.name !== undefined && init.name !== null) ? init.name : "";
+        this.handler = handler;
         if (!SVESystemInfo.getIsServer()) {
             if (!isNaN(this.id)) {
                 fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID), {

@@ -31,7 +31,7 @@ export declare class SVEProject {
     protected name: string;
     protected group?: SVEGroup;
     protected owner?: SVEAccount | number;
-    protected handler?: SVEAccount;
+    protected handler: SVEAccount;
     protected splashImgID: number;
     protected type: SVEProjectType;
     protected dateRange?: DateRange;

@@ -10,7 +10,7 @@ export interface GroupInitializer {
     name?: string;
 }
 export declare class SVEGroup {
-    protected handler?: SVEAccount;
+    protected handler: SVEAccount;
     protected id: number;
     protected name: string;
     protected projects: number[];

@@ -25,6 +25,7 @@ var SVEProject = /** @class */ (function () {
         this.type = SVEProjectType.Vacation;
         this.state = SVEProjectState.Open;
         // if get by id
+        this.handler = handler;
         if (!isProjectInitializer(idx)) {
             if (SVESystemInfo.getIsServer()) {
                 if (onReady !== undefined)
