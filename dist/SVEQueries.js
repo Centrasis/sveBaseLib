@@ -40,8 +40,8 @@ var SVEProjectQuery = /** @class */ (function (_super) {
     }
     SVEProjectQuery.query = function (str, requester) {
         return new Promise(function (resolve, reject) {
-            if (typeof SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService !== undefined) {
-                fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/query/' + encodeURI(str) + "?sessionID=" + encodeURI(requester.getInitializer().sessionID), {
+            if (typeof SVESystemInfo_1.SVESystemInfo.getAPIRoot() !== undefined) {
+                fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/query/' + encodeURI(str) + "?sessionID=" + encodeURI(requester.getInitializer().sessionID), {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',

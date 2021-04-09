@@ -15,6 +15,7 @@ var SVESystemInfo = /** @class */ (function () {
             MySQL_User: ""
         };
         this.sources = {
+            protocol: "https",
             sveService: undefined,
             persistentDatabase: undefined,
             volatileDatabase: undefined
@@ -39,7 +40,7 @@ var SVESystemInfo = /** @class */ (function () {
                 tokenSystem: false
             };
             if (_this.getInstance().sources.sveService !== undefined) {
-                fetch(_this.getInstance().sources.sveService + '/check', {
+                fetch(_this.getInstance().sources.protocol + "://" + _this.getInstance().sources.sveService + '/check', {
                     method: "GET"
                 }).then(function (response) {
                     if (response.status < 400) {
@@ -121,16 +122,19 @@ var SVESystemInfo = /** @class */ (function () {
         });
     };
     SVESystemInfo.getAPIRoot = function () {
-        return (SVESystemInfo.getInstance().sources.sveService !== undefined) ? SVESystemInfo.getInstance().sources.sveService : "";
+        return (SVESystemInfo.getInstance().sources.sveService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.sveService : "";
     };
     SVESystemInfo.getAccountServiceRoot = function () {
-        return (SVESystemInfo.getInstance().sources.accountService !== undefined) ? SVESystemInfo.getInstance().sources.accountService : "";
+        return (SVESystemInfo.getInstance().sources.accountService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.accountService : "";
     };
     SVESystemInfo.getAuthRoot = function () {
-        return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.authService : "";
+        return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.authService : "";
     };
     SVESystemInfo.getGameRoot = function () {
-        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? SVESystemInfo.getInstance().sources.gameService : "";
+        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.gameService : "";
+    };
+    SVESystemInfo.getAIRoot = function () {
+        return (SVESystemInfo.getInstance().sources.aiService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.aiService : "";
     };
     return SVESystemInfo;
 }());

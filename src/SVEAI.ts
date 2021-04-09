@@ -9,7 +9,7 @@ export interface AIClass {
 export class SVEClassificator {
     public static classify(model: string, data: SVEData, className: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.aiService + '/model/' + model + "/classify", {
+            fetch(SVESystemInfo.getAIRoot() + '/model/' + model + "/classify", {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -31,7 +31,7 @@ export class SVEClassificator {
 
     public static issueRelearn(model: string, forceNew: boolean): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.aiService + '/model/' + model + ((forceNew) ? "/retrain" : "/train"), {
+            fetch(SVESystemInfo.getAIRoot() + '/model/' + model + ((forceNew) ? "/retrain" : "/train"), {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -49,7 +49,7 @@ export class SVEClassificator {
 
     public static getClasses(model: string): Promise<AIClass[]> {
         return new Promise<AIClass[]>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.aiService + "/model/" + model + "/classes", {
+            fetch(SVESystemInfo.getAIRoot() + "/model/" + model + "/classes", {
                 method: "GET"
               }).then(response => {
                 if (response.status < 400) {

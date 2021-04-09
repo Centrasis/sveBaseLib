@@ -54,11 +54,11 @@ var SVEData = /** @class */ (function () {
         this.handler = handler;
         if (typeof initInfo === "number") {
             this.id = initInfo;
-            if (typeof SVESystemInfo.getInstance().sources.sveService !== undefined && !SVESystemInfo.getIsServer()) {
+            if (SVESystemInfo.getAPIRoot() !== "" && !SVESystemInfo.getIsServer()) {
                 try {
                     this.getOwner().then(function (o) {
                         var sessID = o.getInitializer().sessionID;
-                        fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + _this.id + '?sessionID=' + encodeURI(sessID), {
+                        fetch(SVESystemInfo.getAPIRoot() + '/data/' + _this.id + '?sessionID=' + encodeURI(sessID), {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
@@ -132,8 +132,8 @@ var SVEData = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             _this.getOwner().then(function (o) {
                 var sessID = o.getInitializer().sessionID;
-                if (SVESystemInfo.getInstance().sources.aiService !== undefined) {
-                    fetch(SVESystemInfo.getInstance().sources.aiService + '/model/' + modelName + '/classification/' + _this.id + "?sessionID=" + encodeURI(sessID), {
+                if (SVESystemInfo.getAIRoot() !== "") {
+                    fetch(SVESystemInfo.getAIRoot() + '/model/' + modelName + '/classification/' + _this.id + "?sessionID=" + encodeURI(sessID), {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json',

@@ -103,8 +103,8 @@ export class SVEData {
         return new Promise<void>((resolve, reject) => {
             this.getOwner().then((o) => {
                 let sessID = o.getInitializer().sessionID;
-                if(SVESystemInfo.getInstance().sources.aiService !== undefined) {
-                    fetch(SVESystemInfo.getInstance().sources.aiService! + '/model/' + modelName + '/classification/' + this.id + "?sessionID=" + encodeURI(sessID), {
+                if(SVESystemInfo.getAIRoot() !== "") {
+                    fetch(SVESystemInfo.getAIRoot()! + '/model/' + modelName + '/classification/' + this.id + "?sessionID=" + encodeURI(sessID), {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json',
@@ -162,11 +162,11 @@ export class SVEData {
         if (typeof initInfo === "number") {
             this.id = initInfo as number;
 
-            if (typeof SVESystemInfo.getInstance().sources.sveService !== undefined && !SVESystemInfo.getIsServer()) {
+            if (SVESystemInfo.getAPIRoot() !== "" && !SVESystemInfo.getIsServer()) {
                 try {
                     this.getOwner().then((o) => {
                         let sessID = o.getInitializer().sessionID;
-                        fetch(SVESystemInfo.getInstance().sources.sveService + '/data/' + this.id + '?sessionID=' + encodeURI(sessID), {
+                        fetch(SVESystemInfo.getAPIRoot() + '/data/' + this.id + '?sessionID=' + encodeURI(sessID), {
                                 method: 'GET',
                                 headers: {
                                     'Accept': 'application/json',

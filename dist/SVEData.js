@@ -57,11 +57,11 @@ var SVEData = /** @class */ (function () {
         this.handler = handler;
         if (typeof initInfo === "number") {
             this.id = initInfo;
-            if (typeof SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService !== undefined && !SVESystemInfo_1.SVESystemInfo.getIsServer()) {
+            if (SVESystemInfo_1.SVESystemInfo.getAPIRoot() !== "" && !SVESystemInfo_1.SVESystemInfo.getIsServer()) {
                 try {
                     this.getOwner().then(function (o) {
                         var sessID = o.getInitializer().sessionID;
-                        fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.sveService + '/data/' + _this.id + '?sessionID=' + encodeURI(sessID), {
+                        fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/data/' + _this.id + '?sessionID=' + encodeURI(sessID), {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
@@ -135,8 +135,8 @@ var SVEData = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             _this.getOwner().then(function (o) {
                 var sessID = o.getInitializer().sessionID;
-                if (SVESystemInfo_1.SVESystemInfo.getInstance().sources.aiService !== undefined) {
-                    fetch(SVESystemInfo_1.SVESystemInfo.getInstance().sources.aiService + '/model/' + modelName + '/classification/' + _this.id + "?sessionID=" + encodeURI(sessID), {
+                if (SVESystemInfo_1.SVESystemInfo.getAIRoot() !== "") {
+                    fetch(SVESystemInfo_1.SVESystemInfo.getAIRoot() + '/model/' + modelName + '/classification/' + _this.id + "?sessionID=" + encodeURI(sessID), {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json',

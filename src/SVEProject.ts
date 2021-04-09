@@ -136,7 +136,7 @@ export class SVEProject {
     // store on server
     public store(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + ((!isNaN(this.id)) ? this.id : "new") + "?sessionID=" + encodeURI(this.handler!.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/project/' + ((!isNaN(this.id)) ? this.id : "new") + "?sessionID=" + encodeURI(this.handler!.getInitializer().sessionID), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -172,7 +172,7 @@ export class SVEProject {
     // remove from server
     public remove(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + "?sessionID=" + encodeURI(this.handler!.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/project/' + this.id + "?sessionID=" + encodeURI(this.handler!.getInitializer().sessionID), {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -191,7 +191,7 @@ export class SVEProject {
                 if (onReady !== undefined)
                     onReady!(this);
             } else {
-                fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + idx + "?sessionID=" + encodeURI(this.handler!.getInitializer().sessionID), {
+                fetch(SVESystemInfo.getAPIRoot() + '/project/' + idx + "?sessionID=" + encodeURI(this.handler!.getInitializer().sessionID), {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json',
@@ -260,7 +260,7 @@ export class SVEProject {
 
     public getData(): Promise<SVEData[]> {
         return new Promise<SVEData[]>((resolve, reject) => {
-            fetch(SVESystemInfo.getInstance().sources.sveService + '/project/' + this.id + '/data?sessionID=' + encodeURI(this.handler!.getInitializer().sessionID),
+            fetch(SVESystemInfo.getAPIRoot() + '/project/' + this.id + '/data?sessionID=' + encodeURI(this.handler!.getInitializer().sessionID),
                 {
                     method: "GET",
                     headers: {

@@ -8,6 +8,7 @@ export interface SVESources {
     persistentDatabase?: string | any;
     volatileDatabase?: string | any;
     sveDataPath?: string;
+    protocol: "http" | "https";
 }
 export interface SQLInfo {
     MySQL_User: string;
@@ -39,6 +40,7 @@ declare class SVESystemInfo {
     static getAccountServiceRoot(): string;
     static getAuthRoot(): string;
     static getGameRoot(): string;
+    static getAIRoot(): string;
 }
 export { SVESystemInfo };
 //# sourceMappingURL=SVESystemInfo.d.ts.map

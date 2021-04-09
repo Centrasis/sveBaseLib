@@ -9,6 +9,7 @@ export interface SVESources {
     persistentDatabase?: string | any;
     volatileDatabase?: string | any;
     sveDataPath?: string;
+    protocol: "http" | "https";
 }
 
 export interface SQLInfo {
@@ -38,6 +39,7 @@ class SVESystemInfo {
 
     protected constructor() { 
         this.sources = {
+            protocol: "https",
             sveService: undefined,
             persistentDatabase: undefined,
             volatileDatabase: undefined
@@ -66,7 +68,7 @@ class SVESystemInfo {
             };
 
             if(this.getInstance().sources.sveService !== undefined) {
-                fetch(this.getInstance().sources.sveService + '/check',
+                fetch(this.getInstance().sources.protocol + "://" + this.getInstance().sources.sveService + '/check',
                     {
                         method: "GET"
                     }).then(response => {
@@ -155,19 +157,23 @@ class SVESystemInfo {
     }
 
     public static getAPIRoot(): string {
-        return (SVESystemInfo.getInstance().sources.sveService !== undefined) ? SVESystemInfo.getInstance().sources.sveService! : "";
+        return (SVESystemInfo.getInstance().sources.sveService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.sveService! : "";
     }
 
     public static getAccountServiceRoot(): string {
-        return (SVESystemInfo.getInstance().sources.accountService !== undefined) ? SVESystemInfo.getInstance().sources.accountService! : "";
+        return (SVESystemInfo.getInstance().sources.accountService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.accountService! : "";
     }
 
     public static getAuthRoot(): string {
-        return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.authService! : "";
+        return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.authService! : "";
     }
 
     public static getGameRoot(): string {
-        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? SVESystemInfo.getInstance().sources.gameService! : "";
+        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.gameService! : "";
+    }
+
+    public static getAIRoot(): string {
+        return (SVESystemInfo.getInstance().sources.aiService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.aiService! : "";
     }
 }
 
