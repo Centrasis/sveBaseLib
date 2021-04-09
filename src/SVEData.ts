@@ -393,7 +393,9 @@ export class SVEData {
     }
 
     public getURI(version: SVEDataVersion, download: boolean = false): string {
-        return ((SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "/") + ((download) ? "download" : ((SVEDataVersion.Full === version) ? "full" : "preview"))) + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID);
+        let uri = ((SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "/") + ((download) ? "download" : ((SVEDataVersion.Full === version) ? "full" : "preview")));
+        uri += "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID);
+        return uri;
     }
 
     public getBLOB(version: SVEDataVersion): Promise<ArrayBuffer> {
