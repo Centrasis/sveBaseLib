@@ -56,33 +56,31 @@ var SVEData = /** @class */ (function () {
             this.id = initInfo;
             if (SVESystemInfo.getAPIRoot() !== "" && !SVESystemInfo.getIsServer()) {
                 try {
-                    this.getOwner().then(function (o) {
-                        var sessID = o.getInitializer().sessionID;
-                        fetch(SVESystemInfo.getAPIRoot() + '/data/' + _this.id + '?sessionID=' + encodeURI(sessID), {
-                            method: 'GET',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            }
-                        }).then(function (response) {
-                            if (response.status < 400) {
-                                response.json().then(function (val) {
-                                    _this.id = val.id;
-                                    _this.type = val.type;
-                                    _this.creation = val.creation;
-                                    _this.lastAccess = val.lastAccess;
-                                    _this.name = val.name;
-                                    new SVEProject(Number(val.project), _this.handler, function (prj) {
-                                        _this.parentProject = prj;
-                                        _this.pullClassification().then(function () { return onComplete(_this); }, function (err) { return onComplete(_this); });
-                                    });
+                    var sessID = this.handler.getInitializer().sessionID;
+                    fetch(SVESystemInfo.getAPIRoot() + '/data/' + this.id + '?sessionID=' + encodeURI(sessID), {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(function (response) {
+                        if (response.status < 400) {
+                            response.json().then(function (val) {
+                                _this.id = val.id;
+                                _this.type = val.type;
+                                _this.creation = val.creation;
+                                _this.lastAccess = val.lastAccess;
+                                _this.name = val.name;
+                                new SVEProject(Number(val.project), _this.handler, function (prj) {
+                                    _this.parentProject = prj;
+                                    _this.pullClassification().then(function () { return onComplete(_this); }, function (err) { return onComplete(_this); });
                                 });
-                            }
-                            else {
-                                _this.id = NaN;
-                                onComplete(_this);
-                            }
-                        }, function (err) { return onComplete(_this); });
+                            });
+                        }
+                        else {
+                            _this.id = NaN;
+                            onComplete(_this);
+                        }
                     }, function (err) { return onComplete(_this); });
                 }
                 catch (_a) {
@@ -130,35 +128,31 @@ var SVEData = /** @class */ (function () {
         var _this = this;
         if (modelName === void 0) { modelName = "documents"; }
         return new Promise(function (resolve, reject) {
-            _this.getOwner().then(function (o) {
-                var sessID = o.getInitializer().sessionID;
-                if (SVESystemInfo.getAIRoot() !== "") {
-                    fetch(SVESystemInfo.getAIRoot() + '/model/' + modelName + '/classification/' + _this.id + "?sessionID=" + encodeURI(sessID), {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    }).then(function (response) {
-                        if (response.status < 400) {
-                            response.json().then(function (val) {
-                                _this.classifiedAs = (val.success == true) ? val.class : undefined;
-                                resolve();
-                            }, function (err) { return reject(err); });
-                        }
-                        else {
-                            _this.classifiedAs = undefined;
-                            reject();
-                        }
-                    }, function (err) { return reject(err); });
-                }
-                else {
-                    _this.classifiedAs = undefined;
-                    resolve();
-                }
-            }, function (err) {
-                reject(err);
-            });
+            var sessID = _this.handler.getInitializer().sessionID;
+            if (SVESystemInfo.getAIRoot() !== "") {
+                fetch(SVESystemInfo.getAIRoot() + '/model/' + modelName + '/classification/' + _this.id + "?sessionID=" + encodeURI(sessID), {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }).then(function (response) {
+                    if (response.status < 400) {
+                        response.json().then(function (val) {
+                            _this.classifiedAs = (val.success == true) ? val.class : undefined;
+                            resolve();
+                        }, function (err) { return reject(err); });
+                    }
+                    else {
+                        _this.classifiedAs = undefined;
+                        reject();
+                    }
+                }, function (err) { return reject(err); });
+            }
+            else {
+                _this.classifiedAs = undefined;
+                resolve();
+            }
         });
     };
     SVEData.prototype.isClassfied = function () {
@@ -342,56 +336,51 @@ var SVEData = /** @class */ (function () {
     SVEData.prototype.remove = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.getOwner().then(function (o) {
-                var sessID = o.getInitializer().sessionID;
-                fetch(SVESystemInfo.getAPIRoot() + "/project/" + _this.parentProject.getID() + "/data/" + _this.id + "?sessionID=" + encodeURI(sessID), {
-                    method: 'DELETE',
-                    headers: {
-                        'Accept': '*'
-                    }
-                }).then(function (response) {
-                    resolve(response.status == 200);
-                });
-            }, function (err) { return reject(err); });
+            var sessID = _this.handler.getInitializer().sessionID;
+            fetch(SVESystemInfo.getAPIRoot() + "/project/" + _this.parentProject.getID() + "/data/" + _this.id + "?sessionID=" + encodeURI(sessID), {
+                method: 'DELETE',
+                headers: {
+                    'Accept': '*'
+                }
+            }).then(function (response) {
+                resolve(response.status == 200);
+            });
         });
     };
     SVEData.prototype.getURI = function (version, download) {
         if (download === void 0) { download = false; }
-        return (SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/") + ((download) ? "download" : ((SVEDataVersion.Full === version) ? "full" : "preview"));
+        return ((SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/") + ((download) ? "download" : ((SVEDataVersion.Full === version) ? "full" : "preview"))) + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID);
     };
     SVEData.prototype.getBLOB = function (version) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.getOwner().then(function (o) {
-                var sessID = o.getInitializer().sessionID;
-                if (_this.data === undefined || _this.currentDataVersion !== version) {
-                    _this.currentDataVersion = version;
-                    var self = _this;
-                    fetch(_this.getURI(version) + "?sessionID=" + encodeURI(sessID), {
-                        method: 'GET',
-                        headers: {
-                            'Accept': '*'
-                        }
-                    }).then(function (response) {
-                        if (response.status < 400) {
-                            response.arrayBuffer().then(function (val) {
-                                self.data = val;
-                                resolve(self.data);
-                            });
-                        }
-                        else {
-                            reject(null);
-                        }
-                    }, function (err) { return reject(err); });
-                    return;
-                }
-                if (_this.data !== undefined) {
-                    resolve(_this.data);
-                }
-                else {
-                    reject(null);
-                }
-            }, function (err) { return reject(err); });
+            if (_this.data === undefined || _this.currentDataVersion !== version) {
+                _this.currentDataVersion = version;
+                var self = _this;
+                fetch(_this.getURI(version), {
+                    method: 'GET',
+                    headers: {
+                        'Accept': '*'
+                    }
+                }).then(function (response) {
+                    if (response.status < 400) {
+                        response.arrayBuffer().then(function (val) {
+                            self.data = val;
+                            resolve(self.data);
+                        });
+                    }
+                    else {
+                        reject(null);
+                    }
+                }, function (err) { return reject(err); });
+                return;
+            }
+            if (_this.data !== undefined) {
+                resolve(_this.data);
+            }
+            else {
+                reject(null);
+            }
         });
     };
     SVEData.prototype.getStream = function (version) {
