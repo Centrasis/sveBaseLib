@@ -98,7 +98,7 @@ class SVESystemInfo {
         return this.getInstance().systemState;
     }
 
-    public static getLoggedInUser(): Promise<SVEAccount> {
+    /*public static getLoggedInUser(): Promise<SVEAccount> {
         return new Promise<SVEAccount>((resolve, reject) => {
             fetch(SVESystemInfo.getAPIRoot() + "/check", {
                 method: 'GET',
@@ -123,7 +123,7 @@ class SVESystemInfo {
                 }
             }, err => reject());
         });
-    }
+    }*/
 
     public static getFullSystemState(): Promise<SVEFullSystemState> {
         return new Promise<SVEFullSystemState>((resolve, reject) => {

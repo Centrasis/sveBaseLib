@@ -1,4 +1,3 @@
-import { SVEAccount } from "./SVEAccount";
 var SVESystemInfo = /** @class */ (function () {
     function SVESystemInfo() {
         this.systemState = {
@@ -59,34 +58,32 @@ var SVESystemInfo = /** @class */ (function () {
     SVESystemInfo.getSystemStatus = function () {
         return this.getInstance().systemState;
     };
-    SVESystemInfo.getLoggedInUser = function () {
-        return new Promise(function (resolve, reject) {
+    /*public static getLoggedInUser(): Promise<SVEAccount> {
+        return new Promise<SVEAccount>((resolve, reject) => {
             fetch(SVESystemInfo.getAPIRoot() + "/check", {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
-            }).then(function (response) {
+            }).then((response) => {
                 if (response.status < 400) {
-                    response.json().then(function (val) {
+                    response.json().then(val => {
                         if ("loggedInAs" in val) {
-                            new SVEAccount(val.loggedInAs, function (usr) {
+                            new SVEAccount(val.loggedInAs as SessionUserInitializer, (usr) => {
                                 resolve(usr);
                             });
-                        }
-                        else {
+                        } else {
                             console.log("No user logged in Session");
                             reject();
                         }
                     });
-                }
-                else {
+                } else {
                     reject();
                 }
-            }, function (err) { return reject(); });
+            }, err => reject());
         });
-    };
+    }*/
     SVESystemInfo.getFullSystemState = function () {
         return new Promise(function (resolve, reject) {
             fetch(SVESystemInfo.getAPIRoot() + "/check", {
