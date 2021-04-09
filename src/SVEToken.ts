@@ -1,5 +1,5 @@
 import { promises } from 'fs';
-import { SVEAccount } from './SVEAccount';
+import { SessionUserInitializer, SVEAccount } from './SVEAccount';
 import {SVEGroup} from './SVEGroup';
 import {SVESystemInfo} from './SVESystemInfo';
 
@@ -106,8 +106,8 @@ export class SVEToken {
         });
     }
 
-    public use(user: SVEAccount | undefined = undefined): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
+    public use(user: SVEAccount | undefined = undefined): Promise<SVEAccount | undefined> {
+        return new Promise<SVEAccount | undefined>((resolve, reject) => {
             if(this.isValid) {
                 fetch(SVESystemInfo.getAuthRoot() + '/token/use', {
                     method: 'POST',
@@ -123,7 +123,15 @@ export class SVEToken {
                     })
                 }).then(response => {
                     if(response.status < 400) {
-                        resolve();
+                        if (this.type == TokenType.DeviceToken) {
+                            response.json().then(val => {
+                                new SVEAccount(val as SessionUserInitializer, (usr) => {
+                                    resolve(usr);
+                                });
+                            });
+                        } else {
+                            resolve(undefined);
+                        }
                     } else {
                         reject();
                     }
