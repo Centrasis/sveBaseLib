@@ -349,7 +349,9 @@ var SVEData = /** @class */ (function () {
     };
     SVEData.prototype.getURI = function (version, download) {
         if (download === void 0) { download = false; }
-        return ((SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/") + ((download) ? "download" : ((SVEDataVersion.Full === version) ? "full" : "preview"))) + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID);
+        var uri = ((SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/") + ((download) ? "download" : ((SVEDataVersion.Full === version) ? "full" : "preview")));
+        uri += "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID);
+        return uri;
     };
     SVEData.prototype.getBLOB = function (version) {
         var _this = this;
