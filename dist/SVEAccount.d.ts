@@ -2,6 +2,7 @@ import { TokenUserLoginInfo, Token, SVEToken } from './SVEToken';
 export interface BasicUserInitializer {
     name: string;
     id: number;
+    requester?: SVEAccount;
 }
 declare enum LoginState {
     NotLoggedIn = 1,
@@ -42,7 +43,7 @@ export declare class SVEAccount {
     setEmail(email: string): Promise<boolean>;
     constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo, onLogin?: (state: SVEAccount) => void);
     protected init(state: LoginState): void;
-    protected getByID(id: number): Promise<boolean>;
+    protected getByID(id: number, requester: SVEAccount): Promise<boolean>;
     protected doLogin(info: BasicUserLoginInfo): Promise<LoginState>;
     createLoginToken(): Promise<string>;
     protected doTokenLogin(token: Token): Promise<LoginState>;

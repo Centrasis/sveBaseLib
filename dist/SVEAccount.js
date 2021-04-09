@@ -90,7 +90,7 @@ var SVEAccount = /** @class */ (function () {
                     onLogin(this);
             }
             else {
-                this.getByID(user.id).then(function (val) {
+                this.getByID(user.id, user.requester).then(function (val) {
                     if (onLogin !== undefined)
                         onLogin(_this);
                 }, function (err) {
@@ -194,10 +194,10 @@ var SVEAccount = /** @class */ (function () {
             this.loginState = LoginState.NotLoggedIn;
         }
     };
-    SVEAccount.prototype.getByID = function (id) {
+    SVEAccount.prototype.getByID = function (id, requester) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/user/' + id + '?sessionID=' + encodeURI(_this.sessionID), {
+            fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/user/' + id + '?sessionID=' + encodeURI(requester.getInitializer().sessionID), {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

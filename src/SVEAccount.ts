@@ -4,6 +4,7 @@ import {TokenUserLoginInfo, Token, TokenType, SVEToken} from './SVEToken';
 export interface BasicUserInitializer {
     name: string;
     id: number;
+    requester?: SVEAccount;
 }
 
 enum LoginState {
@@ -188,7 +189,7 @@ export class SVEAccount {
                 if(onLogin !== undefined)
                     onLogin!(this);
             } else {
-                this.getByID((user as BasicUserInitializer).id).then(val => {
+                this.getByID((user as BasicUserInitializer).id, (user as BasicUserInitializer).requester!).then(val => {
                     if(onLogin !== undefined)
                         onLogin!(this);
                 }, err => {
@@ -209,9 +210,9 @@ export class SVEAccount {
         }
     }
 
-    protected getByID(id: number): Promise<boolean> {
+    protected getByID(id: number, requester: SVEAccount): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/' + id + '?sessionID=' + encodeURI(this.sessionID), {
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/' + id + '?sessionID=' + encodeURI(requester.getInitializer().sessionID), {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
