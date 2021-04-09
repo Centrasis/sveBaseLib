@@ -48,7 +48,7 @@ export declare class SVEData {
     isClassfied(): boolean;
     getClassName(): string;
     static getTypeFrom(str: string): SVEDataType;
-    constructor(handler: SVEAccount, initInfo: number | SVEDataInitializer, onComplete: (self: SVEData) => void);
+    constructor(handler: SVEAccount, initInfo: number | SVEDataInitializer, onComplete?: ((self: SVEData) => void) | undefined);
     getID(): number;
     getOwnerID(): number;
     getSize(version: SVEDataVersion): number;

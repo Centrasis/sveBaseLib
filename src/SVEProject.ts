@@ -1,7 +1,7 @@
 import {BasicUserInitializer, LoginState, SVEAccount} from './SVEAccount';
 import {SVEGroup} from './SVEGroup';
 import {SVESystemInfo} from './SVESystemInfo';
-import { SVEData, SVEDataType } from './SVEData';
+import { SVEData, SVEDataInitializer, SVEDataType, SVEDataVersion } from './SVEData';
 
 export enum SVEProjectType {
     Vacation,
@@ -88,7 +88,7 @@ export class SVEProject {
     }
 
     public getSplashImageURI(): string {
-        return SVESystemInfo.getAPIRoot() + "/project/" + this.id + "/data/" + this.splashImgID + "/preview";
+        return new SVEData(this.handler, { id: this.splashImgID, type: SVEDataType.Image, name: "Splash", owner: this.handler, parentProject: this } as SVEDataInitializer).getURI(SVEDataVersion.Preview, false);
     }
 
     public getName(): string {

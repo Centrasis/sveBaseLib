@@ -48,6 +48,7 @@ var SVEData = /** @class */ (function () {
     // gets the data by index if initInfo is number. Else a new data record is created on server
     function SVEData(handler, initInfo, onComplete) {
         var _this = this;
+        if (onComplete === void 0) { onComplete = undefined; }
         this.type = SVEDataType.Image;
         this.id = -1;
         this.name = "";
@@ -57,7 +58,7 @@ var SVEData = /** @class */ (function () {
         this.handler = handler;
         if (typeof initInfo === "number") {
             this.id = initInfo;
-            if (SVESystemInfo_1.SVESystemInfo.getAPIRoot() !== "" && !SVESystemInfo_1.SVESystemInfo.getIsServer()) {
+            if (SVESystemInfo_1.SVESystemInfo.getAPIRoot() !== "" && !SVESystemInfo_1.SVESystemInfo.getIsServer() && onComplete !== undefined) {
                 try {
                     var sessID = this.handler.getInitializer().sessionID;
                     fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/data/' + this.id + '?sessionID=' + encodeURI(sessID), {
@@ -91,7 +92,9 @@ var SVEData = /** @class */ (function () {
                 }
             }
             else {
-                onComplete(this);
+                if (onComplete !== undefined) {
+                    onComplete(this);
+                }
             }
         }
         else {
@@ -108,7 +111,8 @@ var SVEData = /** @class */ (function () {
             if (initInfo.creation !== undefined)
                 this.creation = initInfo.creation;
             this.classifiedAs = initInfo.classifiedAs;
-            onComplete(this);
+            if (onComplete !== undefined)
+                onComplete(this);
         }
     }
     SVEData.getMimeTypeMap = function () {

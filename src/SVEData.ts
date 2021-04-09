@@ -150,13 +150,13 @@ export class SVEData {
     }
 
     // gets the data by index if initInfo is number. Else a new data record is created on server
-    public constructor(handler: SVEAccount, initInfo: number | SVEDataInitializer, onComplete: (self: SVEData) => void) {
+    public constructor(handler: SVEAccount, initInfo: number | SVEDataInitializer, onComplete: ((self: SVEData) => void) | undefined = undefined) {
         this.handler = handler;
 
         if (typeof initInfo === "number") {
             this.id = initInfo as number;
 
-            if (SVESystemInfo.getAPIRoot() !== "" && !SVESystemInfo.getIsServer()) {
+            if (SVESystemInfo.getAPIRoot() !== "" && !SVESystemInfo.getIsServer() && onComplete !== undefined) {
                 try {
                     let sessID = this.handler.getInitializer().sessionID;
                     fetch(SVESystemInfo.getAPIRoot() + '/data/' + this.id + '?sessionID=' + encodeURI(sessID), {
@@ -187,7 +187,9 @@ export class SVEData {
                     onComplete(this);
                 }
             } else {
-                onComplete(this);
+                if(onComplete !== undefined) {
+                    onComplete(this);
+                }
             }
         } else {
             if ((initInfo as SVEDataInitializer).id !== undefined) {
@@ -204,8 +206,8 @@ export class SVEData {
                 this.creation = (initInfo as SVEDataInitializer).creation!;
 
             this.classifiedAs = (initInfo as SVEDataInitializer).classifiedAs;
-
-            onComplete(this);
+            if(onComplete !== undefined)
+                onComplete(this);
         }
     }
 

@@ -1,7 +1,7 @@
 import { SVEAccount } from './SVEAccount';
 import { SVEGroup } from './SVEGroup';
 import { SVESystemInfo } from './SVESystemInfo';
-import { SVEData } from './SVEData';
+import { SVEData, SVEDataType, SVEDataVersion } from './SVEData';
 export var SVEProjectType;
 (function (SVEProjectType) {
     SVEProjectType[SVEProjectType["Vacation"] = 0] = "Vacation";
@@ -119,7 +119,7 @@ var SVEProject = /** @class */ (function () {
         return this.dateRange;
     };
     SVEProject.prototype.getSplashImageURI = function () {
-        return SVESystemInfo.getAPIRoot() + "/project/" + this.id + "/data/" + this.splashImgID + "/preview";
+        return new SVEData(this.handler, { id: this.splashImgID, type: SVEDataType.Image, name: "Splash", owner: this.handler, parentProject: this }).getURI(SVEDataVersion.Preview, false);
     };
     SVEProject.prototype.getName = function () {
         return this.name;

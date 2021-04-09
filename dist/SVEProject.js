@@ -123,7 +123,7 @@ var SVEProject = /** @class */ (function () {
         return this.dateRange;
     };
     SVEProject.prototype.getSplashImageURI = function () {
-        return SVESystemInfo_1.SVESystemInfo.getAPIRoot() + "/project/" + this.id + "/data/" + this.splashImgID + "/preview";
+        return new SVEData_1.SVEData(this.handler, { id: this.splashImgID, type: SVEData_1.SVEDataType.Image, name: "Splash", owner: this.handler, parentProject: this }).getURI(SVEData_1.SVEDataVersion.Preview, false);
     };
     SVEProject.prototype.getName = function () {
         return this.name;
