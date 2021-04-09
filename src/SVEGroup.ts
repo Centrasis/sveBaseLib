@@ -1,7 +1,5 @@
-import { rejects } from 'assert';
-import { visitLexicalEnvironment } from 'typescript';
-import {BasicUserInitializer, SessionUserInitializer, SVEAccount} from './SVEAccount';
-import {ProjectInitializer, SVEProject, SVEProjectType} from './SVEProject';
+import { SessionUserInitializer, SVEAccount} from './SVEAccount';
+import { SVEProject } from './SVEProject';
 import {SVESystemInfo} from './SVESystemInfo';
 import { SVEToken, TokenType } from './SVEToken';
 

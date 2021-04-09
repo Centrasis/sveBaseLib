@@ -125,7 +125,7 @@ var SVEData = /** @class */ (function () {
         this.lastAccess = result.lastAccess;
         this.parentProject = parentProject;
         this.type = SVEData.getTypeFrom(result.type);
-        this.owner = new SVEAccount_1.SVEAccount({ id: Number(result.user_id) }, function (s) {
+        this.owner = new SVEAccount_1.SVEAccount({ id: Number(result.user_id), requester: this.handler }, function (s) {
             onComplete();
         });
     };
@@ -209,7 +209,7 @@ var SVEData = /** @class */ (function () {
         var _this = this;
         if (typeof this.owner === "number") {
             return new Promise(function (resolve, reject) {
-                _this.owner = new SVEAccount_1.SVEAccount({ id: _this.owner }, function (s) {
+                _this.owner = new SVEAccount_1.SVEAccount({ id: _this.owner, requester: _this.handler }, function (s) {
                     resolve(_this.owner);
                 });
             });

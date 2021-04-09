@@ -56,7 +56,7 @@ var SVEProject = /** @class */ (function () {
                                 end: new Date(val.dateRange.end)
                             } : undefined;
                             _this.state = val.state;
-                            _this.owner = new SVEAccount_1.SVEAccount({ id: val.owner }, function (s) {
+                            _this.owner = new SVEAccount_1.SVEAccount({ id: val.owner, requester: _this.handler }, function (s) {
                                 _this.group = new SVEGroup_1.SVEGroup({ id: val.group }, handler, function (self) {
                                     if (onReady !== undefined)
                                         onReady(_this);
@@ -144,7 +144,7 @@ var SVEProject = /** @class */ (function () {
         var _this = this;
         if (typeof this.owner === "number") {
             return new Promise(function (resolve, reject) {
-                _this.owner = new SVEAccount_1.SVEAccount({ id: _this.owner }, function (s) {
+                _this.owner = new SVEAccount_1.SVEAccount({ id: _this.owner, requester: _this.handler }, function (s) {
                     resolve(_this.owner);
                 });
             });
@@ -187,7 +187,7 @@ var SVEProject = /** @class */ (function () {
                             end: new Date(val.dateRange.end)
                         } : undefined;
                         _this.state = val.state;
-                        _this.owner = new SVEAccount_1.SVEAccount({ id: val.owner.id }, function (s) {
+                        _this.owner = new SVEAccount_1.SVEAccount({ id: val.owner.id, requester: _this.handler }, function (s) {
                             _this.group = new SVEGroup_1.SVEGroup({ id: val.group.id }, _this.handler, function (self) {
                                 resolve(true);
                             });

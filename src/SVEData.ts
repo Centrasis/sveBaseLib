@@ -2,8 +2,6 @@ import {BasicUserInitializer, SVEAccount} from './SVEAccount';
 import {SVEProject} from './SVEProject';
 import {SVESystemInfo} from './SVESystemInfo';
 import { Stream } from 'stream';
-import { basename } from 'path';
-import { rejects } from 'assert';
 
 export enum SVEDataType {
     Image,
@@ -94,7 +92,7 @@ export class SVEData {
 
         this.type = SVEData.getTypeFrom(result.type);
 
-        this.owner = new SVEAccount({id: Number(result.user_id)} as BasicUserInitializer, (s) => {
+        this.owner = new SVEAccount({id: Number(result.user_id), requester: this.handler} as BasicUserInitializer, (s) => {
             onComplete();
         });
     }
@@ -241,7 +239,7 @@ export class SVEData {
     public getOwner(): Promise<SVEAccount> {
         if (typeof this.owner! === "number") {
             return new Promise<SVEAccount>((resolve, reject) => {
-                this.owner = new SVEAccount({id: this.owner! as number} as BasicUserInitializer, (s) => { 
+                this.owner = new SVEAccount({id: this.owner! as number, requester: this.handler} as BasicUserInitializer, (s) => { 
                     resolve(this.owner! as SVEAccount);
                 });
             });

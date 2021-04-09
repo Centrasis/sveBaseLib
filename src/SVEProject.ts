@@ -114,7 +114,7 @@ export class SVEProject {
     public getOwner(): Promise<SVEAccount> {
         if (typeof this.owner! === "number") {
             return new Promise<SVEAccount>((resolve, reject) => {
-                this.owner = new SVEAccount({id: this.owner! as number} as BasicUserInitializer, (s) => { 
+                this.owner = new SVEAccount({id: this.owner! as number, requester: this.handler} as BasicUserInitializer, (s) => { 
                     resolve(this.owner! as SVEAccount);
                 });
             });
@@ -156,7 +156,7 @@ export class SVEProject {
                             end : new Date(val.dateRange.end)
                         } : undefined;
                         this.state = val.state as SVEProjectState;
-                        this.owner = new SVEAccount({id: val.owner.id} as BasicUserInitializer, (s) => {
+                        this.owner = new SVEAccount({id: val.owner.id, requester: this.handler} as BasicUserInitializer, (s) => {
                             this.group = new SVEGroup({id: val.group.id}, this.handler, (self) => {
                                 resolve(true);
                             });
@@ -212,7 +212,7 @@ export class SVEProject {
                                 end : new Date(val.dateRange.end)
                             } : undefined;
                             this.state = val.state as SVEProjectState;
-                            this.owner = new SVEAccount({id: val.owner} as BasicUserInitializer, (s) => {
+                            this.owner = new SVEAccount({id: val.owner, requester: this.handler} as BasicUserInitializer, (s) => {
                                 this.group = new SVEGroup({id: val.group}, handler, (self) => {
                                     if (onReady !== undefined)
                                         onReady!(this);
