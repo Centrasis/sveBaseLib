@@ -17,5 +17,4 @@ __exportStar(require("./SVEGroup"), exports);
 __exportStar(require("./SVEData"), exports);
 __exportStar(require("./SVEQueries"), exports);
 __exportStar(require("./SVEToken"), exports);
-__exportStar(require("./SVEGame"), exports);
 __exportStar(require("./SVEAI"), exports);
