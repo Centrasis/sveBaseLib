@@ -125,7 +125,8 @@ var SVESystemInfo = /** @class */ (function () {
         return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.authService : "";
     };
     SVESystemInfo.getGameRoot = function () {
-        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.gameService : "";
+        var prot = (SVESystemInfo.getInstance().sources.protocol == "http") ? "ws" : "wss";
+        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? prot + "://" + SVESystemInfo.getInstance().sources.gameService : "";
     };
     SVESystemInfo.getAIRoot = function () {
         return (SVESystemInfo.getInstance().sources.aiService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.aiService : "";

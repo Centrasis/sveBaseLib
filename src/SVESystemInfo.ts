@@ -169,7 +169,8 @@ class SVESystemInfo {
     }
 
     public static getGameRoot(): string {
-        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.gameService! : "";
+        let prot: "ws" | "wss" = (SVESystemInfo.getInstance().sources.protocol == "http") ? "ws" : "wss";
+        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? prot + "://" + SVESystemInfo.getInstance().sources.gameService! : "";
     }
 
     public static getAIRoot(): string {
