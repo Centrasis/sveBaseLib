@@ -127,8 +127,11 @@ var SVESystemInfo = /** @class */ (function () {
     SVESystemInfo.getAuthRoot = function () {
         return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.authService : "";
     };
-    SVESystemInfo.getGameRoot = function () {
-        var prot = (SVESystemInfo.getInstance().sources.protocol == "http") ? "ws" : "wss";
+    SVESystemInfo.getGameRoot = function (useWebSocket) {
+        if (useWebSocket === void 0) { useWebSocket = false; }
+        var prot = SVESystemInfo.getInstance().sources.protocol;
+        if (useWebSocket)
+            prot = (prot == "http") ? "ws" : "wss";
         return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? prot + "://" + SVESystemInfo.getInstance().sources.gameService : "";
     };
     SVESystemInfo.getAIRoot = function () {

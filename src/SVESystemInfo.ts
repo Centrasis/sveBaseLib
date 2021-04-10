@@ -168,8 +168,10 @@ class SVESystemInfo {
         return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.authService! : "";
     }
 
-    public static getGameRoot(): string {
-        let prot: "ws" | "wss" = (SVESystemInfo.getInstance().sources.protocol == "http") ? "ws" : "wss";
+    public static getGameRoot(useWebSocket: boolean = false): string {
+        let prot: "ws" | "wss" | "http" | "https" = SVESystemInfo.getInstance().sources.protocol;
+        if (useWebSocket)
+            prot = (prot == "http") ? "ws" : "wss";
         return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? prot + "://" + SVESystemInfo.getInstance().sources.gameService! : "";
     }
 

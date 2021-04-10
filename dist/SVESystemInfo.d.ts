@@ -38,7 +38,7 @@ declare class SVESystemInfo {
     static getAPIRoot(): string;
     static getAccountServiceRoot(): string;
     static getAuthRoot(): string;
-    static getGameRoot(): string;
+    static getGameRoot(useWebSocket?: boolean): string;
     static getAIRoot(): string;
 }
 export { SVESystemInfo };
