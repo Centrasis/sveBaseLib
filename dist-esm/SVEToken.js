@@ -1,3 +1,4 @@
+import { SVEAccount } from './SVEAccount';
 import { SVESystemInfo } from './SVESystemInfo';
 export var TokenType;
 (function (TokenType) {
@@ -104,7 +105,16 @@ var SVEToken = /** @class */ (function () {
                     })
                 }).then(function (response) {
                     if (response.status < 400) {
-                        resolve();
+                        if (_this.type == TokenType.DeviceToken) {
+                            response.json().then(function (val) {
+                                new SVEAccount(val, function (usr) {
+                                    resolve(usr);
+                                });
+                            });
+                        }
+                        else {
+                            resolve(undefined);
+                        }
                     }
                     else {
                         reject();

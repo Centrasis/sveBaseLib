@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SVEToken = exports.TokenType = void 0;
+var SVEAccount_1 = require("./SVEAccount");
 var SVESystemInfo_1 = require("./SVESystemInfo");
 var TokenType;
 (function (TokenType) {
@@ -107,7 +108,16 @@ var SVEToken = /** @class */ (function () {
                     })
                 }).then(function (response) {
                     if (response.status < 400) {
-                        resolve();
+                        if (_this.type == TokenType.DeviceToken) {
+                            response.json().then(function (val) {
+                                new SVEAccount_1.SVEAccount(val, function (usr) {
+                                    resolve(usr);
+                                });
+                            });
+                        }
+                        else {
+                            resolve(undefined);
+                        }
                     }
                     else {
                         reject();

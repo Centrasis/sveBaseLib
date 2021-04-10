@@ -25,6 +25,6 @@ export declare class SVEToken {
     getIsValid(): boolean;
     setIsValid(): void;
     invalidate(user: SVEAccount): void;
-    use(user?: SVEAccount | undefined): Promise<void>;
+    use(user?: SVEAccount | undefined): Promise<SVEAccount | undefined>;
 }
 //# sourceMappingURL=SVEToken.d.ts.map
