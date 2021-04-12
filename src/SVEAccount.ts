@@ -171,10 +171,10 @@ export class SVEAccount {
 
                         if(onLogin !== undefined) 
                             onLogin(this);
-                    })
-
-                    if(onLogin !== undefined) 
-                        onLogin(this);
+                    }, err => {
+                        if(onLogin !== undefined) 
+                            onLogin(this);
+                    });
                 }
             }, err => {
                 if(onLogin !== undefined) 
