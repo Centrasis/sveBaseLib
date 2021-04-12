@@ -41,6 +41,12 @@ var SVEAccount = /** @class */ (function () {
         this.name = "";
         this.id = NaN;
         this.sessionID = "";
+        if (user === undefined || user === null) {
+            this.loginState = LoginState.NotLoggedIn;
+            if (onLogin !== undefined)
+                onLogin(this);
+            return;
+        }
         if (typeof user === "string") {
             this.loginState = LoginState.NotLoggedIn;
             fetch(SVESystemInfo.getAccountServiceRoot() + '/check?sessionID=' + user, {

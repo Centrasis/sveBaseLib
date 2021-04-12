@@ -150,6 +150,13 @@ export class SVEAccount {
 
     // if onLogin is set a login will be perfomed. Otherwise the class will only be created
     public constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo | string, onLogin?: (state: SVEAccount) => void) {
+        if(user === undefined || user === null) {
+            this.loginState = LoginState.NotLoggedIn;
+            if(onLogin !== undefined)
+                onLogin(this);
+            return;
+        }
+        
         if (typeof user === "string") {
             this.loginState = LoginState.NotLoggedIn;
             fetch(SVESystemInfo.getAccountServiceRoot() + '/check?sessionID=' + user, {
