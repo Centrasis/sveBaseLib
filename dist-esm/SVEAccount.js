@@ -61,9 +61,10 @@ var SVEAccount = /** @class */ (function () {
                         }
                         if (onLogin !== undefined)
                             onLogin(_this);
+                    }, function (err) {
+                        if (onLogin !== undefined)
+                            onLogin(_this);
                     });
-                    if (onLogin !== undefined)
-                        onLogin(_this);
                 }
             }, function (err) {
                 if (onLogin !== undefined)
