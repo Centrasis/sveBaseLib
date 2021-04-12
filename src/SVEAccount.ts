@@ -152,7 +152,7 @@ export class SVEAccount {
     public constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo | string, onLogin?: (state: SVEAccount) => void) {
         if (typeof user === "string") {
             this.loginState = LoginState.NotLoggedIn;
-            fetch(SVESystemInfo.getAccountServiceRoot() + '/check', {
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/check?sessionID=' + user, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

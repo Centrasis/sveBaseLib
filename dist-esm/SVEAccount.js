@@ -43,7 +43,7 @@ var SVEAccount = /** @class */ (function () {
         this.sessionID = "";
         if (typeof user === "string") {
             this.loginState = LoginState.NotLoggedIn;
-            fetch(SVESystemInfo.getAccountServiceRoot() + '/check', {
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/check?sessionID=' + user, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
