@@ -149,53 +149,85 @@ export class SVEAccount {
     }
 
     // if onLogin is set a login will be perfomed. Otherwise the class will only be created
-    public constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo, onLogin?: (state: SVEAccount) => void) {
-        if(isLoginInfo(user) || isTokenInfo(user)) {
-            this.init(LoginState.NotLoggedIn);
+    public constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo | string, onLogin?: (state: SVEAccount) => void) {
+        if (typeof user === "string") {
+            this.loginState = LoginState.NotLoggedIn;
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/check', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+            }).then(response => {
+                if (response.status < 400) {
+                    response.json().then(r => {
+                        if (r.loggedInAs !== undefined) {
+                            this.loginState = LoginState.LoggedInByUser;
+                            this.sessionID = (r.loggedInAs as SessionUserInitializer).sessionID;
+                            this.loginState = (r.loggedInAs as SessionUserInitializer).loginState;
+                            this.name = (r.loggedInAs as SessionUserInitializer).name;
+                            this.id = (r.loggedInAs as SessionUserInitializer).id;
+                        }
 
-            if (isTokenInfo(user)) {
-                this.doTokenLogin({
-                    user: (user as TokenUserLoginInfo).user,
-                    token: (user as TokenUserLoginInfo).token,
-                    ressource: this.id,
-                    type: TokenType.DeviceToken,
-                    time: new Date()
-                }).then((val: LoginState) => {
-                    this.loginState = val as LoginState;
-                    if(onLogin !== undefined)
-                        onLogin!(this);
-                }, (val: LoginState) => {
-                    this.loginState = val;
-                    if(onLogin !== undefined)
-                        onLogin!(this);
-                });
-            } else {
-                this.doLogin(user as BasicUserLoginInfo).then((val: LoginState) => {
-                    this.loginState = val as LoginState;
-                    if(onLogin !== undefined)
-                        onLogin!(this);
-                }, (val: any) => {
-                    this.loginState = LoginState.NotLoggedIn;
-                    if(onLogin !== undefined)
-                        onLogin!(this);
-                });
-            }
+                        if(onLogin !== undefined) 
+                            onLogin(this);
+                    })
+
+                    if(onLogin !== undefined) 
+                        onLogin(this);
+                }
+            }, err => {
+                if(onLogin !== undefined) 
+                    onLogin(this);
+            });
         } else {
-            if (isSessionUserInitializer(user)) {
-                this.sessionID = (user as SessionUserInitializer).sessionID;
-                this.loginState = (user as SessionUserInitializer).loginState;
-                this.name = (user as SessionUserInitializer).name;
-                this.id = (user as SessionUserInitializer).id;
-                if(onLogin !== undefined)
-                    onLogin!(this);
+            if(isLoginInfo(user) || isTokenInfo(user)) {
+                this.init(LoginState.NotLoggedIn);
+
+                if (isTokenInfo(user)) {
+                    this.doTokenLogin({
+                        user: (user as TokenUserLoginInfo).user,
+                        token: (user as TokenUserLoginInfo).token,
+                        ressource: this.id,
+                        type: TokenType.DeviceToken,
+                        time: new Date()
+                    }).then((val: LoginState) => {
+                        this.loginState = val as LoginState;
+                        if(onLogin !== undefined)
+                            onLogin!(this);
+                    }, (val: LoginState) => {
+                        this.loginState = val;
+                        if(onLogin !== undefined)
+                            onLogin!(this);
+                    });
+                } else {
+                    this.doLogin(user as BasicUserLoginInfo).then((val: LoginState) => {
+                        this.loginState = val as LoginState;
+                        if(onLogin !== undefined)
+                            onLogin!(this);
+                    }, (val: any) => {
+                        this.loginState = LoginState.NotLoggedIn;
+                        if(onLogin !== undefined)
+                            onLogin!(this);
+                    });
+                }
             } else {
-                this.getByID((user as BasicUserInitializer).id, (user as BasicUserInitializer).requester!).then(val => {
+                if (isSessionUserInitializer(user)) {
+                    this.sessionID = (user as SessionUserInitializer).sessionID;
+                    this.loginState = (user as SessionUserInitializer).loginState;
+                    this.name = (user as SessionUserInitializer).name;
+                    this.id = (user as SessionUserInitializer).id;
                     if(onLogin !== undefined)
                         onLogin!(this);
-                }, err => {
-                    if(onLogin !== undefined)
-                        onLogin!(this);
-                });
+                } else {
+                    this.getByID((user as BasicUserInitializer).id, (user as BasicUserInitializer).requester!).then(val => {
+                        if(onLogin !== undefined)
+                            onLogin!(this);
+                    }, err => {
+                        if(onLogin !== undefined)
+                            onLogin!(this);
+                    });
+                }
             }
         }
     }

@@ -49,54 +49,85 @@ var SVEAccount = /** @class */ (function () {
         this.name = "";
         this.id = NaN;
         this.sessionID = "";
-        if (isLoginInfo(user) || isTokenInfo(user)) {
-            this.init(LoginState.NotLoggedIn);
-            if (isTokenInfo(user)) {
-                this.doTokenLogin({
-                    user: user.user,
-                    token: user.token,
-                    ressource: this.id,
-                    type: SVEToken_1.TokenType.DeviceToken,
-                    time: new Date()
-                }).then(function (val) {
-                    _this.loginState = val;
+        if (typeof user === "string") {
+            this.loginState = LoginState.NotLoggedIn;
+            fetch(SVESystemInfo_1.SVESystemInfo.getAccountServiceRoot() + '/check', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            }).then(function (response) {
+                if (response.status < 400) {
+                    response.json().then(function (r) {
+                        if (r.loggedInAs !== undefined) {
+                            _this.loginState = LoginState.LoggedInByUser;
+                            _this.sessionID = r.loggedInAs.sessionID;
+                            _this.loginState = r.loggedInAs.loginState;
+                            _this.name = r.loggedInAs.name;
+                            _this.id = r.loggedInAs.id;
+                        }
+                        if (onLogin !== undefined)
+                            onLogin(_this);
+                    });
                     if (onLogin !== undefined)
                         onLogin(_this);
-                }, function (val) {
-                    _this.loginState = val;
-                    if (onLogin !== undefined)
-                        onLogin(_this);
-                });
-            }
-            else {
-                this.doLogin(user).then(function (val) {
-                    _this.loginState = val;
-                    if (onLogin !== undefined)
-                        onLogin(_this);
-                }, function (val) {
-                    _this.loginState = LoginState.NotLoggedIn;
-                    if (onLogin !== undefined)
-                        onLogin(_this);
-                });
-            }
+                }
+            }, function (err) {
+                if (onLogin !== undefined)
+                    onLogin(_this);
+            });
         }
         else {
-            if (isSessionUserInitializer(user)) {
-                this.sessionID = user.sessionID;
-                this.loginState = user.loginState;
-                this.name = user.name;
-                this.id = user.id;
-                if (onLogin !== undefined)
-                    onLogin(this);
+            if (isLoginInfo(user) || isTokenInfo(user)) {
+                this.init(LoginState.NotLoggedIn);
+                if (isTokenInfo(user)) {
+                    this.doTokenLogin({
+                        user: user.user,
+                        token: user.token,
+                        ressource: this.id,
+                        type: SVEToken_1.TokenType.DeviceToken,
+                        time: new Date()
+                    }).then(function (val) {
+                        _this.loginState = val;
+                        if (onLogin !== undefined)
+                            onLogin(_this);
+                    }, function (val) {
+                        _this.loginState = val;
+                        if (onLogin !== undefined)
+                            onLogin(_this);
+                    });
+                }
+                else {
+                    this.doLogin(user).then(function (val) {
+                        _this.loginState = val;
+                        if (onLogin !== undefined)
+                            onLogin(_this);
+                    }, function (val) {
+                        _this.loginState = LoginState.NotLoggedIn;
+                        if (onLogin !== undefined)
+                            onLogin(_this);
+                    });
+                }
             }
             else {
-                this.getByID(user.id, user.requester).then(function (val) {
+                if (isSessionUserInitializer(user)) {
+                    this.sessionID = user.sessionID;
+                    this.loginState = user.loginState;
+                    this.name = user.name;
+                    this.id = user.id;
                     if (onLogin !== undefined)
-                        onLogin(_this);
-                }, function (err) {
-                    if (onLogin !== undefined)
-                        onLogin(_this);
-                });
+                        onLogin(this);
+                }
+                else {
+                    this.getByID(user.id, user.requester).then(function (val) {
+                        if (onLogin !== undefined)
+                            onLogin(_this);
+                    }, function (err) {
+                        if (onLogin !== undefined)
+                            onLogin(_this);
+                    });
+                }
             }
         }
     }
