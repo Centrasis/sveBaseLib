@@ -71,7 +71,7 @@ var SVEToken = /** @class */ (function () {
     SVEToken.prototype.setIsValid = function () {
         this.isValid = true;
     };
-    SVEToken.invalidate = function (user, tokenInfo) {
+    SVEToken.invalidateByInfo = function (user, tokenInfo) {
         fetch(SVESystemInfo.getAuthRoot() + '/token', {
             method: 'DELETE',
             headers: {

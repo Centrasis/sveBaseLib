@@ -94,7 +94,7 @@ export class SVEToken {
         this.isValid = true;
     }
 
-    public static invalidate(user: SVEAccount, tokenInfo: TokenInfo) {
+    public static invalidateByInfo(user: SVEAccount, tokenInfo: TokenInfo) {
         fetch(SVESystemInfo.getAuthRoot() + '/token', {
             method: 'DELETE',
             headers: {
