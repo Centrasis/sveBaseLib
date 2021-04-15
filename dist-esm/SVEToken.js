@@ -86,7 +86,7 @@ var SVEToken = /** @class */ (function () {
             })
         });
     };
-    SVEToken.prototype.listDevices = function (user) {
+    SVEToken.listDevices = function (user) {
         return new Promise(function (resolve, reject) {
             fetch(SVESystemInfo.getAuthRoot() + '/token/devices?sessionID=' + user.getSessionID(), {
                 method: 'GET',
