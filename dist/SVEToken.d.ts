@@ -27,6 +27,7 @@ export declare class SVEToken {
     constructor(token: string, type: TokenType, target: SVEAccount | SVEGroup | number, onValidated: (token: SVEToken) => void);
     getIsValid(): boolean;
     setIsValid(): void;
+    static invalidate(user: SVEAccount, tokenInfo: TokenInfo): void;
     invalidate(user: SVEAccount): void;
     static listDevices(user: SVEAccount): Promise<TokenInfo[]>;
     use(user?: SVEAccount | undefined): Promise<SVEAccount | undefined>;

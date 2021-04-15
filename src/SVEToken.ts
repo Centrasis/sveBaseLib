@@ -94,6 +94,20 @@ export class SVEToken {
         this.isValid = true;
     }
 
+    public static invalidate(user: SVEAccount, tokenInfo: TokenInfo) {
+        fetch(SVESystemInfo.getAuthRoot() + '/token', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({
+                tokenInfo: tokenInfo,
+                sessionID: user.getSessionID()
+            })
+        });
+    }
+
     public invalidate(user: SVEAccount) {
         fetch(SVESystemInfo.getAuthRoot() + '/token', {
             method: 'DELETE',

@@ -74,6 +74,19 @@ var SVEToken = /** @class */ (function () {
     SVEToken.prototype.setIsValid = function () {
         this.isValid = true;
     };
+    SVEToken.invalidate = function (user, tokenInfo) {
+        fetch(SVESystemInfo_1.SVESystemInfo.getAuthRoot() + '/token', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tokenInfo: tokenInfo,
+                sessionID: user.getSessionID()
+            })
+        });
+    };
     SVEToken.prototype.invalidate = function (user) {
         fetch(SVESystemInfo_1.SVESystemInfo.getAuthRoot() + '/token', {
             method: 'DELETE',
