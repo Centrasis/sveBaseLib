@@ -303,11 +303,11 @@ var SVEAccount = /** @class */ (function () {
                 }).then(function (response) {
                     if (response.status < 400) {
                         response.json().then(function (val) {
-                            if (val.success === true) {
-                                _this.name = val.user;
-                                _this.id = val.id;
-                                _this.init(LoginState.LoggedInByToken);
-                            }
+                            var userInit = val;
+                            _this.name = userInit.name;
+                            _this.id = userInit.id;
+                            _this.sessionID = userInit.sessionID;
+                            _this.init(LoginState.LoggedInByToken);
                             resolve(_this.loginState);
                         });
                     }

@@ -327,11 +327,11 @@ export class SVEAccount {
                 }).then(response => {
                     if (response.status < 400) {
                         response.json().then((val) => {
-                            if(val.success === true) {
-                                this.name = val.user;
-                                this.id = val.id;
-                                this.init(LoginState.LoggedInByToken);
-                            }
+                            let userInit = val as SessionUserInitializer;
+                            this.name = userInit.name;
+                            this.id = userInit.id;
+                            this.sessionID = userInit.sessionID;
+                            this.init(LoginState.LoggedInByToken);
                             resolve(this.loginState);
                         });  
                     }
