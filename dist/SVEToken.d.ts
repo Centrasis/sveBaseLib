@@ -8,12 +8,15 @@ export interface TokenUserLoginInfo {
     user?: number;
     token: string;
 }
-export interface Token {
-    user?: number;
-    token: string;
-    type: TokenType;
+export interface TokenInfo {
+    name: String;
     time: Date;
-    ressource?: number;
+    type: TokenType;
+    target: Number;
+    deviceAgent: String;
+}
+export interface Token extends TokenInfo {
+    token: string;
 }
 export declare class SVEToken {
     static register(owner: SVEAccount, type: TokenType, target: SVEGroup | SVEAccount): Promise<string>;
@@ -25,6 +28,7 @@ export declare class SVEToken {
     getIsValid(): boolean;
     setIsValid(): void;
     invalidate(user: SVEAccount): void;
+    listDevices(user: SVEAccount): Promise<TokenInfo[]>;
     use(user?: SVEAccount | undefined): Promise<SVEAccount | undefined>;
 }
 //# sourceMappingURL=SVEToken.d.ts.map

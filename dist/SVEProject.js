@@ -36,7 +36,7 @@ var SVEProject = /** @class */ (function () {
                     onReady(this);
             }
             else {
-                fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/project/' + idx + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID), {
+                fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/project/' + idx + "?sessionID=" + encodeURI(this.handler.getSessionID()), {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -167,7 +167,7 @@ var SVEProject = /** @class */ (function () {
     SVEProject.prototype.store = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/project/' + ((!isNaN(_this.id)) ? _this.id : "new") + "?sessionID=" + encodeURI(_this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/project/' + ((!isNaN(_this.id)) ? _this.id : "new") + "?sessionID=" + encodeURI(_this.handler.getSessionID()), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -204,7 +204,7 @@ var SVEProject = /** @class */ (function () {
     SVEProject.prototype.remove = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/project/' + _this.id + "?sessionID=" + encodeURI(_this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/project/' + _this.id + "?sessionID=" + encodeURI(_this.handler.getSessionID()), {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -234,7 +234,7 @@ var SVEProject = /** @class */ (function () {
     SVEProject.prototype.getData = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/project/' + _this.id + '/data?sessionID=' + encodeURI(_this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/project/' + _this.id + '/data?sessionID=' + encodeURI(_this.handler.getSessionID()), {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',

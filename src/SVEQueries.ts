@@ -26,7 +26,7 @@ export class SVEProjectQuery extends SVEQuery {
     public static query(str: string, requester: SVEAccount): Promise<(SVEProject | SVEGroup)[]> {
         return new Promise<(SVEProject | SVEGroup)[]>((resolve, reject) => {
             if (typeof SVESystemInfo.getAPIRoot() !== undefined) {
-                fetch(SVESystemInfo.getAPIRoot() + '/query/' + encodeURI(str) + "?sessionID=" + encodeURI(requester.getInitializer().sessionID), {
+                fetch(SVESystemInfo.getAPIRoot() + '/query/' + encodeURI(str) + "?sessionID=" + encodeURI(requester.getSessionID()), {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json',

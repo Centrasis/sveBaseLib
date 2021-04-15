@@ -60,7 +60,7 @@ var SVEData = /** @class */ (function () {
             this.id = initInfo;
             if (SVESystemInfo_1.SVESystemInfo.getAPIRoot() !== "" && !SVESystemInfo_1.SVESystemInfo.getIsServer() && onComplete !== undefined) {
                 try {
-                    var sessID = this.handler.getInitializer().sessionID;
+                    var sessID = this.handler.getSessionID();
                     fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + '/data/' + this.id + '?sessionID=' + encodeURI(sessID), {
                         method: 'GET',
                         headers: {
@@ -135,7 +135,7 @@ var SVEData = /** @class */ (function () {
         var _this = this;
         if (modelName === void 0) { modelName = "documents"; }
         return new Promise(function (resolve, reject) {
-            var sessID = _this.handler.getInitializer().sessionID;
+            var sessID = _this.handler.getSessionID();
             if (SVESystemInfo_1.SVESystemInfo.getAIRoot() !== "") {
                 fetch(SVESystemInfo_1.SVESystemInfo.getAIRoot() + '/model/' + modelName + '/classification/' + _this.id + "?sessionID=" + encodeURI(sessID), {
                     method: 'GET',
@@ -300,7 +300,7 @@ var SVEData = /** @class */ (function () {
     };
     SVEData.getLatestUpload = function (user) {
         return new Promise(function (resolve, reject) {
-            var sessID = user.getInitializer().sessionID;
+            var sessID = user.getSessionID();
             fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + "/data/latest" + "?sessionID=" + encodeURI(sessID), {
                 method: 'GET',
                 headers: {
@@ -343,7 +343,7 @@ var SVEData = /** @class */ (function () {
     SVEData.prototype.remove = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var sessID = _this.handler.getInitializer().sessionID;
+            var sessID = _this.handler.getSessionID();
             fetch(SVESystemInfo_1.SVESystemInfo.getAPIRoot() + "/project/" + _this.parentProject.getID() + "/data/" + _this.id + "?sessionID=" + encodeURI(sessID), {
                 method: 'DELETE',
                 headers: {
@@ -357,7 +357,7 @@ var SVEData = /** @class */ (function () {
     SVEData.prototype.getURI = function (version, download) {
         if (download === void 0) { download = false; }
         var uri = ((SVESystemInfo_1.SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject.getID() + "/data/" + this.id + "/") + ((download) ? "download" : ((SVEDataVersion.Full === version) ? "full" : "preview")));
-        uri += "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID);
+        uri += "?sessionID=" + encodeURI(this.handler.getSessionID());
         return uri;
     };
     SVEData.prototype.getBLOB = function (version) {

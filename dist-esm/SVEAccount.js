@@ -82,11 +82,12 @@ var SVEAccount = /** @class */ (function () {
                 this.init(LoginState.NotLoggedIn);
                 if (isTokenInfo(user)) {
                     this.doTokenLogin({
-                        user: user.user,
-                        token: user.token,
-                        ressource: this.id,
+                        target: user.user,
                         type: TokenType.DeviceToken,
-                        time: new Date()
+                        time: new Date(),
+                        deviceAgent: "",
+                        name: "",
+                        token: user.token
                     }).then(function (val) {
                         _this.loginState = val;
                         if (onLogin !== undefined)
@@ -214,6 +215,9 @@ var SVEAccount = /** @class */ (function () {
             }, function (err) { return reject(err); });
         });
     };
+    SVEAccount.prototype.getSessionID = function () {
+        return this.sessionID;
+    };
     SVEAccount.prototype.init = function (state) {
         if (state !== LoginState.NotLoggedIn) {
             this.loginState = state;
@@ -227,7 +231,7 @@ var SVEAccount = /** @class */ (function () {
     SVEAccount.prototype.getByID = function (id, requester) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/' + id + '?sessionID=' + encodeURI(requester.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/' + id + '?sessionID=' + encodeURI(requester.getSessionID()), {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -290,7 +294,7 @@ var SVEAccount = /** @class */ (function () {
             if (SVESystemInfo.getAccountServiceRoot() !== undefined) {
                 fetch(SVESystemInfo.getAccountServiceRoot() + '/doLogin', {
                     method: 'POST',
-                    body: JSON.stringify({ token: token }),
+                    body: JSON.stringify(token),
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'

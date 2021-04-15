@@ -148,6 +148,10 @@ export class SVEAccount {
         });
     }
 
+    public getSessionID(): string {
+        return this.sessionID;
+    }
+
     // if onLogin is set a login will be perfomed. Otherwise the class will only be created
     public constructor(user: SessionUserInitializer | BasicUserLoginInfo | BasicUserInitializer | TokenUserLoginInfo | string, onLogin?: (state: SVEAccount) => void) {
         if(user === undefined || user === null) {
@@ -193,11 +197,12 @@ export class SVEAccount {
 
                 if (isTokenInfo(user)) {
                     this.doTokenLogin({
-                        user: (user as TokenUserLoginInfo).user,
-                        token: (user as TokenUserLoginInfo).token,
-                        ressource: this.id,
+                        target: (user as TokenUserLoginInfo).user!,
                         type: TokenType.DeviceToken,
-                        time: new Date()
+                        time: new Date(),
+                        deviceAgent: "",
+                        name: "",
+                        token: (user as TokenUserLoginInfo).token
                     }).then((val: LoginState) => {
                         this.loginState = val as LoginState;
                         if(onLogin !== undefined)
@@ -251,7 +256,7 @@ export class SVEAccount {
 
     protected getByID(id: number, requester: SVEAccount): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/' + id + '?sessionID=' + encodeURI(requester.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/' + id + '?sessionID=' + encodeURI(requester.getSessionID()), {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -313,7 +318,7 @@ export class SVEAccount {
             if (SVESystemInfo.getAccountServiceRoot() !== undefined) {
                 fetch(SVESystemInfo.getAccountServiceRoot() + '/doLogin', {
                         method: 'POST',
-                        body: JSON.stringify({token}),
+                        body: JSON.stringify(token),
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json' 

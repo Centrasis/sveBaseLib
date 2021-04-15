@@ -54,7 +54,7 @@ var SVEToken = /** @class */ (function () {
                 body: JSON.stringify({
                     type: type,
                     target: target.getID(),
-                    sessionID: owner.getInitializer().sessionID
+                    sessionID: owner.getSessionID()
                 })
             }).then(function (response) {
                 if (response.status < 400) {
@@ -85,8 +85,28 @@ var SVEToken = /** @class */ (function () {
                 type: this.type,
                 target: (typeof this.target === "number") ? this.target : this.target.getID(),
                 token: this.token,
-                sessionID: user.getInitializer().sessionID
+                sessionID: user.getSessionID()
             })
+        });
+    };
+    SVEToken.prototype.listDevices = function (user) {
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo_1.SVESystemInfo.getAuthRoot() + '/token/devices?sessionID=' + user.getSessionID(), {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                if (response.status < 400) {
+                    response.json().then(function (j) {
+                        resolve(j);
+                    }, function (err) { return reject(err); });
+                }
+                else {
+                    reject();
+                }
+            }, function (err) { return reject(err); });
         });
     };
     SVEToken.prototype.use = function (user) {
@@ -104,7 +124,7 @@ var SVEToken = /** @class */ (function () {
                         type: _this.type,
                         target: (typeof _this.target === "number") ? _this.target : _this.target.getID(),
                         token: _this.token,
-                        sessionID: (user !== undefined) ? user.getInitializer().sessionID : ""
+                        sessionID: (user !== undefined) ? user.getSessionID() : ""
                     })
                 }).then(function (response) {
                     if (response.status < 400) {

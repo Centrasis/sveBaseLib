@@ -50,7 +50,7 @@ export class SVEGroup {
 
     public getUsers(): Promise<SVEAccount[]> {
         return new Promise<SVEAccount[]>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + '/users?sessionID=' + encodeURI(this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + '/users?sessionID=' + encodeURI(this.handler.getSessionID()), {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -77,7 +77,7 @@ export class SVEGroup {
 
     public setRightsForUser(handler: SVEAccount, rights: UserRights): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + "/user/" + handler.getID() + "/rights?sessionID=" + encodeURI(this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + "/user/" + handler.getID() + "/rights?sessionID=" + encodeURI(this.handler.getSessionID()), {
                     method: 'PUT',
                     headers: {
                         'Accept': 'application/json',
@@ -92,7 +92,7 @@ export class SVEGroup {
 
     public getRightsForUser(handler: SVEAccount): Promise<UserRights> {
         return new Promise<UserRights>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + "/user/" + handler.getID() + "/rights?sessionID=" + encodeURI(this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + "/user/" + handler.getID() + "/rights?sessionID=" + encodeURI(this.handler.getSessionID()), {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -124,7 +124,7 @@ export class SVEGroup {
 
         if (!SVESystemInfo.getIsServer()) {
             if(!isNaN(this.id)) {
-                fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID), {
+                fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + "?sessionID=" + encodeURI(this.handler.getSessionID()), {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json',
@@ -165,7 +165,7 @@ export class SVEGroup {
 
     public store() {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + '/group/' + ((!isNaN(this.id)) ? this.id : "new") + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/group/' + ((!isNaN(this.id)) ? this.id : "new") + "?sessionID=" + encodeURI(this.handler.getSessionID()), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -189,7 +189,7 @@ export class SVEGroup {
     // remove from server
     public remove(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + "?sessionID=" + encodeURI(this.handler.getSessionID()), {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -207,7 +207,7 @@ export class SVEGroup {
 
     public static getGroupsOf(handler: SVEAccount): Promise<SVEGroup[]> {
         return new Promise<SVEGroup[]>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + '/groups?sessionID=' + encodeURI(handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/groups?sessionID=' + encodeURI(handler.getSessionID()), {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',

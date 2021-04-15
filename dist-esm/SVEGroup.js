@@ -13,7 +13,7 @@ var SVEGroup = /** @class */ (function () {
         this.handler = handler;
         if (!SVESystemInfo.getIsServer()) {
             if (!isNaN(this.id)) {
-                fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID), {
+                fetch(SVESystemInfo.getAPIRoot() + '/group/' + this.id + "?sessionID=" + encodeURI(this.handler.getSessionID()), {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -76,7 +76,7 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.getUsers = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getAPIRoot() + '/group/' + _this.id + '/users?sessionID=' + encodeURI(_this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/group/' + _this.id + '/users?sessionID=' + encodeURI(_this.handler.getSessionID()), {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -105,7 +105,7 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.setRightsForUser = function (handler, rights) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getAPIRoot() + '/group/' + _this.id + "/user/" + handler.getID() + "/rights?sessionID=" + encodeURI(_this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/group/' + _this.id + "/user/" + handler.getID() + "/rights?sessionID=" + encodeURI(_this.handler.getSessionID()), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -120,7 +120,7 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.getRightsForUser = function (handler) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getAPIRoot() + '/group/' + _this.id + "/user/" + handler.getID() + "/rights?sessionID=" + encodeURI(_this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/group/' + _this.id + "/user/" + handler.getID() + "/rights?sessionID=" + encodeURI(_this.handler.getSessionID()), {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -154,7 +154,7 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.store = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getAPIRoot() + '/group/' + ((!isNaN(_this.id)) ? _this.id : "new") + "?sessionID=" + encodeURI(_this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/group/' + ((!isNaN(_this.id)) ? _this.id : "new") + "?sessionID=" + encodeURI(_this.handler.getSessionID()), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -179,7 +179,7 @@ var SVEGroup = /** @class */ (function () {
     SVEGroup.prototype.remove = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getAPIRoot() + '/group/' + _this.id + "?sessionID=" + encodeURI(_this.handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/group/' + _this.id + "?sessionID=" + encodeURI(_this.handler.getSessionID()), {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -195,7 +195,7 @@ var SVEGroup = /** @class */ (function () {
     };
     SVEGroup.getGroupsOf = function (handler) {
         return new Promise(function (resolve, reject) {
-            fetch(SVESystemInfo.getAPIRoot() + '/groups?sessionID=' + encodeURI(handler.getInitializer().sessionID), {
+            fetch(SVESystemInfo.getAPIRoot() + '/groups?sessionID=' + encodeURI(handler.getSessionID()), {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

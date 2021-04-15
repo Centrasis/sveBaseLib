@@ -13,12 +13,16 @@ export interface TokenUserLoginInfo {
     token: string
 }
 
-export interface Token {
-    user?: number,
-    token: string,
-    type: TokenType,
-    time: Date,
-    ressource?: number
+export interface TokenInfo {
+    name: String;
+    time: Date;
+    type: TokenType;
+    target: Number;
+    deviceAgent: String;
+}
+
+export interface Token extends TokenInfo {
+    token: string
 }
 
 export class SVEToken {
@@ -33,7 +37,7 @@ export class SVEToken {
                 body: JSON.stringify({
                     type: type,
                     target: target.getID(),
-                    sessionID: owner.getInitializer().sessionID
+                    sessionID: owner.getSessionID()
                 })
             }).then(response => {
                 if(response.status < 400) {
@@ -101,8 +105,28 @@ export class SVEToken {
                 type: this.type,
                 target: (typeof this.target === "number") ? this.target : this.target.getID(),
                 token: this.token,
-                sessionID: user.getInitializer().sessionID
+                sessionID: user.getSessionID()
             })
+        });
+    }
+
+    public listDevices(user: SVEAccount): Promise<TokenInfo[]> {
+        return new Promise<TokenInfo[]>((resolve, reject) => {
+            fetch(SVESystemInfo.getAuthRoot() + '/token/devices?sessionID=' + user.getSessionID(), {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                }
+            }).then(response => {
+                if(response.status < 400) {
+                    response.json().then(j => {
+                        resolve(j as TokenInfo[]);
+                    }, err => reject(err));
+                } else {
+                    reject();
+                }
+            }, err => reject(err));
         });
     }
 
@@ -119,7 +143,7 @@ export class SVEToken {
                         type: this.type,
                         target: (typeof this.target === "number") ? this.target : this.target.getID(),
                         token: this.token,
-                        sessionID: (user !== undefined) ? user.getInitializer().sessionID : ""
+                        sessionID: (user !== undefined) ? user.getSessionID() : ""
                     })
                 }).then(response => {
                     if(response.status < 400) {

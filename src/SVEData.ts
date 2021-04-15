@@ -99,7 +99,7 @@ export class SVEData {
 
     public pullClassification(modelName: string = "documents"): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            let sessID = this.handler.getInitializer().sessionID;
+            let sessID = this.handler.getSessionID();
             if(SVESystemInfo.getAIRoot() !== "") {
                 fetch(SVESystemInfo.getAIRoot()! + '/model/' + modelName + '/classification/' + this.id + "?sessionID=" + encodeURI(sessID), {
                     method: 'GET',
@@ -158,7 +158,7 @@ export class SVEData {
 
             if (SVESystemInfo.getAPIRoot() !== "" && !SVESystemInfo.getIsServer() && onComplete !== undefined) {
                 try {
-                    let sessID = this.handler.getInitializer().sessionID;
+                    let sessID = this.handler.getSessionID();
                     fetch(SVESystemInfo.getAPIRoot() + '/data/' + this.id + '?sessionID=' + encodeURI(sessID), {
                             method: 'GET',
                             headers: {
@@ -341,7 +341,7 @@ export class SVEData {
 
     public static getLatestUpload(user: SVEAccount): Promise<SVEData> {
         return new Promise<SVEData>((resolve, reject) => {
-            let sessID = user.getInitializer().sessionID;
+            let sessID = user.getSessionID();
             fetch(SVESystemInfo.getAPIRoot() + "/data/latest" + "?sessionID=" + encodeURI(sessID), {
                 method: 'GET',
                 headers: {
@@ -382,7 +382,7 @@ export class SVEData {
 
     public remove(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            let sessID = this.handler.getInitializer().sessionID;
+            let sessID = this.handler.getSessionID();
             fetch(SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "?sessionID=" + encodeURI(sessID), {
                 method: 'DELETE',
                 headers: {
@@ -396,7 +396,7 @@ export class SVEData {
 
     public getURI(version: SVEDataVersion, download: boolean = false): string {
         let uri = ((SVESystemInfo.getAPIRoot() + "/project/" + this.parentProject!.getID() + "/data/" + this.id + "/") + ((download) ? "download" : ((SVEDataVersion.Full === version) ? "full" : "preview")));
-        uri += "?sessionID=" + encodeURI(this.handler.getInitializer().sessionID);
+        uri += "?sessionID=" + encodeURI(this.handler.getSessionID());
         return uri;
     }
 

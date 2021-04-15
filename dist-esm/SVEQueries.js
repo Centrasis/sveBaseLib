@@ -38,7 +38,7 @@ var SVEProjectQuery = /** @class */ (function (_super) {
     SVEProjectQuery.query = function (str, requester) {
         return new Promise(function (resolve, reject) {
             if (typeof SVESystemInfo.getAPIRoot() !== undefined) {
-                fetch(SVESystemInfo.getAPIRoot() + '/query/' + encodeURI(str) + "?sessionID=" + encodeURI(requester.getInitializer().sessionID), {
+                fetch(SVESystemInfo.getAPIRoot() + '/query/' + encodeURI(str) + "?sessionID=" + encodeURI(requester.getSessionID()), {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
