@@ -23,7 +23,7 @@ var SVESystemInfo = /** @class */ (function () {
     }
     SVESystemInfo.checkAPI = function (api) {
         return new Promise(function (resolve, reject) {
-            fetch(api + '/check', {
+            fetch(SVESystemInfo.getInstance().sources.protocol + "://" + api + '/check', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

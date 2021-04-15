@@ -55,7 +55,7 @@ class SVESystemInfo {
 
     public static checkAPI(api: string): Promise<APIStatus> {
         return new Promise<APIStatus>((resolve, reject) => {
-            fetch(api + '/check', {
+            fetch(SVESystemInfo.getInstance().sources.protocol + "://" + api + '/check', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
