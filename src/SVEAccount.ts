@@ -314,9 +314,10 @@ export class SVEAccount {
     }
 
     protected doTokenLogin(token: Token): Promise<LoginState> {
+        token.type = TokenType.DeviceToken;
         return new Promise<LoginState>((resolve, reject) => {
-            if (SVESystemInfo.getAccountServiceRoot() !== undefined) {
-                fetch(SVESystemInfo.getAccountServiceRoot() + '/doLogin', {
+            if (SVESystemInfo.getAuthRoot() !== undefined) {
+                fetch(SVESystemInfo.getAuthRoot() + '/token/use', {
                         method: 'POST',
                         body: JSON.stringify(token),
                         headers: {

@@ -290,9 +290,10 @@ var SVEAccount = /** @class */ (function () {
     };
     SVEAccount.prototype.doTokenLogin = function (token) {
         var _this = this;
+        token.type = TokenType.DeviceToken;
         return new Promise(function (resolve, reject) {
-            if (SVESystemInfo.getAccountServiceRoot() !== undefined) {
-                fetch(SVESystemInfo.getAccountServiceRoot() + '/doLogin', {
+            if (SVESystemInfo.getAuthRoot() !== undefined) {
+                fetch(SVESystemInfo.getAuthRoot() + '/token/use', {
                     method: 'POST',
                     body: JSON.stringify(token),
                     headers: {

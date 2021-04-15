@@ -14,11 +14,11 @@ export interface TokenUserLoginInfo {
 }
 
 export interface TokenInfo {
-    name: String;
+    name: string;
     time: Date;
     type: TokenType;
-    target: Number;
-    deviceAgent: String;
+    target: number;
+    deviceAgent: string;
 }
 
 export interface Token extends TokenInfo {
