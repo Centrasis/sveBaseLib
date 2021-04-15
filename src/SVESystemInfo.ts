@@ -28,6 +28,12 @@ export interface SVEFullSystemState extends SVESystemState {
     user?: SVEAccount
 }
 
+export interface APIStatus {
+    status: boolean,
+    version: string,
+    loggedInAs?: SessionUserInitializer
+}
+
 class SVESystemInfo {
     protected static instance: SVESystemInfo;
     protected systemState: SVESystemState = {
@@ -45,6 +51,26 @@ class SVESystemInfo {
             volatileDatabase: undefined
         };
         SVESystemInfo.isServer = false;
+    }
+
+    public static checkAPI(api: string): Promise<APIStatus> {
+        return new Promise<APIStatus>((resolve, reject) => {
+            fetch(api + '/check', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+            }).then(response => {
+                if(response.status < 400) {
+                    response.json().then(val => {
+                        resolve(val as APIStatus);
+                    }, err => reject(err));
+                } else {
+                    reject();
+                }
+            }, err => reject(err));
+        });
     }
 
     public static getIsServer(): boolean {

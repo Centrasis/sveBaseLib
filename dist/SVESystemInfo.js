@@ -21,6 +21,26 @@ var SVESystemInfo = /** @class */ (function () {
         };
         SVESystemInfo.isServer = false;
     }
+    SVESystemInfo.checkAPI = function (api) {
+        return new Promise(function (resolve, reject) {
+            fetch(api + '/check', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            }).then(function (response) {
+                if (response.status < 400) {
+                    response.json().then(function (val) {
+                        resolve(val);
+                    }, function (err) { return reject(err); });
+                }
+                else {
+                    reject();
+                }
+            }, function (err) { return reject(err); });
+        });
+    };
     SVESystemInfo.getIsServer = function () {
         return SVESystemInfo.isServer;
     };

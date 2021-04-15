@@ -1,4 +1,4 @@
-import { SVEAccount } from "./SVEAccount";
+import { SessionUserInitializer, SVEAccount } from "./SVEAccount";
 export interface SVESources {
     sveService?: string;
     accountService?: string;
@@ -23,11 +23,17 @@ export interface SVESystemState {
 export interface SVEFullSystemState extends SVESystemState {
     user?: SVEAccount;
 }
+export interface APIStatus {
+    status: boolean;
+    version: string;
+    loggedInAs?: SessionUserInitializer;
+}
 declare class SVESystemInfo {
     protected static instance: SVESystemInfo;
     protected systemState: SVESystemState;
     protected static isServer: boolean;
     protected constructor();
+    static checkAPI(api: string): Promise<APIStatus>;
     static getIsServer(): boolean;
     static getInstance(): SVESystemInfo;
     static initSystem(): Promise<boolean>;
