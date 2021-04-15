@@ -110,7 +110,7 @@ export class SVEToken {
         });
     }
 
-    public listDevices(user: SVEAccount): Promise<TokenInfo[]> {
+    public static listDevices(user: SVEAccount): Promise<TokenInfo[]> {
         return new Promise<TokenInfo[]>((resolve, reject) => {
             fetch(SVESystemInfo.getAuthRoot() + '/token/devices?sessionID=' + user.getSessionID(), {
                 method: 'GET',
