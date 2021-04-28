@@ -178,6 +178,35 @@ var SVEAccount = /** @class */ (function () {
             }, function (err) { return reject(err); });
         });
     };
+    SVEAccount.registerTemporaryUser = function (name) {
+        return new Promise(function (resolve, reject) {
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/new', {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    newUser: name,
+                    temporary: true
+                })
+            }).then(function (response) {
+                if (response.status < 400) {
+                    response.json().then(function (val) {
+                        new SVEAccount({
+                            name: val.name,
+                            id: val.id,
+                            sessionID: val.sessionID,
+                            loginState: val.loginState
+                        }, function (usr) { return resolve(usr); });
+                    }, function (err) { return reject(err); });
+                }
+                else {
+                    reject();
+                }
+            }, function (err) { return reject(err); });
+        });
+    };
     SVEAccount.prototype.changePassword = function (oldPw, newPw) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -277,6 +306,9 @@ var SVEAccount = /** @class */ (function () {
                             }
                             resolve(_this.loginState);
                         }, function (err) { return reject(err); });
+                    }
+                    else {
+                        reject();
                     }
                 }, function (err) { return reject(err); });
             }

@@ -111,6 +111,35 @@ export class SVEAccount {
         });
     }
 
+    public static registerTemporaryUser(name: string): Promise<SVEAccount> {
+        return new Promise<SVEAccount>((resolve, reject) => {
+            fetch(SVESystemInfo.getAccountServiceRoot() + '/user/new', {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify({
+                    newUser: name,
+                    temporary: true
+                })
+            }).then(response => {
+                if (response.status < 400) {
+                    response.json().then((val) => {
+                        new SVEAccount({
+                            name: val.name,
+                            id: val.id,
+                            sessionID: val.sessionID,
+                            loginState: val.loginState
+                        } as SessionUserInitializer, usr => resolve(usr)); 
+                    }, err => reject(err));  
+                } else {
+                    reject();
+                }
+            }, err => reject(err));
+        });
+    }
+
     public changePassword(oldPw: string, newPw: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             fetch(SVESystemInfo.getAccountServiceRoot() + '/user/change/pw', {
@@ -301,6 +330,8 @@ export class SVEAccount {
                             }
                             resolve(this.loginState);
                         }, err => reject(err));  
+                    } else {
+                        reject();
                     }
                 }, err => reject(err));
             } else {
