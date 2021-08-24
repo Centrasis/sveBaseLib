@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
-    "url": "git+https://github.com/ftl999/sveBaseLib.git",
+    "url": "git+https://github.com/Centrasis/sveBaseLib.git",
     "type": "git"
   },
   "dependencies": {
@@ -25,9 +25,9 @@
   "author": "ftl999",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ftl999/sveBaseLib/issues"
+    "url": "https://github.com/Centrasis/sveBaseLib/issues"
   },
-  "homepage": "https://github.com/ftl999/sveBaseLib#readme",
+  "homepage": "https://github.com/Centrasis/sveBaseLib#readme",
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
     "chalk": "^4.1.0",
