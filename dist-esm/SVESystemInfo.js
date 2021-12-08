@@ -78,32 +78,6 @@ var SVESystemInfo = /** @class */ (function () {
     SVESystemInfo.getSystemStatus = function () {
         return this.getInstance().systemState;
     };
-    /*public static getLoggedInUser(): Promise<SVEAccount> {
-        return new Promise<SVEAccount>((resolve, reject) => {
-            fetch(SVESystemInfo.getAPIRoot() + "/check", {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }).then((response) => {
-                if (response.status < 400) {
-                    response.json().then(val => {
-                        if ("loggedInAs" in val) {
-                            new SVEAccount(val.loggedInAs as SessionUserInitializer, (usr) => {
-                                resolve(usr);
-                            });
-                        } else {
-                            console.log("No user logged in Session");
-                            reject();
-                        }
-                    });
-                } else {
-                    reject();
-                }
-            }, err => reject());
-        });
-    }*/
     SVESystemInfo.getFullSystemState = function () {
         return new Promise(function (resolve, reject) {
             fetch(SVESystemInfo.getAPIRoot() + "/check", {
@@ -136,23 +110,26 @@ var SVESystemInfo = /** @class */ (function () {
         });
     };
     SVESystemInfo.getAPIRoot = function () {
-        return (SVESystemInfo.getInstance().sources.sveService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.sveService : "";
+        return (SVESystemInfo.getInstance().sources.sveService !== undefined) ? ((SVESystemInfo.getInstance().sources.sveService.includes("://")) ? "" : (SVESystemInfo.getInstance().sources.protocol + "://")) + SVESystemInfo.getInstance().sources.sveService : "";
     };
     SVESystemInfo.getAccountServiceRoot = function () {
-        return (SVESystemInfo.getInstance().sources.accountService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.accountService : "";
+        return (SVESystemInfo.getInstance().sources.accountService !== undefined) ? ((SVESystemInfo.getInstance().sources.accountService.includes("://")) ? "" : SVESystemInfo.getInstance().sources.protocol + "://") + SVESystemInfo.getInstance().sources.accountService : "";
     };
     SVESystemInfo.getAuthRoot = function () {
-        return (SVESystemInfo.getInstance().sources.authService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.authService : "";
+        return (SVESystemInfo.getInstance().sources.authService !== undefined) ? ((SVESystemInfo.getInstance().sources.authService.includes("://")) ? "" : SVESystemInfo.getInstance().sources.protocol + "://") + SVESystemInfo.getInstance().sources.authService : "";
     };
     SVESystemInfo.getGameRoot = function (useWebSocket) {
         if (useWebSocket === void 0) { useWebSocket = false; }
-        var prot = SVESystemInfo.getInstance().sources.protocol;
-        if (useWebSocket)
-            prot = (prot == "http") ? "ws" : "wss";
-        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? prot + "://" + SVESystemInfo.getInstance().sources.gameService : "";
+        var prot = "";
+        if (SVESystemInfo.getInstance().sources.gameService !== undefined && !SVESystemInfo.getInstance().sources.gameService.includes("://")) {
+            prot = SVESystemInfo.getInstance().sources.protocol;
+            if (useWebSocket)
+                prot = (prot == "http") ? "ws" : "wss";
+        }
+        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? ((prot.length > 0) ? (prot + "://") : "") + SVESystemInfo.getInstance().sources.gameService : "";
     };
     SVESystemInfo.getAIRoot = function () {
-        return (SVESystemInfo.getInstance().sources.aiService !== undefined) ? SVESystemInfo.getInstance().sources.protocol + "://" + SVESystemInfo.getInstance().sources.aiService : "";
+        return (SVESystemInfo.getInstance().sources.aiService !== undefined) ? ((SVESystemInfo.getInstance().sources.aiService.includes("://")) ? "" : SVESystemInfo.getInstance().sources.protocol + "://") + SVESystemInfo.getInstance().sources.aiService : "";
     };
     return SVESystemInfo;
 }());
