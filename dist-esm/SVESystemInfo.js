@@ -123,10 +123,16 @@ var SVESystemInfo = /** @class */ (function () {
         var prot = "";
         if (SVESystemInfo.getInstance().sources.gameService !== undefined && !SVESystemInfo.getInstance().sources.gameService.includes("://")) {
             prot = SVESystemInfo.getInstance().sources.protocol;
-            if (useWebSocket)
+            if (useWebSocket) {
                 prot = (prot == "http") ? "ws" : "wss";
+            }
         }
-        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? ((prot.length > 0) ? (prot + "://") : "") + SVESystemInfo.getInstance().sources.gameService : "";
+        var root = (SVESystemInfo.getInstance().sources.gameService !== undefined) ? ((prot.length > 0) ? (prot + "://") : "") + SVESystemInfo.getInstance().sources.gameService : "";
+        if (useWebSocket && (root.includes("http://") || root.includes("https://"))) {
+            root = root.replace("https://", "wss://");
+            root = root.replace("http://", "ws://");
+        }
+        return root;
     };
     SVESystemInfo.getAIRoot = function () {
         return (SVESystemInfo.getInstance().sources.aiService !== undefined) ? ((SVESystemInfo.getInstance().sources.aiService.includes("://")) ? "" : SVESystemInfo.getInstance().sources.protocol + "://") + SVESystemInfo.getInstance().sources.aiService : "";
