@@ -171,10 +171,17 @@ class SVESystemInfo {
         let prot: "ws" | "wss" | "http" | "https" | "" = "";
         if (SVESystemInfo.getInstance().sources.gameService !== undefined && !SVESystemInfo.getInstance().sources.gameService!.includes("://")) {
             prot = SVESystemInfo.getInstance().sources.protocol;
-            if (useWebSocket)
+            if (useWebSocket) {
                 prot = (prot == "http") ? "ws" : "wss";
+            }
         }
-        return (SVESystemInfo.getInstance().sources.gameService !== undefined) ? ((prot.length > 0) ? (prot + "://") : "") + SVESystemInfo.getInstance().sources.gameService! : "";
+        let root = (SVESystemInfo.getInstance().sources.gameService !== undefined) ? ((prot.length > 0) ? (prot + "://") : "") + SVESystemInfo.getInstance().sources.gameService! : "";
+        if (useWebSocket && (root.includes("http://") || root.includes("https://"))) {
+            root = root.replace("https://", "wss://");
+            root = root.replace("http://", "ws://");
+        }
+
+        return root;
     }
 
     public static getAIRoot(): string {
