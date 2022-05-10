@@ -44,8 +44,8 @@ typeMap.set(SVEDataType.BLOB, []);
 var SVEData = /** @class */ (function () {
     // gets the data by index if initInfo is number. Else a new data record is created on server
     function SVEData(handler, initInfo, onComplete) {
-        var _this = this;
         if (onComplete === void 0) { onComplete = undefined; }
+        var _this = this;
         this.type = SVEDataType.Image;
         this.id = -1;
         this.name = "";
